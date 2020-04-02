@@ -1044,4 +1044,69 @@ class Solution2 {
         }
         return ans
     }
+
+    fun gameOfLife(board: Array<IntArray>): Unit {
+        val ans = Array(board.size) { IntArray(board[0].size) }
+        for (i in board.indices) {
+            for (j in board[i].indices) {
+                ans[i][j] = compute(board, i, j)
+            }
+        }
+        for (i in ans.indices) {
+            for (j in ans[i].indices) {
+                board[i][j] = ans[i][j]
+            }
+        }
+    }
+
+    private fun compute(board: Array<IntArray>, x: Int, y: Int): Int {
+        var count = 0
+        val src = board[x][y]
+        var preX = x - 1
+        var preY = y - 1
+        var nextX = x + 1
+        var nextY = y + 1
+        if (preX > -1) {
+            if (preY > -1 && board[preX][preY] == 1) {
+                count++
+            }
+            if (board[preX][y] == 1) {
+                count++
+            }
+            if (nextY < board[0].size && board[preX][nextY] == 1) {
+                count++
+            }
+        }
+        if (nextX < board.size) {
+            if (preY > -1 && board[nextX][preY] == 1) {
+                count++
+            }
+            if (board[nextX][y] == 1) {
+                count++
+            }
+            if (nextY < board[0].size && board[nextX][nextY] == 1) {
+                count++
+            }
+        }
+        if (preY > -1 && board[x][preY] == 1) {
+            count++
+        }
+        if (nextY < board[0].size && board[x][nextY] == 1) {
+            count++
+        }
+        return if (src == 1) {
+            if (count < 2) 0 else if (count in 2..3) 1 else if (count > 3) 0 else 0
+        } else {
+            if (count == 3) 1 else 0
+        }
+    }
+
+    fun titleToNumber(s: String): Int {
+        var ans = 0
+        s.forEach {
+            ans *= 26
+            ans += it - 'A' + 1
+        }
+        return ans
+    }
 }
