@@ -1156,4 +1156,111 @@ class Solution2 {
         }
         return if (negative) -ans else ans
     }
+
+    //dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
+    fun rob(nums: IntArray): Int {//loop
+        var tmp = 0
+        var dp1 = 0
+        var dp2 = 0
+        for (i in 0..nums.lastIndex) {
+            if (i == 0) {
+                dp1 = nums[0]
+            } else if (i == 1) {
+                dp2 = Math.max(dp1, nums[1])
+            } else {
+                tmp = Math.max(dp2, nums[i] + dp1)
+                dp1 = dp2
+                dp2 = tmp
+            }
+        }
+        return Math.max(dp1, dp2)
+        // return rob(nums, nums.lastIndex)
+    }
+
+    // private fun rob(nums: IntArray, i: Int): Int{//recursive
+    //     if(i == 0){
+    //         return nums[0]
+    //     } else if(i == 1){
+    //         return Math.max(nums[0], nums[1])
+    //     } else {
+    //         return Math.max(rob(nums, i - 1), rob(nums, i - 2) + nums[i])
+    //     }
+    // }
+
+    fun rob2(nums: IntArray): Int {
+        if (nums.isEmpty()) {
+            return 0
+        }
+        if (nums.size == 1) {
+            return nums[0]
+        }
+        if (nums.size == 2) {
+            return Math.max(nums[0], nums[1])
+        }
+        var tmp = 0
+        var dp1 = 0
+        var dp2 = 0
+        for (i in 0..nums.lastIndex - 1) {
+            if (i == 0) {
+                dp1 = nums[0]
+            } else if (i == 1) {
+                dp2 = Math.max(dp1, nums[1])
+            } else {
+                tmp = Math.max(dp2, nums[i] + dp1)
+                dp1 = dp2
+                dp2 = tmp
+            }
+        }
+        val p1 = Math.max(dp1, dp2)
+        tmp = 0
+        dp1 = 0
+        dp2 = 0
+        for (i in 1..nums.lastIndex) {
+            if (i == 0) {
+                dp1 = nums[0]
+            } else if (i == 1) {
+                dp2 = Math.max(dp1, nums[1])
+            } else {
+                tmp = Math.max(dp2, nums[i] + dp1)
+                dp1 = dp2
+                dp2 = tmp
+            }
+        }
+        val p2 = Math.max(dp1, dp2)
+        return Math.max(p1, p2)
+    }
+
+    fun rob(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        }
+        var ans = root.`val`
+        if (root.left != null) {
+            ans += rob(root.left.left) + rob(root.left.right)
+        }
+        if (root.right != null) {
+            ans += rob(root.right.left) + rob(root.right.right)
+        }
+        return Math.max(ans, rob(root.left) + rob(root.right))
+    }
+
+//    fun rob(root: TreeNode?): Int {
+//        if (root == null) {
+//            return 0
+//        } else {
+//            if (root.left == null && root.right == null) {
+//                return root.`val`
+//            } else if (root.left != null && root.right != null) {
+//                return Math.max(
+//                    root.`val` + rob(root.left.left) + rob(root.left.right) + rob(root.right.left) + rob(root.right.right),
+//                    rob(root.left) + rob(root.right)
+//                )
+//            } else if (root.left != null) {
+//                return Math.max(root.`val` + rob(root.left.left) + rob(root.left.right), rob(root.left))
+//            } else {
+//                return Math.max(root.`val` + rob(root.right.left) + rob(root.right.right), rob(root.right))
+//            }
+//        }
+//    }
+
 }
