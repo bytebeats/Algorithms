@@ -1109,4 +1109,51 @@ class Solution2 {
         }
         return ans
     }
+
+    fun myAtoi(str: String): Int {
+        var ans = 0
+        var s = str.trim()
+        var negative = false
+        if (s.isNotEmpty()) {
+            var firstDigitIndex = 0
+            for (i in s.indices) {
+                if (s[i].isDigit()) {
+                    firstDigitIndex = i
+                    break
+                }
+            }
+            if (firstDigitIndex > 1) {
+                return 0
+            }
+            val firstChar = s.first()
+            if (firstChar == '-') {
+                negative = true
+                s = s.substring(1)
+            } else if (firstChar == '+') {
+                negative = false
+                s = s.substring(1)
+            } else {
+                negative = false
+            }
+            for (i in s.indices) {
+                if (s[i].isDigit()) {
+                    if (ans > Int.MAX_VALUE / 10 || ans == Int.MAX_VALUE / 10 && s[i] - '0' > 7) {
+                        if (negative) {
+                            return Int.MIN_VALUE
+                        } else {
+                            return Int.MAX_VALUE
+                        }
+                    } else {
+                        ans *= 10
+                        ans += s[i] - '0'
+                    }
+                } else if (s[i] == '+' || s[i] == '-') {
+                    break
+                } else {
+                    break
+                }
+            }
+        }
+        return if (negative) -ans else ans
+    }
 }
