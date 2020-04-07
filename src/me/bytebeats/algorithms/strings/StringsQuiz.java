@@ -999,4 +999,20 @@ public class StringsQuiz {
         }
         return true;
     }
+
+    public int[] maxDepthAfterSplit(String seq) {
+        int[] ans = new int[seq.length()];
+        int d = 0;
+        int k = 0;
+        for (int i = 0; i < seq.length(); i++) {
+            if (seq.charAt(i) == '(') {
+                d++;
+                ans[k++] = d % 2;
+            } else {
+                ans[k++] = d % 2;
+                d--;
+            }
+        }
+        return ans;
+    }
 }

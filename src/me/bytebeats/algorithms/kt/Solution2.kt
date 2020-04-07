@@ -1263,4 +1263,26 @@ class Solution2 {
 //        }
 //    }
 
+
+    fun maxDepthAfterSplit(seq: String): IntArray {
+
+    }
+
+    fun nthUglyNumber(n: Int): Int {
+        val uglies = IntArray(1690)
+        uglies[0] = 1
+        var ugly = 0
+        var i2 = 0
+        var i3 = 0
+        var i5 = 0
+        for (i in 1 until 1690) {
+            ugly = Math.min(Math.min(uglies[i2] * 2, uglies[i3] * 3), uglies[i5] * 5)
+            uglies[i] = ugly
+            if (ugly == uglies[i2] * 2) i2++
+            if (ugly == uglies[i3] * 3) i3++
+            if (ugly == uglies[i5] * 5) i5++
+        }
+        return uglies[n - 1]
+    }
+
 }
