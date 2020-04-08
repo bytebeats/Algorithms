@@ -1265,7 +1265,7 @@ class Solution2 {
 
 
     fun maxDepthAfterSplit(seq: String): IntArray {
-
+        return IntArray(0)
     }
 
     fun nthUglyNumber(n: Int): Int {
@@ -1285,4 +1285,173 @@ class Solution2 {
         return uglies[n - 1]
     }
 
+    fun rotate(matrix: Array<IntArray>): Unit {//顺时针旋转90 度
+        val n = matrix.size
+        var tmp = 0
+        for (i in 0 until n / 2) {//y
+            for (j in i until n - 1 - i) {//x
+                tmp = matrix[j][i]
+                matrix[j][i] = matrix[n - i - 1][j]
+                matrix[n - i - 1][j] = matrix[n - j - 1][n - i - 1]
+                matrix[n - j - 1][n - i - 1] = matrix[i][n - j - 1]
+                matrix[i][n - j - 1] = tmp
+            }
+        }
+    }
+
+    fun findMissingRanges(nums: IntArray, lower: Int, upper: Int): List<String> {
+        val ans = mutableListOf<String>()
+        if (nums.isNotEmpty()) {
+            if (lower < nums.first()) {
+                if (nums.first() - lower.toLong() > 1L) {//in case result of minus greater than Int.MAX_VALUE
+                    ans.add("$lower->${nums.first() - 1}")
+                } else {
+                    ans.add("$lower")
+                }
+            }
+            for (i in 1..nums.lastIndex) {
+                if (nums[i].toLong() - nums[i - 1] > 1) {
+                    if (nums[i].toLong() - nums[i - 1] > 2) {//in case result of minus greater than Int.MAX_VALUE
+                        ans.add("${nums[i - 1] + 1}->${nums[i] - 1}")
+                    } else {
+                        ans.add("${nums[i] - 1}")
+                    }
+                } else {
+                    continue
+                }
+            }
+            if (upper > nums.last()) {
+                if (upper.toLong() - nums.last() > 1) {//in case result of minus greater than Int.MAX_VALUE
+                    ans.add("${nums.last() + 1}->$upper")
+                } else {
+                    ans.add("$upper")
+                }
+            }
+        } else {
+            if (upper.toLong() - lower > 0) {//in case result of minus greater than Int.MAX_VALUE
+                ans.add("$lower->$upper")
+            } else {
+                ans.add("$lower")
+            }
+        }
+        return ans
+    }
+
+    fun lowestCommonAncestor(
+        root: TreeNode?,
+        p: TreeNode?,
+        q: TreeNode?
+    ): TreeNode? {//lowest common ancestor of a binary search tree
+        if (root == null || p == null || q == null) {
+            return null
+        }
+        var t = root
+        while (t != null && t != p && t != q) {
+            if (t?.`val` < p?.`val` && t?.`val` < q?.`val`) {
+                t = t.right
+            } else if (t?.`val` > p?.`val` && t?.`val` > q?.`val`) {
+                t = t.left
+            } else {
+                break
+            }
+        }
+        return t
+    }
+
+    fun lowestCommonAncestor2(
+        root: TreeNode?,
+        p: TreeNode?,
+        q: TreeNode?
+    ): TreeNode? {//lowest common ancestor of a binary tree
+        if (root == null || p == null || q == null) {
+            return null
+        }
+        return null
+    }
+
+    fun countElements(arr: IntArray): Int {
+        var count = 0
+        if (arr.size > 1) {
+            val set = mutableSetOf<Int>()
+            arr.forEach {
+                if (!set.contains(it)) {
+                    set.add(it)
+                }
+            }
+            for (i in arr.indices) {
+                if (set.contains(arr[i] + 1)) {
+                    count++
+                }
+            }
+        }
+        return count
+    }
+
+    fun movingCount(m: Int, n: Int, k: Int): Int {
+        if (k == 0) {
+            return 1
+        }
+        var ans = 0
+        val matrix = Array(m) { IntArray(n) { 0 } }
+        for (i in 0 until m) {
+            for (j in 0 until n) {
+                if (i == 0 && j == 0) {
+                    matrix[i][j] = 1
+                    ans = 1
+                } else if (sum(i) + sum(j) > k) {
+                    continue
+                } else {
+                    if (i > 0) {
+                        matrix[i][j] = matrix[i][j] or matrix[i - 1][j]
+                    }
+                    if (j > 0) {
+                        matrix[i][j] = matrix[i][j] or matrix[i][j - 1]
+                    }
+                    ans += matrix[i][j]
+                }
+            }
+        }
+        return ans
+    }
+
+    private fun sum(num: Int): Int {
+        var ans = 0
+        var n = num
+        while (n != 0) {
+            ans += n % 10
+            n /= 10
+        }
+        return ans
+    }
+
+    fun reversePrint(head: ListNode?): IntArray {
+        var p = head
+        var count = 0
+        while (p != null) {
+            p = p.next
+            count++
+        }
+        val ans = IntArray(count)
+        p = head
+        count = 0
+        while (p != null) {
+            ans[count++] = p.`val`
+            p = p.next
+        }
+        ans.reverse()
+        return ans
+    }
+
+    fun middleNode2(head: ListNode?): ListNode? {
+        var p = head
+        var q = head
+        while (q != null && q.next != null) {
+            p = p?.next
+            q = q.next.next
+        }
+        if (q != null && q.next != null) {
+            p = p?.next
+        }
+        return p
+    }
 }
