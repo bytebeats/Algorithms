@@ -2,9 +2,11 @@ package me.bytebeats.algorithms.kt.design
 
 class MinStack {
 
+    /**
+     * initialize your data structure here.
+     * */
     private var table = IntArray(16)
     private var top = 0
-    private var minIndex = -1
 
     /**
      * Push element x onto stack.

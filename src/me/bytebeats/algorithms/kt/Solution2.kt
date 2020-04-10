@@ -2,7 +2,6 @@ package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
-import sun.nio.cs.ext.MacHebrew
 
 class Solution2 {
     fun removeDuplicates(s: String, k: Int): String {
@@ -1453,5 +1452,242 @@ class Solution2 {
             p = p?.next
         }
         return p
+    }
+
+    fun generateParenthesis(n: Int): List<String> {//22
+        val ans = mutableListOf<String>()
+        backtrack(ans, StringBuilder(), 0, 0, n)
+        return ans
+    }
+
+    private fun backtrack(ans: MutableList<String>, sb: StringBuilder, open: Int, close: Int, max: Int) {
+        if (sb.length == max * 2) {
+            ans.add(sb.toString())
+            return
+        }
+        if (open < max) {
+            sb.append('(')
+            backtrack(ans, sb, open + 1, close, max)
+            sb.deleteCharAt(sb.lastIndex)
+        }
+        if (close < open) {
+            sb.append(')')
+            backtrack(ans, sb, open, close + 1, max)
+            sb.deleteCharAt(sb.lastIndex)
+        }
+    }
+
+    fun isStrobogrammatic(num: String): Boolean {//246
+        for (i in 0 until (num.length + 1) / 2) {
+            if (isRotatable(num[i]) && isRotatable(num[num.length - 1 - i]) &&
+                isSameAfterRotated(num[num.length - 1 - i], num[i])
+            ) {
+                continue
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isSameAfterRotated(ch1: Char, ch2: Char): Boolean {
+        return ch1 == ch2 && ch2 == '1' || ch1 == ch2 && ch2 == '0' || ch1 == ch2 && ch2 == '8' || ch1 == '9' && ch2 == '6' || ch1 == '6' && ch2 == '9'
+    }
+
+    private fun isRotatable(ch: Char): Boolean = ch == '0' || ch == '1' || ch == '6' || ch == '8' || ch == '9'
+
+    val map1 = mapOf('0' to '0')
+    val map2 = mapOf('1' to '1', '8' to '8')
+    val map3 = mapOf('6' to '9', '9' to '6')
+
+    fun findStrobogrammatic(n: Int): List<String> {//247
+        val ans = mutableListOf<String>()
+        findStrobogrammatic(n, "", "", ans, n)
+        ans.sort()
+        return ans
+    }
+
+    private fun findStrobogrammatic(n: Int, left: String, right: String, ans: MutableList<String>, max: Int) {
+        if (n < 0) {
+            //nothing
+        } else if (n == 0) {
+            ans.add("$left$right")
+        } else if (n == 1) {
+            map1.keys.forEach {
+                ans.add("$left$it$right")
+            }
+            map2.keys.forEach {
+                ans.add("$left$it$right")
+            }
+        } else {
+            if (n != 2 && n != 3) {// in case of "01..." & "...10"
+                map1.keys.forEach {
+                    findStrobogrammatic(n - 2, "$it$left", "$right$it", ans, max)
+                }
+            }
+            map2.keys.forEach {
+                findStrobogrammatic(n - 2, "$it$left", "$right$it", ans, max)
+            }
+            map3.keys.forEach {
+                findStrobogrammatic(n - 2, "$it$left", "$right${map3[it]}", ans, max)
+            }
+        }
+    }
+
+    fun backspaceCompare(S: String, T: String): Boolean {//844
+        return get(S) == get(T)
+    }
+
+    private fun get(s: String): String {
+        val ans = StringBuilder()
+        s.forEach {
+            if (it == '#') {
+                if (ans.isNotEmpty()) {
+                    ans.deleteCharAt(ans.lastIndex)
+                }
+            } else {
+                ans.append(it)
+            }
+        }
+        return ans.toString()
+    }
+
+    fun addDigits(num: Int): Int {//258
+        var n = num
+        var tmp = 0
+        while (n > 9) {
+            tmp = 0
+            while (n > 0) {
+                tmp += n % 10
+                n /= 10
+            }
+            n = tmp
+        }
+        return n
+    }
+
+    fun intersection(nums1: IntArray, nums2: IntArray): IntArray {//349
+        return nums1.distinct().intersect(nums2.distinct()).toIntArray()
+    }
+
+    fun intersect(nums1: IntArray, nums2: IntArray): IntArray {//350
+        nums1.sort()
+        nums2.sort()
+        val ans = mutableListOf<Int>()
+        var i = 0
+        var j = 0
+        while (i < nums1.size && j < nums2.size) {
+            if (nums1[i] > nums2[j]) {
+                j++
+            } else if (nums1[i] < nums2[j]) {
+                i++
+            } else {
+                ans.add(nums1[i])
+                i++
+                j++
+            }
+        }
+        return ans.toIntArray()
+    }
+
+    fun arraysIntersection(arr1: IntArray, arr2: IntArray, arr3: IntArray): List<Int> {//1213
+        val ans = mutableListOf<Int>()
+        val intersetList = mutableListOf<Int>()
+        var i = 0
+        var j = 0
+        while (i < arr1.size && j < arr2.size) {
+            if (arr1[i] > arr2[j]) {
+                j++
+            } else if (arr1[i] < arr2[j]) {
+                i++
+            } else {
+                intersetList.add(arr1[i])
+                i++
+                j++
+            }
+        }
+        if (intersetList.isNotEmpty()) {
+            i = 0
+            j = 0
+            while (i < intersetList.size && j < arr3.size) {
+                if (intersetList[i] > arr3[j]) {
+                    j++
+                } else if (intersetList[i] < arr3[j]) {
+                    i++
+                } else {
+                    ans.add(intersetList[i])
+                    i++
+                    j++
+                }
+            }
+        }
+        return ans
+    }
+
+    fun commonChars(A: Array<String>): List<String> {//1002
+        val chCounts = Array(A.size) { IntArray(26) }
+        val ans = mutableListOf<String>()
+        A.forEachIndexed { index, s -> count(chCounts[index], s) }
+        for (i in 0..25) {
+            var min = Int.MAX_VALUE
+            for (j in A.indices) {
+                if (chCounts[j][i] == 0) {
+                    min = 0
+                    break
+                } else {
+                    if (min > chCounts[j][i]) {
+                        min = chCounts[j][i]
+                    }
+                }
+            }
+            while (min-- > 0) {
+                ans.add(('a' + i).toString())
+            }
+        }
+        return ans
+    }
+
+    private fun count(array: IntArray, s: String) {
+        s.forEach { array[it - 'a']++ }
+    }
+
+    fun numberOfSubstrings(s: String): Int {//1358
+        var ans = 0
+        val counts = IntArray(3) { 0 }
+        val size = s.length
+        var r = -1
+        var i = 0
+        while (i < size) {
+            while (r < size && !(counts[0] >= 1 && counts[1] >= 1 && counts[2] >= 1)) {
+                if (++r == size) {
+                    break
+                }
+                counts[s[r] - 'a']++
+            }
+            ans += size - r
+            counts[s[i++] - 'a']--
+        }
+        return ans
+    }
+
+    fun compareVersion(version1: String, version2: String): Int {//165
+        if (version1 == version2) {
+            return 0
+        }
+        val dotCount1 = version1.count { it == '.' }
+        val dotCount2 = version2.count { it == '.' }
+        val s = (if (dotCount1 > dotCount2) dotCount1 else dotCount2) + 1
+        val vNum1 = IntArray(s) { 0 }
+        version1.split(".").forEachIndexed { index, s -> vNum1[index] = s.toInt() }
+        val vNum2 = IntArray(s) { 0 }
+        version2.split(".").forEachIndexed { index, s -> vNum2[index] = s.toInt() }
+        for (i in 0 until s) {
+            if (vNum1[i] > vNum2[i]) {
+                return 1
+            } else if (vNum1[i] < vNum2[i]) {
+                return -1
+            }
+        }
+        return 0
     }
 }
