@@ -1,5 +1,7 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.meta.ListNode
+
 class Solution3 {
     fun removeDuplicates(nums: IntArray): Int {
         var size = nums.size
@@ -142,5 +144,75 @@ class Solution3 {
             }
         }
         return false
+    }
+
+    fun deleteNode(head: ListNode?, `val`: Int): ListNode? {// 面试题18,  删除链表节点
+        if (head == null) {
+            return null
+        }
+        if (head.`val` == `val`) {
+            return head.next
+        }
+        var pre = head
+        var cur = head.next
+        while (cur != null && cur.`val` != `val`) {
+            pre = cur
+            cur = cur.next
+        }
+        pre?.next = cur?.next
+        return head
+    }
+
+    fun rotateRight(head: ListNode?, k: Int): ListNode? {//61
+        var size = 0
+        var p = head
+        while (p != null) {
+            size++
+            p = p.next
+        }
+        if (size == 0 || k % size == 0) {
+            return head
+        }
+        var d = size - k % size
+        p = head
+        var pre: ListNode? = null
+        while (d-- > 0) {
+            pre = p
+            p = p?.next
+        }
+        pre?.next = null
+        pre = p
+        while (p != null && p.next != null) {
+            p = p.next
+        }
+        p?.next = head
+        return pre
+    }
+
+    fun rotateRight1(head: ListNode?, k: Int): ListNode? {//61, 连接成环, 移动后再断开
+        if (head?.next == null || k == 0) {
+            return head
+        }
+        var size = 0
+        var p = head
+        var pre: ListNode? = null
+        while (p != null) {
+            size++
+            pre = p
+            p = p.next
+        }
+        if (k % size == 0) {
+            return head
+        }
+        pre?.next = head
+        var d = size - k % size
+        p = head
+        pre = null
+        while (d-- > 0) {
+            pre = p
+            p = p?.next
+        }
+        pre?.next = null
+        return p
     }
 }
