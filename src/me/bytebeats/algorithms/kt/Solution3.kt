@@ -215,4 +215,60 @@ class Solution3 {
         pre?.next = null
         return p
     }
+
+    fun superEggDrop(K: Int, N: Int): Int {//887
+        // Right now, dp[i] represents dp(1, i)
+        var dp = IntArray(N + 1)
+        for (i in 0..N) {
+            dp[i] = i
+        }
+        for (k in 2..K) {
+            // Now, we will develop dp2[i] = dp(k, i)
+            val dp2 = IntArray(N + 1)
+            var x = 1
+            for (n in 1..N) {
+                // Let's find dp2[n] = dp(k, n)
+                // Increase our optimal x while we can make our answer better.
+                // Notice max(dp[x-1], dp2[n-x]) > max(dp[x], dp2[n-x-1])
+                // is simply max(T1(x-1), T2(x-1)) > max(T1(x), T2(x)).
+                while (x < n && Math.max(dp[x - 1], dp2[n - x]) > Math.max(dp[x], dp2[n - x - 1])) {
+                    x++
+                }
+                // The final answer happens at this x.
+                dp2[n] = 1 + Math.max(dp[x - 1], dp2[n - x])
+            }
+            dp = dp2
+        }
+        return dp[N]
+    }
+
+    fun wordPattern(pattern: String, str: String): Boolean {//290
+        if (pattern.isEmpty() || str.isEmpty() || pattern.length != str.split(" ").size) {
+            return false
+        }
+        val map = mutableMapOf<Char, String>()
+        val words = str.split(" ")
+        pattern.forEachIndexed { index, c ->
+            if (map.containsKey(c)) {
+                if (map[c] != words[index]) {
+                    return false
+                }
+            } else if (map.containsValue(words[index])) {
+                return false
+            } else {
+                map[c] = words[index]
+            }
+        }
+        return true
+    }
+
+    fun suggestedProducts(products: Array<String>, searchWord: String): List<List<String>> {//1268
+        val ans = mutableListOf<List<String>>()
+        var pre = StringBuilder()
+        searchWord.forEach {
+            pre.append(it)
+            ans.add(products.filter { it.startsWith(pre) }.sorted().take(3))
+        }
+        return ans
+    }
 }
