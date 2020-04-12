@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import me.bytebeats.algorithms.meta.ListNode
 
 class Solution3 {
@@ -270,5 +271,122 @@ class Solution3 {
             ans.add(products.filter { it.startsWith(pre) }.sorted().take(3))
         }
         return ans
+    }
+
+    fun stringMatching(words: Array<String>): List<String> {
+        val set = mutableSetOf<String>()
+        val ans = mutableListOf<String>()
+        set.addAll(words)
+        words.forEach { word ->
+            if (set.filter { it.contains(word) && it != word }.count() > 0) {
+                ans.add(word)
+            }
+        }
+        return ans
+    }
+
+    fun processQueries(queries: IntArray, m: Int): IntArray {
+        val p = IntArray(m)
+        for (i in 1..m) {
+            p[i - 1] = i
+        }
+        queries.forEachIndexed { index, i ->
+            val position = p.indexOf(i)
+            for (j in position downTo 1) {
+                p[j] = p[j - 1]
+            }
+            p[0] = i
+            queries[index] = position
+        }
+        return queries
+    }
+
+    fun entityParser(text: String): String {
+        val map = mapOf(
+            "&quot;" to "\"",
+            "&apos;" to "'",
+            "&amp;" to "&",
+            "&gt;" to ">",
+            "&lt;" to "<",
+            "&frasl;" to "/"
+        )
+        var ans = text
+        map.forEach { key, value -> ans = ans.replace(key, value) }
+        return ans
+    }
+
+    fun numOfWays(n: Int): Int {
+        var ans = 0
+        return ans
+    }
+
+    fun intersection(start1: IntArray, end1: IntArray, start2: IntArray, end2: IntArray): DoubleArray {//面试题16.03 相交
+        val ans = mutableListOf<Double>()
+        val x1 = start1[0]
+        val y1 = start1[1]
+        val x2 = end1[0]
+        val y2 = end1[1]
+        val x3 = start2[0]
+        val y3 = start2[1]
+        val x4 = end2[0]
+        val y4 = end2[1]
+        // 判断 (x1, y1)~(x2, y2) 和 (x3, y3)~(x4, y3) 是否平行
+        if ((y4 - y3) * (x2 - x1) == (y2 - y1) * (x4 - x3)) {
+            // 若平行，则判断 (x3, y3) 是否在「直线」(x1, y1)~(x2, y2) 上
+            if ((y2 - y1) * (x3 - x1) == (y3 - y1) * (x2 - x1)) {
+                // 判断 (x3, y3) 是否在「线段」(x1, y1)~(x2, y2) 上
+                if (inside(x1, y1, x2, y2, x3, y3)) {
+                    update(ans, x3.toDouble(), y3.toDouble())
+                }
+                // 判断 (x4, y4) 是否在「线段」(x1, y1)~(x2, y2) 上
+                if (inside(x1, y1, x2, y2, x4, y4)) {
+                    update(ans, x4.toDouble(), y4.toDouble())
+                }
+                // 判断 (x1, y1) 是否在「线段」(x3, y3)~(x4, y4) 上
+                if (inside(x3, y3, x4, y4, x1, y1)) {
+                    update(ans, x1.toDouble(), y1.toDouble())
+                }
+                // 判断 (x2, y2) 是否在「线段」(x3, y3)~(x4, y4) 上
+                if (inside(x3, y3, x4, y4, x2, y2)) {
+                    update(ans, x2.toDouble(), y2.toDouble())
+                }
+            }
+            // 在平行时，其余的所有情况都不会有交点
+        } else {
+            // 联立方程得到 t1 和 t2 的值
+            val t1 =
+                (x3.toDouble() * (y4 - y3) + y1 * (x4 - x3) - y3 * (x4 - x3) - x1 * (y4 - y3)) / ((x2 - x1) * (y4 - y3) - (x4 - x3) * (y2 - y1));
+            val t2 =
+                (x1.toDouble() * (y2 - y1) + y3 * (x2 - x1) - y1 * (x2 - x1) - x3 * (y2 - y1)) / ((x4 - x3) * (y2 - y1) - (x2 - x1) * (y4 - y3));
+            // 判断 t1 和 t2 是否均在 [0, 1] 之间
+            if (t1 in 0.0..1.0 && t2 in 0.0..1.0) {
+                ans.add(x1 + t1 * (x2 - x1))
+                ans.add(y1 + t1 * (y2 - y1))
+            }
+        }
+        return ans.toDoubleArray()
+    }
+
+    // 判断 (xk, yk) 是否在「线段」(x1, y1)~(x2, y2) 上
+    // 这里的前提是 (xk, yk) 一定在「直线」(x1, y1)~(x2, y2) 上
+    private fun inside(x1: Int, y1: Int, x2: Int, y2: Int, xk: Int, yk: Int): Boolean {
+        // 若与 x 轴平行，只需要判断 x 的部分
+        // 若与 y 轴平行，只需要判断 y 的部分
+        // 若为普通线段，则都要判断
+        return (x1 == x2 || xk >= Math.min(x1, x2) && xk <= Math.max(x1, x2))
+                && (y1 == y2 || yk >= Math.min(y1, y2) && yk <= Math.max(y1, y2))
+    }
+
+    private fun update(ans: MutableList<Double>, xk: Double, yk: Double) {
+        if (ans.isEmpty()) {
+            ans.add(xk)
+            ans.add(yk)
+        } else if (xk < ans[0]) {
+            ans[0] = xk
+            ans[1] = yk
+        } else if (xk == ans[0] && yk < ans[1]) {
+            ans[0] = xk
+            ans[1] = yk
+        }
     }
 }
