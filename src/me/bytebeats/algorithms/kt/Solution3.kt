@@ -431,4 +431,22 @@ class Solution3 {
             return max.toInt()
         }
     }
+
+    fun findMaxLength(nums: IntArray): Int {//525
+        val counts = IntArray(nums.size * 2 + 1) { -2 }
+        counts[nums.size] = -1
+        var max = 0
+        var count = 0
+        for (i in nums.indices) {
+            count += if (nums[i] == 0) -1 else 1
+            if (counts[count + nums.size] >= -1) {
+                if (max < i - counts[count + nums.size]) {
+                    max = i - counts[count + nums.size]
+                }
+            } else {
+                counts[count + nums.size] = i
+            }
+        }
+        return max
+    }
 }
