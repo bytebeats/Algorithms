@@ -389,4 +389,46 @@ class Solution3 {
             ans[1] = yk
         }
     }
+
+    fun fizzBuzz(n: Int): List<String> {//412
+        val ans = mutableListOf<String>()
+        for (i in 1..n) {
+            if (i % 15 == 0) {
+                ans.add("FizzBuzz")
+            } else if (i % 5 == 0) {
+                ans.add("Buzz")
+            } else if (i % 3 == 0) {
+                ans.add("Fizz")
+            } else {
+                ans.add("$i")
+            }
+        }
+        return ans
+    }
+
+    fun thirdMax(nums: IntArray): Int {//414
+        var max = Long.MIN_VALUE
+        nums.forEach {
+            if (max < it) {
+                max = it.toLong()
+            }
+        }
+        var max2 = Long.MIN_VALUE
+        nums.forEach {
+            if (it < max && max2 < it) {
+                max2 = it.toLong()
+            }
+        }
+        var max3 = Long.MIN_VALUE
+        nums.forEach {
+            if (it < max2 && max3 < it) {
+                max3 = it.toLong()
+            }
+        }
+        if (max3 > Long.MIN_VALUE) {
+            return max3.toInt()
+        } else {
+            return max.toInt()
+        }
+    }
 }
