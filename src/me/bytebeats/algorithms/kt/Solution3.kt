@@ -1,7 +1,7 @@
 package me.bytebeats.algorithms.kt
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import me.bytebeats.algorithms.meta.ListNode
+import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution3 {
     fun removeDuplicates(nums: IntArray): Int {
@@ -448,5 +448,290 @@ class Solution3 {
             }
         }
         return max
+    }
+
+    fun pathSum(root: TreeNode?, sum: Int): Int {//437
+        if (root == null) {
+            return 0
+        }
+        return pathSumHelper(root, sum) + pathSum(root?.left, sum) + pathSum(root?.right, sum)
+    }
+
+    private fun pathSumHelper(node: TreeNode?, sum: Int): Int {
+        if (node == null) {
+            return 0
+        } else {
+            val nextSum = sum - node.`val`
+            return (if (nextSum == 0) 1 else 0) + pathSumHelper(node.left, nextSum) + pathSumHelper(node.right, nextSum)
+        }
+    }
+
+    fun pathSum1(root: TreeNode?, sum: Int): Int {//437
+        if (root == null) {
+            return 0
+        }
+        return pathSum1(root, sum, 0) + pathSum1(root?.left, sum) + pathSum1(root?.right, sum)
+    }
+
+    private fun pathSum1(node: TreeNode?, sum: Int, subSum: Int): Int {
+        if (node == null) {
+            return 0
+        } else {
+            var count = 0
+            val nextSum = subSum + node.`val`
+            if (nextSum == sum) {
+                count++
+            }
+            count += pathSum1(node.left, sum, nextSum)
+            count += pathSum1(node.right, sum, nextSum)
+            return count
+        }
+    }
+
+    fun stringShift(s: String, shift: Array<IntArray>): String {
+        val ans = s.toCharArray().toMutableList()
+        var ch = ' '
+        shift.forEach {
+            var bits = it[1] % ans.size
+            while (bits-- > 0) {
+                if (it[0] == 0) {
+                    ch = ans.first()
+                    ans.removeAt(0)
+                    ans.add(ch)
+                } else {
+                    ch = ans.last()
+                    ans.removeAt(ans.lastIndex)
+                    ans.add(0, ch)
+                }
+            }
+        }
+        return String(ans.toCharArray())
+    }
+
+//    fun groupStrings(strings: Array<String>): List<List<String>> {
+//        val ans = mutableMapOf<String, List<String>>()
+//        strings.forEach { str ->
+//            if (contains(ans.keys, str)) {
+//                ans[]
+//            } else {
+//                ans[str]
+//            }
+//        }
+//        return ans.values.toList()
+//    }
+
+//    private fun contains(keys: Set<String>, key: String): Boolean {
+//        var contains = false
+//        keys.filter { key.length == it.length }.forEach { str ->
+//            if (key.length == 1) {
+//                contains = true
+//            } else {
+//                val diff = key[0] - str[0]
+//                var same = true
+//                for (i in 1..key.lastIndex) {
+//                    if (key[i] - str[i] != diff) {
+//                        same = false
+//                    }
+//                }
+//                contains = contains or same
+//            }
+//        }
+//        return contains
+//    }
+
+//    fun shiftGrid(grid: Array<IntArray>, k: Int): List<List<Int>> {
+//        val count = grid.size * grid[0].size
+//        val shift = k % count
+//
+//    }
+
+    fun sumRootToLeaf(root: TreeNode?): Int {//1022
+        if (root == null) {
+            return 0
+        }
+        val binaryList = mutableListOf<String>()
+        sumRootToLeaf(root, binaryList, StringBuilder())
+        var ans = 0
+        binaryList.forEach { ans += it.toInt(2) }
+        return ans
+    }
+
+    fun sumRootToLeaf(root: TreeNode?, binaryList: MutableList<String>, seq: StringBuilder) {
+        if (root == null) {
+            return
+        } else if (root.left == null && root.right == null) {
+            seq.append(root.`val`)
+            binaryList.add(seq.toString())
+        } else {
+            val value = root.`val`
+            if (root.left != null) {
+                val newSeq = StringBuilder(seq)
+                newSeq.append(value)
+                sumRootToLeaf(root.left, binaryList, newSeq)
+            }
+            if (root.right != null) {
+                val newSeq = StringBuilder(seq)
+                newSeq.append(value)
+                sumRootToLeaf(root.right, binaryList, newSeq)
+            }
+        }
+    }
+
+    fun updateMatrix(matrix: Array<IntArray>): Array<IntArray> {//542
+        val row = matrix.size
+        val column = matrix[0].size
+        val dist = Array(row) { IntArray(column) { 0 } }
+        for (i in 0 until row) {
+            for (j in 0 until column) {
+                dist[i][j] = Int.MAX_VALUE - 10
+                if (matrix[i][j] == 0) {
+                    dist[i][j] = 0
+                } else {
+                    if (i > 0) {
+                        dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1)
+                    }
+                    if (j > 0) {
+                        dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1)
+                    }
+                }
+            }
+        }
+        for (i in row - 1 downTo 0) {
+            for (j in column - 1 downTo 0) {
+                if (i < row - 1) {
+                    dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1)
+                }
+                if (j < column - 1) {
+                    dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1)
+                }
+            }
+        }
+        return dist
+    }
+
+    private fun min(x: Int, y: Int): Int = if (x > y) y else x
+
+    var closest = Double.MAX_VALUE
+    var value = 0
+    fun closestValue(root: TreeNode?, target: Double): Int {//270
+        closest = Double.MAX_VALUE
+        value = 0
+        preReversal(root, target)
+        return value
+    }
+
+    private fun preReversal(root: TreeNode?, target: Double) {
+        if (root == null) {
+            return
+        }
+        if (Math.abs(root.`val` - target) < closest) {
+            closest = Math.abs(root.`val` - target)
+            value = root.`val`
+        }
+        if (root.left != null) {
+            preReversal(root.left, target)
+        }
+        if (root.right != null) {
+            preReversal(root.right, target)
+        }
+    }
+
+    fun insertIntoBST(root: TreeNode?, `val`: Int): TreeNode? {//701
+        if (root == null) {
+            return TreeNode(`val`)
+        }
+        var p = root
+        while (p != null) {
+            if (p.`val` > `val`) {
+                if (p.left != null) {
+                    p = p.left
+                } else {
+                    p.left = TreeNode(`val`)
+                    p = null
+                }
+            } else {
+                if (p.right != null) {
+                    p = p.right
+                } else {
+                    p.right = TreeNode(`val`)
+                    p = null
+                }
+            }
+        }
+        return root
+    }
+
+//    fun findLeaves(root: TreeNode?): List<List<Int>> {//366
+//
+//    }
+
+    fun productExceptSelf(nums: IntArray): IntArray {//238
+        var sum = 1
+        var count = 0 //count zero
+        nums.forEach {
+            if (it == 0) {
+                count++
+            } else {
+                sum *= it//multiply except 0s
+            }
+        }
+        nums.forEachIndexed { index, num ->
+            if (num == 0) {
+                if (count > 1) {
+                    nums[index] = 0
+                } else {
+                    nums[index] = sum
+                }
+            } else {
+                if (count > 0) {
+                    nums[index] = 0
+                } else {
+                    nums[index] = sum / num
+                }
+            }
+        }
+        return nums
+    }
+
+    fun maxProduct(nums: IntArray): Int {//152
+        var max = Int.MIN_VALUE
+        var imax = 1
+        var imin = 1
+        nums.forEach {
+            if (it < 0) {
+                val tmp = imax
+                imax = imin
+                imin = tmp
+            }
+            imax = Math.max(imax * it, it)
+            imin = Math.min(imin * it, it)
+            max = Math.max(imax, max)
+        }
+        return max
+    }
+
+    fun maximumProduct(nums: IntArray): Int {//628
+        nums.sort()
+        if (nums.first() >= 0 || nums.last() <= 0) {
+            val last = nums.lastIndex
+            return nums[last] * nums[last - 1] * nums[last - 2]
+        } else {
+            var index = 0
+            for (i in nums.indices) {
+                if (nums[i] >= 0) {
+                    index = i - 1
+                    break
+                }
+            }
+            if (index < 1) {
+                val filtered = nums.takeLast(3)
+                return filtered[0] * filtered[1] * filtered[2]
+            } else {
+                val p1 = nums[0] * nums[1] * nums.last()
+                val last = nums.lastIndex
+                val p2 = nums[last] * nums[last - 1] * nums[last - 2]
+                return if (p1 > p2) p1 else p2
+            }
+        }
     }
 }

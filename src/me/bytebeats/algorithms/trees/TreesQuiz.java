@@ -1002,4 +1002,26 @@ public class TreesQuiz {
         return head;
     }
 
+    public TreeNode searchBST(TreeNode root, int val) {//700
+        if (root == null) {
+            return null;
+        }
+        Deque<TreeNode> q = new LinkedList<>();
+        TreeNode p = root;
+        q.offer(p);
+        while (!q.isEmpty()) {
+            p = q.poll();
+            if (p.val == val) {
+                return p;
+            }
+            if (p.left != null) {
+                q.offer(p.left);
+            }
+            if (p.right != null) {
+                q.offer(p.right);
+            }
+        }
+        return null;
+    }
+
 }

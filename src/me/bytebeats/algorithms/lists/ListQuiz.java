@@ -27,14 +27,13 @@ public class ListQuiz {
             longList = l2;
             shortList = l1;
         }
-
-        longList = reverseList(longList);
-        shortList = reverseList(shortList);
         int d = 0;
+        shortList = reverseList(shortList);
+        longList = reverseList(longList);
         ListNode tmpS = shortList;
         ListNode tmpL = longList;
         while (tmpS != null) {
-            tmpL.val += tmpS.val + d;
+            tmpL.val += (tmpS.val + d);
             if (tmpL.val > 9) {
                 tmpL.val -= 10;
                 d = 1;
@@ -46,8 +45,13 @@ public class ListQuiz {
         }
         while (d > 0) {
             if (tmpL == null) {
-                tmpL = new ListNode(d);
+                tmpL = longList;
+                while (tmpL.next != null) {
+                    tmpL = tmpL.next;
+                }
+                tmpL.next = new ListNode(d);
                 d = 0;
+                break;
             } else {
                 tmpL.val += d;
                 if (tmpL.val > 9) {
@@ -56,12 +60,13 @@ public class ListQuiz {
                 } else {
                     d = 0;
                 }
+                tmpL = tmpL.next;
             }
         }
         return reverseList(longList);
     }
 
-    public ListNode reverseList(ListNode listNode) {
+    ListNode reverseList(ListNode listNode) {//there should be a better solution
         ListNode head = null;
         ListNode p = listNode;
         while (p != null) {
