@@ -734,4 +734,115 @@ class Solution3 {
             }
         }
     }
+
+    fun merge(intervals: Array<IntArray>): Array<IntArray> {//56
+        val ans = mutableListOf<IntArray>()
+        if (intervals.isNotEmpty()) {
+            intervals.sortBy { it[0] }
+            var tmp = intervals[0]
+            for (i in 1 until intervals.size) {
+                if (tmp[1] >= intervals[i][0]) {
+                    val newRange = IntArray(2)
+                    newRange[0] = tmp[0]
+                    newRange[1] = if (tmp[1] > intervals[i][1]) tmp[1] else intervals[i][1]
+                    tmp = newRange
+                } else {
+                    ans.add(tmp)
+                    tmp = intervals[i]
+                }
+            }
+            ans.add(tmp)
+        }
+        return ans.toTypedArray()
+    }
+
+    fun canAttendMeetings(intervals: Array<IntArray>): Boolean {//252
+        val range = IntArray(2) { -1 }
+        if (intervals.isNotEmpty()) {
+            intervals.sortBy { it[0] }
+            range[0] = intervals[0][0]
+            range[1] = intervals[0][1]
+            for (i in 1 until intervals.size) {
+                if (range[1] < intervals[i][0]) {
+                    range[0] = intervals[i][0]
+                    range[1] = intervals[i][1]
+                } else {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    fun minMeetingRooms(intervals: Array<IntArray>): Int {//253
+        intervals.sortBy { it[0] }
+        val intervalList = intervals.toMutableList()
+        val ans = mutableListOf<List<IntArray>>()
+        while (intervalList.isNotEmpty()) {
+            val room = mutableListOf<IntArray>()
+            room.add(intervalList[0])
+            var tmp = intervalList[0]
+            for (i in 1 until intervalList.size) {
+                if (tmp[1] <= intervalList[i][0]) {
+                    room.add(intervalList[i])
+                    tmp = intervalList[i]
+                }
+            }
+            ans.add(room)
+            room.forEach { intervalList.removeAt(intervalList.indexOf(it)) }
+        }
+        return ans.size
+    }
+
+    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {//57
+        val ans = mutableListOf<IntArray>()
+        for (i in intervals.indices) {
+            if (intervals[i][1] < newInterval[0]) {
+                ans.add(intervals[i])
+                if (i == intervals.lastIndex) {
+                    ans.add(newInterval)
+                }
+            } else if (intervals[i][0] > newInterval[1]) {
+                ans.add(newInterval)
+                for (j in i until intervals.size) {
+                    ans.add(intervals[j])
+                }
+                break
+            } else {
+                newInterval[0] = Math.min(newInterval[0], intervals[i][0])
+                newInterval[1] = Math.max(newInterval[1], intervals[i][1])
+                if (i == intervals.lastIndex) {
+                    ans.add(newInterval)
+                }
+            }
+        }
+        if (ans.isEmpty()) {
+            ans.add(newInterval)
+        }
+        return ans.toTypedArray()
+    }
+
+    fun intervalIntersection(A: Array<IntArray>, B: Array<IntArray>): Array<IntArray> {//986
+        val ans = mutableListOf<IntArray>()
+        var i = 0
+        var j = 0
+        var range: IntArray?
+        while (i < A.size && j < B.size) {
+            val l = Math.max(A[i][0], B[j][0])
+            val h = Math.min(A[i][1], B[j][1])
+            if (l <= h) {
+                range = IntArray(2)
+                range[0] = l
+                range[1] = h
+                ans.add(range)
+            }
+            if (A[i][1] < B[j][1]) {
+                i++
+            } else {
+                j++
+            }
+        }
+        return ans.toTypedArray()
+    }
+
 }
