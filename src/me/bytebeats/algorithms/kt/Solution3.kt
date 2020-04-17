@@ -2,7 +2,6 @@ package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
-import kotlin.math.max
 
 class Solution3 {
     fun removeDuplicates(nums: IntArray): Int {
@@ -889,6 +888,35 @@ class Solution3 {
             }
         }
         return steps
+    }
+
+    fun numIslands(grid: Array<CharArray>): Int {//200
+        if (grid.isEmpty() || grid[0].isEmpty()) {
+            return 0
+        }
+        var islands = 0
+        val row = grid.size
+        val column = grid[0].size
+        for (i in 0 until row) {
+            for (j in 0 until column) {
+                if (grid[i][j] == '1') {
+                    dfs(grid, i, j)
+                    islands++
+                }
+            }
+        }
+        return islands
+    }
+
+    private fun dfs(grid: Array<CharArray>, row: Int, column: Int) {
+        if (row < 0 || column < 0 || row > grid.lastIndex || column > grid[0].lastIndex || grid[row][column] == '0') {
+            return
+        }
+        grid[row][column] = '0'
+        dfs(grid, row - 1, column)
+        dfs(grid, row + 1, column)
+        dfs(grid, row, column - 1)
+        dfs(grid, row, column + 1)
     }
 
 }
