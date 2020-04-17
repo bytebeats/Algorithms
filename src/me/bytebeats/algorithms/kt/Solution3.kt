@@ -2,6 +2,7 @@ package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
+import kotlin.math.max
 
 class Solution3 {
     fun removeDuplicates(nums: IntArray): Int {
@@ -843,6 +844,51 @@ class Solution3 {
             }
         }
         return ans.toTypedArray()
+    }
+
+    fun canJump(nums: IntArray): Boolean {//55
+        var rightMost = 0
+        for (i in nums.indices) {
+            if (i <= rightMost) {
+                rightMost = Math.max(rightMost, i + nums[i])
+                if (rightMost >= nums.lastIndex) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun canReach(arr: IntArray, start: Int): Boolean {//1306
+        return canReach(arr, start, mutableSetOf())
+    }
+
+    fun canReach(arr: IntArray, start: Int, set: MutableSet<Int>): Boolean {//1306
+        if (start < 0 || start > arr.lastIndex) {
+            return false
+        } else if (arr[start] == 0) {
+            return true
+        } else {
+            if (set.contains(start)) {
+                return false
+            }
+            set.add(start)
+            return canReach(arr, start - arr[start], set) or canReach(arr, start + arr[start], set)
+        }
+    }
+
+    fun jump(nums: IntArray): Int {//45
+        var end = 0
+        var maxPos = 0
+        var steps = 0
+        for (i in 0 until nums.lastIndex) {
+            maxPos = Math.max(maxPos, i + nums[i])
+            if (i == end) {
+                end = maxPos
+                steps++
+            }
+        }
+        return steps
     }
 
 }
