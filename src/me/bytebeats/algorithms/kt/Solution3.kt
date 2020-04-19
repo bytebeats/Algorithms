@@ -303,12 +303,12 @@ class Solution3 {
 
     fun entityParser(text: String): String {
         val map = mapOf(
-            "&quot;" to "\"",
-            "&apos;" to "'",
-            "&amp;" to "&",
-            "&gt;" to ">",
-            "&lt;" to "<",
-            "&frasl;" to "/"
+                "&quot;" to "\"",
+                "&apos;" to "'",
+                "&amp;" to "&",
+                "&gt;" to ">",
+                "&lt;" to "<",
+                "&frasl;" to "/"
         )
         var ans = text
         map.forEach { key, value -> ans = ans.replace(key, value) }
@@ -355,9 +355,9 @@ class Solution3 {
         } else {
             // 联立方程得到 t1 和 t2 的值
             val t1 =
-                (x3.toDouble() * (y4 - y3) + y1 * (x4 - x3) - y3 * (x4 - x3) - x1 * (y4 - y3)) / ((x2 - x1) * (y4 - y3) - (x4 - x3) * (y2 - y1));
+                    (x3.toDouble() * (y4 - y3) + y1 * (x4 - x3) - y3 * (x4 - x3) - x1 * (y4 - y3)) / ((x2 - x1) * (y4 - y3) - (x4 - x3) * (y2 - y1));
             val t2 =
-                (x1.toDouble() * (y2 - y1) + y3 * (x2 - x1) - y1 * (x2 - x1) - x3 * (y2 - y1)) / ((x4 - x3) * (y2 - y1) - (x2 - x1) * (y4 - y3));
+                    (x1.toDouble() * (y2 - y1) + y3 * (x2 - x1) - y1 * (x2 - x1) - x3 * (y2 - y1)) / ((x4 - x3) * (y2 - y1) - (x2 - x1) * (y4 - y3));
             // 判断 t1 和 t2 是否均在 [0, 1] 之间
             if (t1 in 0.0..1.0 && t2 in 0.0..1.0) {
                 ans.add(x1 + t1 * (x2 - x1))
@@ -917,6 +917,243 @@ class Solution3 {
         dfs(grid, row + 1, column)
         dfs(grid, row, column - 1)
         dfs(grid, row, column + 1)
+    }
+
+    fun minCount(coins: IntArray): Int {
+        var count = 0
+        coins.forEach {
+            if (it and 1 == 1) {
+                count += (it + 1) / 2
+            } else {
+                count += it / 2
+            }
+        }
+        return count
+    }
+
+    var count = 0
+    fun numWays(n: Int, relation: Array<IntArray>, k: Int): Int {
+        count = 0
+        val map = mutableMapOf<Int, MutableList<Int>>()
+        relation.forEach {
+            map.compute(it[0]) { _, v ->
+                if (v == null) {
+                    val e = mutableListOf<Int>()
+                    e.add(it[1])
+                    e
+                } else {
+                    v.add(it[1])
+                    v
+                }
+            }
+        }
+        ways(0, n, map, k)
+        return count
+    }
+
+    private fun ways(index: Int, n: Int, map: Map<Int, MutableList<Int>>, k: Int) {
+        if (k < 1) {
+            return
+        } else if (k == 1) {
+            if (map.entries.filter { it.key == index }.map { it.value }.flatMap { it.asIterable() }.contains(n - 1)) {
+                count++
+            }
+        } else {
+            map.entries.filter { it.key == index }.map { it.value }.flatMap { it.asIterable() }.forEach { ways(it, n, map, k - 1) }
+        }
+    }
+
+    fun getTriggerTime(increase: Array<IntArray>, requirements: Array<IntArray>): IntArray {
+        val ans = IntArray(requirements.size) { -1 }
+        val increases = IntArray(3) { 0 }
+        val set = mutableSetOf<Int>()
+        for (i in requirements.indices) {
+            set.add(i)
+        }
+        for (i in increase.indices) {
+            increases[0] += increase[i][0]
+            increases[1] += increase[i][1]
+            increases[2] += increase[i][2]
+            val tmp = mutableSetOf<Int>()
+            for (j in set) {
+                if (requirements[j][0] == 0 && requirements[j][1] == 0 && requirements[j][2] == 0) {
+                    ans[j] = 0
+                    tmp.add(j)
+                } else if (increases[0] >= requirements[j][0] && increases[1] >= requirements[j][1] && increases[2] >= requirements[j][2]) {
+                    ans[j] = i + 1
+                    tmp.add(j)
+                } else {
+                    continue
+                }
+            }
+            if (tmp.isNotEmpty()) {
+                set.removeAll(tmp)
+            }
+        }
+        return ans
+    }
+
+    fun minJump(jump: IntArray): Int {
+        return minJump(0, jump, 0)
+    }
+
+    private fun minJump(index: Int, jump: IntArray, count: Int): Int {
+        if (index > jump.lastIndex) {
+            return count
+        } else if (index + jump[index] >= jump.size) {
+            return count + 1
+        } else {
+            var next = 0
+            for (i in 0 until index) {
+                if (i + jump[i] > next) {
+                    next = i + jump[i]
+                }
+            }
+            if (next >= jump.size) {
+                return count + 2
+            }
+            return Math.min(minJump(next, jump, count + 2), minJump(index + jump[index], jump, count + 1))
+        }
+    }
+
+    fun getTriggerTime1(increase: Array<IntArray>, requirements: Array<IntArray>): IntArray {
+        val ans = IntArray(requirements.size) { -1 }
+        val increases = IntArray(3) { 0 }
+        for (i in increase.indices) {
+            increases[0] += increase[i][0]
+            increases[1] += increase[i][1]
+            increases[2] += increase[i][2]
+        }
+        val tmp = IntArray(3) { 0 }
+        requirements.forEachIndexed { index, requirement ->
+            if (requirement[0] == 0 && requirement[1] == 0 && requirement[2] == 0) {
+                ans[index] = 0
+            } else {
+                if (increases[0] < requirement[0] || increases[1] < requirement[1] || increases[2] < requirement[2]) {
+
+                } else {
+                    tmp[0] = 0
+                    tmp[1] = 0
+                    tmp[2] = 0
+                    for (i in increase.indices) {
+                        tmp[0] += increase[i][0]
+                        tmp[1] += increase[i][1]
+                        tmp[2] += increase[i][2]
+                        if (tmp[0] >= requirement[0] || tmp[1] >= requirement[1] || tmp[2] >= requirement[2]) {
+                            ans[index] = i + 1
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        return ans
+    }
+
+    fun minJump1(jump: IntArray): Int {//45
+        var end = 0
+        var maxPos = 0
+        var steps = 0
+        for (i in 0 until jump.lastIndex) {
+            maxPos = Math.max(maxPos, i + jump[i])
+            if (i == end) {
+                end = maxPos
+                steps++
+            }
+        }
+        return steps
+    }
+
+    fun reformat(s: String): String {//5388
+        if (s.length < 2) {
+            return s
+        }
+        val letters = StringBuilder()
+        val digits = StringBuilder()
+        s.forEach {
+            if (it in 'a'..'z') {
+                letters.append(it)
+            } else {
+                digits.append(it)
+            }
+        }
+        if (Math.abs(letters.length - digits.length) > 1) {
+            return ""
+        }
+        val ans = StringBuilder()
+        if (letters.length > digits.length) {
+            for (i in digits.indices) {
+                ans.append(letters[i])
+                ans.append(digits[i])
+            }
+            ans.append(letters.last())
+        } else if (letters.length == digits.length) {
+            for (i in digits.indices) {
+                ans.append(letters[i])
+                ans.append(digits[i])
+            }
+        } else {
+            for (i in letters.indices) {
+                ans.append(digits[i])
+                ans.append(letters[i])
+            }
+            ans.append(digits.last())
+        }
+        return ans.toString()
+    }
+
+    fun displayTable(orders: List<List<String>>): List<List<String>> {//5389
+        val ans = mutableListOf<MutableList<String>>()
+        val tables = orders.map { it[1].toInt() }.distinct().sorted()
+        val foods = orders.map { it[2] }.distinct().sorted()
+        val firstRow = mutableListOf<String>()
+        firstRow.add("Table")
+        firstRow.addAll(foods)
+        ans.add(firstRow)
+        tables.forEach { table ->
+            val tableFoods = orders.filter { it[1] == table.toString() }.map { it[2] }.groupBy { it }
+            val row = mutableListOf<String>()
+            row.add(table.toString())
+            foods.forEach { food ->
+                if (tableFoods.containsKey(food)) {
+                    row.add(tableFoods[food]!!.size.toString())
+                } else {
+                    row.add("0")
+                }
+            }
+            ans.add(row)
+        }
+        return ans
+    }
+
+    fun minNumberOfFrogs(croakOfFrogs: String): Int {//4390
+        val croat = "croak"
+        var croaked = 0
+        val croatings = mutableListOf<String>()
+        croakOfFrogs.forEach { ch ->
+            if (ch in croat) {
+                if (ch == 'c') {
+                    croatings.add(ch.toString())
+                    if (croatings.contains(croat)) {
+                        croaked++
+                    }
+                } else {
+                    val croating = croat.substring(0, croat.indexOf(ch))
+                    if (croatings.contains(croating)) {
+                        croatings[croatings.indexOf(croating)] = "$croating$ch"
+                    } else {
+                        croatings.add(ch.toString())
+                    }
+                }
+            } else {
+                return -1
+            }
+        }
+        if (croatings.all { it == croat }) {
+            return croatings.size - croaked
+        } else {
+            return -1
+        }
     }
 
 }

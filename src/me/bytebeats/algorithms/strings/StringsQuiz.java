@@ -1049,4 +1049,40 @@ public class StringsQuiz {
         }
         return true;
     }
+
+    public int getMaxRepetitions(String s1, int n1, String s2, int n2) {
+        if (n1 == 0) return 0;
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
+        int l1 = s1.length();
+        int l2 = s2.length();
+        int count1 = 0;//经历多少s1
+        int count2 = 0;//经历多少s2
+        int p = 0;//当前在s2的位置
+        Map<Integer, int[]> map = new HashMap<>();//记录每一次s1扫描结束后当前的状态，寻找循环
+        while (count1 < n1) {
+            for (int i = 0; i < l1; i++) {
+                if (chars1[i] == chars2[p]) {//往前
+                    p++;
+                    if (p == l2) {//s2扫描结束从头开始循环
+                        p = 0;
+                        count2++;
+                    }
+                }
+            }
+            count1++;
+            if (!map.containsKey(p)) {
+                map.put(p, new int[]{count1, count2});//记录当前状态
+
+            } else {//出现了循环 这次结束后p的位置和以前某一次一样，就是循环
+                int[] last = map.get(p);
+                int circle1 = count1 - last[0];
+                int circle2 = count2 - last[1];
+                count2 += circle2 * ((n1 - count1) / circle1);
+                count1 = count1 + ((n1 - count1) / circle1) * circle1;//更新新他们
+            }
+        }
+        return count2 / n2;
+    }
+
 }
