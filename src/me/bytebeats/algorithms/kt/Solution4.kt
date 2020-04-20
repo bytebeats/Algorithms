@@ -256,4 +256,74 @@ class Solution4 {
         }
         return false
     }
+
+    fun searchRange(nums: IntArray, target: Int): IntArray {//34
+        var ans = IntArray(2) { -1 }
+        var low = 0
+        var high = nums.lastIndex
+        var mid = 0
+        while (low <= high) {
+            mid = low + (high - low) / 2
+            if (nums[mid] > target) {
+                high = mid - 1
+            } else if (nums[mid] < target) {
+                low = mid + 1
+            } else {
+                var start = mid
+                while (start - 1 > -1 && nums[mid] == nums[start - 1]) {
+                    start--
+                }
+                var end = mid
+                while (end + 1 < nums.size && nums[mid] == nums[end + 1]) {
+                    end++
+                }
+                ans[0] = start
+                ans[1] = end
+                break
+            }
+        }
+        return ans
+    }
+
+    fun numPairsDivisibleBy60(time: IntArray): Int {//1010
+        var ans = 0
+        val seconds = IntArray(60)
+        time.forEach { seconds[it % 60] += 1 }
+        ans += combination(seconds[30], 2)
+        ans += combination(seconds[0], 2)
+        var i = 1
+        var j = 59
+        while (i < j) {
+            ans += seconds[i++] * seconds[j--]
+        }
+        return ans
+    }
+
+    private fun combination(n: Int, k: Int): Int {
+        var ans = 1L
+        for (i in 1..k) {
+            ans = ans * (n - i + 1) / i
+        }
+        return ans.toInt()
+    }
+
+    fun rankTeams(votes: Array<String>): String {//1366
+        val map = sortedMapOf<Char, IntArray>()
+        votes[0].forEach {
+            map[it] = IntArray(votes[0].length)
+        }
+        votes.forEach { vote ->
+            vote.forEachIndexed { index, c ->
+                map[c]!![index]++
+            }
+        }
+        return String(map.entries.sortedWith(Comparator { t1, t2 ->//sorting really matters
+            for (i in votes[0].indices) {
+                if (t1.value[i] != t2.value[i]) {
+                    return@Comparator t2.value[i] - t1.value[i]
+                }
+            }
+            return@Comparator t1.key - t2.key
+        }).map { it.key }.toCharArray())
+    }
 }
