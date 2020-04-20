@@ -1,5 +1,7 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.meta.TreeNode
+
 class Solution4 {
     fun minPathSum(grid: Array<IntArray>): Int {
         if (grid.isEmpty() || grid[0].isEmpty()) {
@@ -325,5 +327,63 @@ class Solution4 {
             }
             return@Comparator t1.key - t2.key
         }).map { it.key }.toCharArray())
+    }
+
+    fun bstFromPreorder(preorder: IntArray): TreeNode? {//1008
+        if (preorder.isNotEmpty()) {
+            return bstFromPreorder(preorder, 0, preorder.lastIndex)
+        }
+        return null
+    }
+
+    fun bstFromPreorder(preorder: IntArray, start: Int, end: Int): TreeNode? {//
+        if (start > end || start < 0 || end > preorder.lastIndex) {
+            return null
+        }
+        val root = TreeNode(preorder[start])
+        var pivot = -1
+        for (i in start + 1..end) {
+            if (preorder[i] > preorder[start]) {
+                pivot = i
+                break
+            }
+        }
+        if (pivot == -1) {
+            root.left = bstFromPreorder(preorder, start + 1, end)
+        } else {
+            if (pivot - 1 >= start + 1) {
+                root.left = bstFromPreorder(preorder, start + 1, pivot - 1)
+            }
+            if (pivot <= end) {
+                root.right = bstFromPreorder(preorder, pivot, end)
+            }
+        }
+        return root
+    }
+
+    var trees: MutableMap<String, Int>? = null
+    var count: MutableMap<Int, Int>? = null
+    var ans: MutableList<TreeNode>? = null
+    var t = 0
+    fun findDuplicateSubtrees(root: TreeNode?): List<TreeNode?> {//652
+        t = 1
+        trees = mutableMapOf()
+        count = mutableMapOf()
+        ans = mutableListOf()
+        lookup(root)
+        return ans!!
+    }
+
+    private fun lookup(node: TreeNode?): Int {
+        if (node == null) {
+            return 0
+        }
+        val serial = "${node.`val`}${lookup(node.left)}${lookup(node.right)}"
+        val uid = trees!!.computeIfAbsent(serial) { t++ }
+        count!![uid] = (count!![uid] ?: 0) + 1
+        if (count!![uid] == 2) {
+            ans!!.add(node)
+        }
+        return uid
     }
 }
