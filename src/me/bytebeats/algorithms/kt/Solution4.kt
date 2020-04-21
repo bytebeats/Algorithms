@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.kt.design.BinaryMatrix
 import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution4 {
@@ -385,5 +386,155 @@ class Solution4 {
             ans!!.add(node)
         }
         return uid
+    }
+
+    fun numberOfSubarrays(nums: IntArray, k: Int): Int {//1248
+        var ans = 0
+        val oddIndexes = mutableListOf<Int>()
+        for (i in nums.indices) {
+            if (nums[i] and 1 == 1) {
+                oddIndexes.add(i)
+            }
+        }
+        oddIndexes.add(0, -1)
+        oddIndexes.add(nums.size)
+        for (i in 1 until oddIndexes.size - k) {
+            ans += (oddIndexes[i] - oddIndexes[i - 1]) * (oddIndexes[i + k] - oddIndexes[i + k - 1])
+        }
+        return ans
+    }
+
+    fun isLongPressedName(name: String, typed: String): Boolean {//925
+        if (name.length > typed.length) {
+            return false
+        }
+        if (name == typed) {
+            return true
+        }
+
+        return true
+    }
+
+    fun leftMostColumnWithOne(binaryMatrix: BinaryMatrix): Int {
+        val row = binaryMatrix.dimensions()[0]
+        val column = binaryMatrix.dimensions()[1]
+        println("$row, $column")
+        var x = 0
+        var y = column - 1
+        while (x < row && y > -1) {
+            if (binaryMatrix.get(x, y) == 1) {
+                y--
+            } else {
+                x++
+            }
+        }
+        return if (y == column - 1) -1 else y + 1
+    }
+
+    fun findMaxConsecutiveOnes(nums: IntArray): Int {//485
+        var ans = Int.MIN_VALUE
+        val zeros = mutableListOf<Int>()
+        nums.forEachIndexed { index, i ->
+            if (i == 0) {
+                zeros.add(index)
+            }
+        }
+        zeros.add(0, -1)
+        zeros.add(nums.size)
+        for (i in 1..zeros.lastIndex) {
+            ans = Math.max(zeros[i] - zeros[i - 1] - 1, ans)
+        }
+        return ans
+    }
+
+    fun findNumbers(nums: IntArray): Int {//1295
+        var ans = 0
+        nums.forEach {
+            if (getBitCount(it) and 1 == 0) {
+                ans++
+            }
+        }
+        return ans
+    }
+
+    private fun getBitCount(num: Int): Int {
+        var ans = 0
+        var k = num
+        while (k != 0) {
+            ans++
+            k /= 10
+        }
+        return ans
+    }
+
+    fun findLengthOfLCIS(nums: IntArray): Int {//674
+        var max = 0
+        if (nums.isNotEmpty()) {
+            var count = 1
+            max = 1
+            var num = nums[0]
+            for (i in 1..nums.lastIndex) {
+                if (nums[i] > num) {
+                    num = nums[i]
+                    count++
+                    if (count > max) {
+                        max = count
+                    }
+                } else {
+                    num = nums[i]
+                    count = 1
+                }
+            }
+        }
+        return max
+    }
+
+    fun findMaxConsecutiveOnes1(nums: IntArray): Int {//487
+        var ans = 0
+        val zeros = mutableListOf<Int>()
+        nums.forEachIndexed { index, i ->
+            if (i and 1 == 0) {
+                zeros.add(index)//records all index of 0
+            }
+        }
+        if (zeros.isEmpty()) {
+            return nums.size
+        }
+        zeros.forEach {
+            var k = it + 1
+            while (k < nums.size && nums[k] == 1) {//count 0s in left of current 0
+                k++
+            }
+            var j = it - 1
+            while (j > -1 && nums[j] == 1) {//count 0s in right of current 0
+                j--
+            }
+            ans = Math.max(ans, k - j - 1)//count 1s, and get the max
+        }
+        return ans
+    }
+
+    fun longestOnes(A: IntArray, K: Int): Int {//1004
+        var ans = 0
+        val zeros = mutableListOf<Int>()
+        A.forEachIndexed { index, i ->
+            if (i and 1 == 0) {
+                zeros.add(index)//records all index of 0
+            }
+        }
+        if (zeros.size <= K) {
+            return A.size
+        }
+        var pre = -1
+        for (i in K..zeros.size) {
+            if (i == K) {
+                if (A[i - K] > 0) {
+
+                }
+            } else if (i == zeros.size) {
+            } else {
+            }
+        }
+        return ans
     }
 }
