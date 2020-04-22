@@ -537,4 +537,66 @@ class Solution4 {
         }
         return ans
     }
+
+    fun subarraySum(nums: IntArray, k: Int): Int {//560
+        var count = 0
+        var sum = 0
+        val map = mutableMapOf<Int, Int>()
+        map[0] = 1
+        nums.forEach {
+            sum += it
+            if (map.containsKey(sum - k)) {
+                count += map[sum - k] ?: 0
+            }
+            map.compute(sum) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        return count
+    }
+
+    fun numSubmatrixSumTarget(matrix: Array<IntArray>, target: Int): Int {//1074
+        var count = 0
+        if (matrix.isNotEmpty() && matrix[0].isNotEmpty()) {
+        }
+        return count
+    }
+
+    fun checkSubarraySum(nums: IntArray, k: Int): Boolean {//523
+        for (i in 0 until nums.lastIndex) {
+            var sum = nums[i]
+            for (j in i + 1 until nums.size) {
+                sum += nums[j]
+                if (k == 0) {
+                    if (sum == 0) {
+                        return true
+                    }
+                } else if (sum % k == 0) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun superPow(a: Int, b: IntArray): Int {//372
+        return superPow(a, b, b.lastIndex)
+    }
+
+    fun superPow(a: Int, b: IntArray, index: Int): Int {//372
+        if (index < 0) {
+            return 1
+        }
+        val part1 = myPow(a, b[index])
+        val part2 = myPow(superPow(a, b, index - 1), 10)
+        return part1 * part2 % 1337
+    }
+
+    private fun myPow(a: Int, b: Int): Int {
+        var ans = 1
+        var aa = a % 1337
+        for (i in 0 until b) {
+            ans *= aa
+            ans %= 1337
+        }
+        return ans
+    }
 }
