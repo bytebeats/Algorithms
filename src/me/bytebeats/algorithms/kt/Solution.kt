@@ -500,20 +500,6 @@ class Solution {
         return res
     }
 
-    fun duplicateZeros(arr: IntArray): Unit {
-        var index = 0
-        while (index < arr.size) {
-            if (arr[index] != 0) {
-                index++
-            } else {
-                for (j in arr.lastIndex downTo index + 1) {
-                    arr[j] = arr[j - 1]
-                }
-                index += 2
-            }
-        }
-    }
-
     fun dietPlanPerformance(calories: IntArray, k: Int, lower: Int, upper: Int): Int {
         var grade = 0
         var calorie = 0

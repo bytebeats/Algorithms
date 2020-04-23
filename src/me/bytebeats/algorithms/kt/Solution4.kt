@@ -599,4 +599,138 @@ class Solution4 {
         }
         return ans
     }
+
+    fun waysToChange(n: Int): Int {//面试题 08.11
+        val coins = arrayOf(25, 10, 5, 1)
+        val mod = 1_000_000_007
+        val ans = IntArray(n + 1)
+        ans[0] = 1
+        for (i in coins.indices) {
+            for (j in coins[i]..n) {
+                ans[j] = (ans[j] + ans[j - coins[i]]) % mod
+            }
+        }
+        return ans[n]
+    }
+
+    fun numWays(n: Int, k: Int): Int {//276
+        if (n == 0 || k == 0) {
+            return 0
+        }
+        if (n == 1) {
+            return k
+        }
+        var diffColor = k * (k - 1)
+        var sameColor = k
+        var tmp = 0
+        for (i in 2 until n) {
+            tmp = diffColor
+            diffColor = (diffColor + sameColor) * (k - 1)
+            sameColor = tmp
+        }
+        return diffColor + sameColor
+    }
+
+    fun minCost(costs: Array<IntArray>): Int {//256
+        var preR = 0
+        var preG = 0
+        var preB = 0
+        var curR = 0
+        var curG = 0
+        var curB = 0
+        for (i in costs.indices) {
+            curR = Math.min(preG, preB) + costs[i][0]
+            curG = Math.min(preR, preB) + costs[i][1]
+            curB = Math.min(preG, preR) + costs[i][2]
+            preR = curR
+            preG = curG
+            preB = curB
+        }
+        return Math.min(Math.min(curR, curG), curB)
+    }
+
+    fun minCostII(costs: Array<IntArray>): Int {//265
+        if (costs.isEmpty()) {
+            return 0
+        } else if (costs[0].size == 1) {
+            return costs[0][0]
+        }
+        var minColor = -1
+        var minCost = 0
+        var secondMinCost = 0
+        costs.forEach { cost ->
+            var tmpMinColor = -1
+            var tmpMinCost = Int.MAX_VALUE
+            var tmpSecondMinCost = Int.MAX_VALUE
+            for (i in cost.indices) {
+                val thisMinCost = (if (i == minColor) secondMinCost else minCost) + cost[i]
+                if (thisMinCost < tmpMinCost) {
+                    tmpSecondMinCost = tmpMinCost
+                    tmpMinCost = thisMinCost
+                    tmpMinColor = i
+                } else if (thisMinCost < tmpSecondMinCost) {
+                    tmpSecondMinCost = thisMinCost
+                }
+            }
+            minCost = tmpMinCost
+            minColor = tmpMinColor
+            secondMinCost = tmpSecondMinCost
+        }
+        return minCost
+    }
+
+    fun duplicateZeros(arr: IntArray): Unit {//1089
+        var i = 0
+        while (i < arr.size) {
+            if (arr[i] == 0) {
+                for (j in arr.lastIndex - 1 downTo i) {
+                    arr[j + 1] = arr[j]
+                }
+                i += 2
+            } else {
+                i++
+            }
+        }
+    }
+
+    fun removeElement(nums: IntArray, `val`: Int): Int {//27
+        var size = nums.size
+        var i = 0
+        while (i < size) {
+            if (nums[i] != `val`) {
+                i++
+            } else {
+                for (j in i until size - 1) {
+                    nums[j] = nums[j + 1]
+                }
+                size--
+            }
+        }
+        return size
+    }
+
+    fun removeDuplicates(nums: IntArray): Int {//26
+        if (nums.size < 2) {
+            return nums.size
+        }
+        var size = nums.size
+        var i = -1
+        var j = 1
+        while (j < nums.size) {
+            if (nums[j] == nums[j - 1]) {
+                if (i < 0) {
+                    i = j
+                }
+                j++
+                size--
+            } else {
+                if (i > -1) {
+                    nums[i++] = nums[j++]
+                } else {
+                    j++
+                }
+            }
+        }
+        return size
+    }
 }
