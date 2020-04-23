@@ -743,17 +743,6 @@ class Solution2 {
         return a * b * c != 0 && Math.abs(a + b) > c && Math.abs(b + c) > a && Math.abs(a + c) > b
     }
 
-    fun removeDuplicates(nums: IntArray): Int {
-        if (nums.size < 2) {
-            return nums.size
-        }
-        var ans = nums.size
-        var i = 0
-        var j = 1
-
-        return ans
-    }
-
     fun shortestToChar(S: String, C: Char): IntArray {
         val ans = IntArray(S.length)
         val set = HashSet<Int>()
