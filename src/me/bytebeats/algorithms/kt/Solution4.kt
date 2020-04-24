@@ -733,4 +733,126 @@ class Solution4 {
         }
         return size
     }
+
+    fun reversePairs(nums: IntArray): Int {//面试题51
+        var ans = 0
+        if (nums.size > 1) {
+            for (i in 0 until nums.lastIndex) {
+                for (j in i + 1 until nums.size) {
+                    if (nums[i] > nums[j]) {
+                        ans++
+                    }
+                }
+            }
+        }
+        return ans
+    }
+
+    fun reversePairs1(nums: IntArray): Int {//面试题51
+        val size = nums.size
+        val tmp = IntArray(size)
+        return reversePairs(nums, tmp, 0, size - 1)
+    }
+
+    private fun reversePairs(nums: IntArray, tmp: IntArray, l: Int, r: Int): Int {//面试题51
+        if (l >= r) {
+            return 0
+        }
+        val mid = l + (r - l) / 2
+        var pairCount = reversePairs(nums, tmp, l, mid) + reversePairs(nums, tmp, mid + 1, r)
+        var i = l
+        var j = mid + 1
+        var pos = l
+        while (i <= mid && j <= r) {
+            if (nums[i] <= nums[j]) {
+                tmp[pos++] = nums[i++]
+                pairCount += (j - (mid + 1))
+            } else {
+                tmp[pos++] = nums[j++]
+            }
+        }
+        for (k in i..mid) {
+            tmp[pos++] = nums[k]
+            pairCount += (j - (mid + 1))
+        }
+        for (k in j..r) {
+            tmp[pos++] = nums[k]
+        }
+        for (i in l..r) {
+            nums[i] = tmp[i]
+        }
+        return pairCount
+    }
+
+    fun fib(n: Int): Int {//面试题10-I
+        if (n < 2) {
+            return n
+        } else {
+            var fib1 = 0
+            var fib2 = 1
+            var tmp = 0
+            var N = n
+            while (N-- > 1) {
+                tmp = fib2
+                fib2 = (fib1 + fib2) % 1_000_000_007
+                fib1 = tmp
+            }
+            return fib2
+        }
+    }
+
+    fun singleNumbers(nums: IntArray): IntArray {//面试题56-I
+        var xorVal = 0
+        nums.forEach {
+            xorVal = xorVal xor it
+        }
+        var bigEnd = 1
+        while (bigEnd and xorVal == 0) {
+            bigEnd = bigEnd shl 1
+        }
+        var a = 0
+        var b = 0
+        nums.forEach {
+            if (it and bigEnd == 0) {
+                a = a xor it
+            } else {
+                b = b xor it
+            }
+        }
+        return intArrayOf(a, b)
+    }
+
+    fun sortArrayByParity(A: IntArray): IntArray {//905
+        var i = 0
+        var j = A.lastIndex
+        var tmp = 0
+        while (i < j) {
+            while (i < j && A[i] and 1 == 0) {
+                i++
+            }
+            while (i < j && A[j] and 1 == 1) {
+                j--
+            }
+            tmp = A[i]
+            A[i] = A[j]
+            A[j] = tmp
+            i++
+            j--
+        }
+        return A
+    }
+
+    fun replaceElements(arr: IntArray): IntArray {//1299
+        for (i in 0 until arr.lastIndex) {
+            var max = Int.MIN_VALUE
+            for (j in i + 1 until arr.size) {
+                if (arr[j] > max) {
+                    max = arr[j]
+                }
+            }
+            arr[i] = max
+        }
+        arr[arr.size - 1] = -1
+        return arr
+    }
 }
