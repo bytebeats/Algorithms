@@ -986,7 +986,28 @@ class Solution4 {
 
     fun repeatedSubstringPattern(s: String): Boolean {//459
         val str = "$s$s"
-        return str.substring(1, str.length -1).contains(s)
+        return str.substring(1, str.length - 1).contains(s)
+    }
+
+    fun maximalSquare(matrix: Array<CharArray>): Int {//221
+        if (matrix.isEmpty() || matrix[0].isEmpty()) {
+            return 0
+        }
+        val row = matrix.size
+        val column = matrix[0].size
+        val dp = Array(row + 1) { IntArray(column + 1) { 0 } }
+        var max = Int.MIN_VALUE
+        for (i in 1..row) {
+            for (j in 1..column) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1
+                    if (dp[i][j] > max) {
+                        max = dp[i][j]
+                    }
+                }
+            }
+        }
+        return max * max
     }
 
 }
