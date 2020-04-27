@@ -955,4 +955,38 @@ class Solution4 {
         return ans
     }
 
+    fun hammingDistance(x: Int, y: Int): Int {//461
+        var xorVal = x xor y
+        var count = 0
+        while (xorVal != 0) {
+            if (xorVal and 1 == 1) {
+                count++
+            }
+            xorVal = xorVal shr 1
+        }
+        return count
+    }
+
+    fun totalHammingDistance(nums: IntArray): Int {//477
+        var sum = 0
+        val kHD = IntArray(32)
+        var num = 0
+        var index = 0
+        nums.forEach {
+            index = 0
+            num = it
+            while (num > 0) {
+                kHD[index++] += num and 1
+                num = num ushr 1
+            }
+        }
+        kHD.forEach { sum += it * (nums.size - it) }
+        return sum
+    }
+
+    fun repeatedSubstringPattern(s: String): Boolean {//459
+        val str = "$s$s"
+        return str.substring(1, str.length -1).contains(s)
+    }
+
 }
