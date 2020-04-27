@@ -533,7 +533,7 @@ public class ArraysQuiz {
         return res;
     }
 
-    public int maxSubArray(int[] nums) {
+    public int maxSubArray(int[] nums) {//面试题16.17
         int sum = Integer.MIN_VALUE;
         if (nums != null) {
             int tmp = 0;

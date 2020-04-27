@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.kt.design.BinaryMatrix
+import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution4 {
@@ -733,4 +734,103 @@ class Solution4 {
         }
         return size
     }
+
+    fun mergeKLists(lists: Array<ListNode?>): ListNode? {//23
+        var ans: ListNode? = null
+        if (lists.isNotEmpty()) {
+            ans = lists[0]
+            for (i in 1 until lists.size) {
+                ans = merge(lists[i], ans)
+            }
+        }
+        return ans
+    }
+
+    private fun merge(list1: ListNode?, list2: ListNode?): ListNode? {
+        var dummy = ListNode(-1)
+        val p = dummy
+        var p1 = list1
+        var p2 = list2
+        while (p1 != null && p2 != null) {
+            if (p1.`val` < p2.`val`) {
+                dummy.next = p1
+                p1 = p1.next
+            } else {
+                dummy.next = p2
+                p2 = p2.next
+            }
+            dummy = dummy.next
+        }
+        while (p1 != null) {
+            dummy.next = p1
+            dummy = dummy.next
+            p1 = p1.next
+        }
+        while (p2 != null) {
+            dummy.next = p2
+            dummy = dummy.next
+            p2 = p2.next
+        }
+        return p.next
+    }
+
+    fun longestCommonSubsequence(text1: String, text2: String): Int {//1143
+        if (text1 == text2) {
+            return text1.length
+        }
+        val row = text1.length
+        val column = text2.length
+        val matrix = Array(row + 1) { IntArray(column + 1) }//loop
+        for (i in 1 until row + 1) {
+            for (j in 1 until column + 1) {
+                if (text1[i - 1] == text2[j - 1]) {
+                    matrix[i][j] = 1 + matrix[i - 1][j - 1]
+                } else {
+                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i][j - 1])
+                }
+            }
+        }
+        return matrix[row][column]
+    }
+
+    fun longestCommonSubsequence(text1: String, m: Int, text2: String, n: Int): Int {//dp
+        if (m < 0 || n < 0) {
+            return 0
+        } else if (text1[m] == text2[n]) {
+            return 1 + longestCommonSubsequence(text1, m - 1, text2, n - 1)
+        } else {
+            return Math.max(
+                longestCommonSubsequence(text1, m, text2, n - 1),
+                longestCommonSubsequence(text1, m - 1, text2, n)
+            )
+        }
+    }
+
+    fun heightChecker(heights: IntArray): Int {//1051
+        val arr = IntArray(101)
+        heights.forEach { arr[it]++ }
+        var j = 0
+        var count = 0
+        for (i in 1..arr.lastIndex) {
+            while (arr[i]-- > 0) {
+                if (heights[j++] != i) {
+                    count++
+                }
+            }
+        }
+        return count
+    }
+
+    fun findDisappearedNumbers(nums: IntArray): List<Int> {//448
+        val set = mutableSetOf<Int>()
+        nums.forEach { set.add(it) }
+        val ans = mutableListOf<Int>()
+        for (i in 1..nums.size) {
+            if (!set.contains(i)) {
+                ans.add(i)
+            }
+        }
+        return ans
+    }
+
 }
