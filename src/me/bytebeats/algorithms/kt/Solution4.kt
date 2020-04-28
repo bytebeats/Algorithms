@@ -1089,4 +1089,92 @@ class Solution4 {
         return count
     }
 
+    fun expectNumber(scores: IntArray): Int {//LCP 11
+        var count = scores.size
+        if (scores.isNotEmpty()) {
+            scores.sort()
+            for (i in 1 until scores.size) {
+                if (scores[i] == scores[i - 1]) {
+                    count--
+                }
+            }
+        }
+        return count
+    }
+
+    fun expectNumber1(scores: IntArray): Int {//LCP 11
+        val set = mutableSetOf<Int>()
+        scores.forEach { set.add(it) }
+        return set.size
+    }
+
+    fun largestUniqueNumber(A: IntArray): Int {//1133
+        val unrepeated = linkedSetOf<Int>()
+        val repeated = linkedSetOf<Int>()
+        for (i in A.indices) {
+            if (repeated.contains(A[i])) {
+                continue
+            } else if (unrepeated.contains(A[i])) {
+                unrepeated.remove(A[i])
+                repeated.add(A[i])
+            } else {
+                unrepeated.add(A[i])
+            }
+        }
+        if (unrepeated.isEmpty()) {
+            return -1
+        } else {
+            return unrepeated.max() ?: 0
+        }
+    }
+
+    fun firstUniqChar(s: String): Int {//387
+        val unrepeated = linkedSetOf<Char>()
+        val repeated = linkedSetOf<Char>()
+        for (i in s.indices) {
+            if (repeated.contains(s[i])) {
+                continue
+            } else if (unrepeated.contains(s[i])) {
+                unrepeated.remove(s[i])
+                repeated.add(s[i])
+            } else {
+                unrepeated.add(s[i])
+            }
+        }
+        for (i in s.indices) {
+            if (unrepeated.contains(s[i])) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    fun minNumberOfFrogs(croakOfFrogs: String): Int {//1419
+        if (croakOfFrogs.isEmpty()) {
+            return 0
+        }
+        if (croakOfFrogs.length % 5 != 0) {
+            return -1
+        }
+        val croak = mapOf('c' to 0, 'r' to 1, 'o' to 2, 'a' to 3, 'k' to 4)
+        val croaks = IntArray(5)
+        var ans = 0
+        croakOfFrogs.forEach {
+            val idx = croak[it] ?: 0
+            croaks[idx]++
+            ans = Math.max(ans, croaks[idx])
+            for (i in 0 until idx) {
+                if (croaks[i] < croaks[idx]) {
+                    return -1
+                }
+            }
+            if (idx == 4) {
+                for (i in croaks.indices) {
+                    croaks[i]--
+                }
+            }
+        }
+        return ans
+    }
+
 }
