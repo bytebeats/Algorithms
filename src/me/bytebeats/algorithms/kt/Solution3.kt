@@ -993,29 +993,6 @@ class Solution3 {
         return ans
     }
 
-    fun minJump(jump: IntArray): Int {
-        return minJump(0, jump, 0)
-    }
-
-    private fun minJump(index: Int, jump: IntArray, count: Int): Int {
-        if (index > jump.lastIndex) {
-            return count
-        } else if (index + jump[index] >= jump.size) {
-            return count + 1
-        } else {
-            var next = 0
-            for (i in 0 until index) {
-                if (i + jump[i] > next) {
-                    next = i + jump[i]
-                }
-            }
-            if (next >= jump.size) {
-                return count + 2
-            }
-            return Math.min(minJump(next, jump, count + 2), minJump(index + jump[index], jump, count + 1))
-        }
-    }
-
     fun getTriggerTime1(increase: Array<IntArray>, requirements: Array<IntArray>): IntArray {
         val ans = IntArray(requirements.size) { -1 }
         val increases = IntArray(3) { 0 }

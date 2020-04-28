@@ -1010,4 +1010,83 @@ class Solution4 {
         return max * max
     }
 
+    fun exchange(nums: IntArray): IntArray {//面试题21
+        var i = 0
+        var j = nums.lastIndex
+        var tmp = 0
+        while (i < j) {
+            while (j > i && nums[j] and 1 == 0) {
+                j--
+            }
+            while (i < j && nums[i] and 1 == 1) {
+                i++
+            }
+            if (i < j) {
+                tmp = nums[i]
+                nums[i] = nums[j]
+                nums[j] = tmp
+            }
+        }
+        return nums
+    }
+
+    fun spiralOrder(matrix: Array<IntArray>): IntArray {//面试题29
+        if (matrix.isEmpty() || matrix[0].isEmpty()) {
+            return IntArray(0)
+        }
+        val row = matrix.size
+        val column = matrix[0].size
+        val seen = Array(row) { BooleanArray(column) { false } }
+        val dr = intArrayOf(0, 1, 0, -1)
+        val dc = intArrayOf(1, 0, -1, 0)
+        var r = 0
+        var c = 0
+        var di = 0
+        var cr = 0
+        var cc = 0
+        val ans = IntArray(row * column)
+        for (i in 0 until row * column) {
+            ans[i] = matrix[r][c]
+            seen[r][c] = true
+            cr = r + dr[di]
+            cc = c + dc[di]
+            if (cr > -1 && cr < row && cc > -1 && cc < column && !seen[cr][cc]) {
+                r = cr
+                c = cc
+            } else {
+                di = (di + 1) % 4
+                r += dr[di]
+                c += dc[di]
+            }
+        }
+        return ans
+    }
+
+    fun minJump(jump: IntArray): Int {//LCP 09
+        var count = 1000000000
+        val f = IntArray(10_000_000 + 7)
+        val maxDistance = IntArray(10_000_000 + 7)
+        var w = 0
+        for (i in 1..jump.size) {
+            f[i] = 1000000000
+            maxDistance[i] = 0
+        }
+        f[1] = 0
+        maxDistance[0] = 1
+        for (i in 1..jump.size) {
+            if (i > maxDistance[w]) {
+                w++
+            }
+            f[i] = Math.min(f[i], w + 1)
+            val next = i + jump[i - 1]
+            if (next > jump.size) {
+                count = Math.min(count, f[i] + 1)
+            } else if (f[next] > f[i] + 1) {
+                f[next] = f[i] + 1
+                maxDistance[f[next]] = Math.max(maxDistance[f[next]], next)
+            }
+        }
+        return count
+    }
+
 }
