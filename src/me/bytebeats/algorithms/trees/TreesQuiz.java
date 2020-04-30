@@ -2,6 +2,7 @@ package me.bytebeats.algorithms.trees;
 
 import me.bytebeats.algorithms.meta.ListNode;
 import me.bytebeats.algorithms.meta.TreeNode;
+import me.bytebeats.algorithms.meta.TreeNode2;
 
 import java.util.*;
 
@@ -1022,5 +1023,38 @@ public class TreesQuiz {
             }
         }
         return null;
+    }
+
+    public TreeNode2 connect(TreeNode2 root) {//117
+        if (root != null) {
+            Queue<TreeNode2> queue = new LinkedList<>();
+            TreeNode2 p = null;
+            queue.offer(root);
+            int countDown = 1;
+            int count = 0;
+            List<TreeNode2> list = new LinkedList<>();
+            while (!queue.isEmpty()) {
+                p = queue.poll();
+                list.add(p);
+                countDown--;
+                if (p.left != null) {
+                    count++;
+                    queue.offer(p.left);
+                }
+                if (p.right != null) {
+                    count++;
+                    queue.offer(p.right);
+                }
+                if (countDown == 0) {
+                    countDown = count;
+                    count = 0;
+                    for (int i = 1; i < list.size(); i++) {
+                        list.get(i - 1).next = list.get(i);
+                    }
+                    list.clear();
+                }
+            }
+        }
+        return root;
     }
 }

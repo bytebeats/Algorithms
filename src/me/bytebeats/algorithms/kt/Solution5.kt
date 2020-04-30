@@ -64,4 +64,21 @@ class Solution5 {
         connect(right.left, right.right)
         connect(left.right, right.left)
     }
+
+    fun isValidSequence(root: TreeNode?, arr: IntArray): Boolean {
+        return isValidSequence(root, arr, 0)
+    }
+
+    fun isValidSequence(node: TreeNode?, arr: IntArray, index: Int): Boolean {
+        if (node == null) {
+            return arr.isEmpty()
+        } else if (index > arr.lastIndex) {
+            return false
+        } else if (index == arr.lastIndex && node.left == null && node.right == null && arr[index] == node.`val`) {
+            return true
+        } else {
+            return index < arr.size && node.`val` == arr[index] &&
+                    (isValidSequence(node.left, arr, index + 1) || isValidSequence(node.right, arr, index + 1))
+        }
+    }
 }
