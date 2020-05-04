@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.kt.design.BinaryMatrix
+import me.bytebeats.algorithms.kt.design.MountainArray
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
 
@@ -1175,6 +1176,138 @@ class Solution4 {
             }
         }
         return ans
+    }
+
+    fun findInMountainArray(target: Int, mountainArr: MountainArray): Int {//1095
+        val length = mountainArr.length()
+        if (length < 3) {
+            return -1
+        }
+        var low = 0
+        var high = length - 1
+        var mid = 0
+        while (low < high) {//find peak
+            mid = low + (high - low) / 2
+            if (mountainArr.get(mid) < mountainArr.get(mid + 1)) {
+                low = mid + 1
+            } else {
+                high = mid
+            }
+        }
+        var peak = low
+        if (peak != -1) {
+            low = 0
+            high = peak
+            while (low <= high) {
+                mid = low + (high - low) / 2
+                val midVal = mountainArr.get(mid)
+                if (midVal < target) {
+                    low = mid + 1
+                } else if (midVal > target) {
+                    high = mid - 1
+                } else {
+                    return mid
+                }
+            }
+            low = peak + 1
+            high = length - 1
+            while (low <= high) {
+                mid = low + (high - low) / 2
+                val midVal = mountainArr.get(mid)
+                if (midVal < target) {
+                    high = mid - 1
+                } else if (midVal > target) {
+                    low = mid + 1
+                } else {
+                    return mid
+                }
+            }
+        }
+        return -1
+    }
+
+    fun countNegatives(grid: Array<IntArray>): Int {//1531
+        val row = grid.size
+        val column = grid[0].size
+        var pos = column - 1
+        var k = 0
+        var count = 0
+        for (i in 0 until row) {
+            if (grid[i][column - 1] >= 0) {
+                continue
+            } else {
+                k = -1
+                for (j in pos downTo 0) {
+                    if (grid[i][j] >= 0) {
+                        k = j
+                        break
+                    }
+                }
+                if (k != -1) {
+                    count += (column - k - 1)
+                    pos = k
+                } else {
+                    count += column
+                }
+            }
+        }
+        return count
+    }
+
+    fun sumOfDigits(A: IntArray): Int {//1085
+        var min = A.min() ?: 0
+        var sum = 0
+        while (min != 0) {
+            sum += min % 10
+            min /= 10
+        }
+        return if (sum and 1 == 0) 1 else 0
+    }
+
+    fun searchMatrix(matrix: Array<IntArray>, target: Int): Boolean {//74
+        if (matrix.isEmpty() || matrix[0].isEmpty()) {
+            return false
+        }
+        val row = matrix.size
+        val column = matrix[0].size
+        var low = 0
+        var high = row * column - 1
+        var mid = 0
+        var x = 0
+        var y = 0
+        while (low <= high) {
+            mid = low + (high - low) / 2
+            x = mid / column
+            y = mid % column
+            if (matrix[x][y] > target) {
+                high = mid - 1
+            } else if (matrix[x][y] < target) {
+                low = mid + 1
+            } else {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun searchMatrix1(matrix: Array<IntArray>, target: Int): Boolean {//240
+        if (matrix.isEmpty() || matrix[0].isEmpty()) {
+            return false
+        }
+        val row = matrix.size
+        val column = matrix[0].size
+        var x = 0
+        var y = column - 1
+        while (x < row && y > -1) {
+            if (matrix[x][y] < target) {
+                x++
+            } else if (matrix[x][y] > target) {
+                y--
+            } else {
+                return true
+            }
+        }
+        return false
     }
 
 }

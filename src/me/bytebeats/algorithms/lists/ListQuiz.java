@@ -66,7 +66,7 @@ public class ListQuiz {
         return reverseList(longList);
     }
 
-    ListNode reverseList(ListNode listNode) {//there should be a better solution
+    public ListNode reverseList(ListNode listNode) {//there should be a better solution
         ListNode head = null;
         ListNode p = listNode;
         while (p != null) {
