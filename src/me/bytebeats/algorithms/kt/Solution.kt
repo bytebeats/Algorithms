@@ -1414,10 +1414,9 @@ class Solution {
         return ((sum + absDiff) / 2).toInt()
     }
 
-    fun findComplement(num: Int): Int {
+    fun findComplement(num: Int): Int {//476
         var tmp = 1L
         while (num >= tmp) {
-            println(tmp)
             tmp = tmp shl 1
         }
         return (tmp - 1 - num).toInt()
