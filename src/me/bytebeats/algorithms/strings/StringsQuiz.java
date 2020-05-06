@@ -467,7 +467,7 @@ public class StringsQuiz {
         return (p1[0] - p2[0]) * (p1[0] - p2[0]) + (p1[1] - p2[1]) * (p1[1] - p2[1]);
     }
 
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring(String s) {//3
         List<Set<Character>> subs = new ArrayList<>();
         Set<Character> element = new HashSet<>();
         subs.add(element);
