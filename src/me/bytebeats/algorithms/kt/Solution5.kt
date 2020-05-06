@@ -241,4 +241,28 @@ class Solution5 {
         }
         return maxSum / k
     }
+
+    fun findMaxAverage1(nums: IntArray, k: Int): Double {//644
+        var maxAvg = Double.MIN_VALUE
+        var flag = false
+        for (i in k..nums.size) {
+            var sum = 0.0
+            for (j in 0..i - 2) {
+                sum += nums[j]
+            }
+            var maxSum = sum + nums[i - 1]
+            for (j in i - 1 until nums.size) {
+                sum += nums[j]
+                maxSum = Math.max(maxSum, sum)
+                sum -= nums[j - i + 1]
+            }
+            if (!flag) {
+                maxAvg = maxSum / i
+                flag = !flag
+            } else {
+                maxAvg = Math.max(maxAvg, maxSum / i)
+            }
+        }
+        return maxAvg
+    }
 }
