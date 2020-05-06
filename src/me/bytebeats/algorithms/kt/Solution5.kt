@@ -81,4 +81,143 @@ class Solution5 {
                     (isValidSequence(node.left, arr, index + 1) || isValidSequence(node.right, arr, index + 1))
         }
     }
+
+    fun mincostTickets(days: IntArray, costs: IntArray): Int {//983
+        return dp(days, costs, 0, Array(days.size) { null })
+    }
+
+    private fun dp(
+        days: IntArray,
+        costs: IntArray,
+        i: Int,
+        memo: Array<Int?>,
+        durations: IntArray = intArrayOf(1, 7, 30)
+    ): Int {
+        if (i >= days.size) {
+            return 0
+        }
+        if (memo[i] != null) {
+            return memo[i]!!
+        }
+        memo[i] = Int.MAX_VALUE
+        var j = i
+        for (k in durations.indices) {
+            while (j < days.size && days[j] < days[i] + durations[k]) {
+                j++
+            }
+            memo[i] = Math.min(memo[i]!!, dp(days, costs, j, memo) + costs[k])
+        }
+        return memo[i]!!
+    }
+
+    fun coinChange(coins: IntArray, amount: Int): Int {//322
+        if (coins.isNotEmpty() && amount >= 0) {
+            val matrix = Array(amount + 1) { -1 }
+            matrix[0] = 0
+            var diff = 0
+            for (i in 1..amount) {
+                for (j in coins.indices) {
+                    diff = i - coins[j]
+                    if (diff >= 0 && matrix[diff] > -1) {
+                        if (matrix[i] == -1) {
+                            matrix[i] = matrix[diff] + 1
+                        } else {
+                            matrix[i] = Math.min(matrix[i], matrix[diff] + 1)
+                        }
+                    }
+                }
+            }
+            return matrix[amount]
+        }
+        return -1
+    }
+
+    fun majorityElement(nums: IntArray): Int {//169
+        nums.sort()
+        return nums[nums.size / 2]
+    }
+
+    fun majorityElement1(nums: IntArray): List<Int> {//229, Moore voting
+        val ans = mutableListOf<Int>()
+        if (nums.isNotEmpty()) {
+            //initialize two candidates
+            var candidate1 = nums.first()
+            var voting1 = 0
+            var candidate2 = nums.first()
+            var voting2 = 0
+            for (i in nums.indices) {//配对阶段
+                //投票
+                if (candidate1 == nums[i]) {
+                    voting1++
+                    continue
+                }
+                if (candidate2 == nums[i]) {
+                    voting2++
+                    continue
+                }
+                //第一个候选人配对
+                if (voting1 == 0) {
+                    candidate1 = nums[i]
+                    voting1++
+                    continue
+                }
+                if (voting2 == 0) {
+                    candidate2 = nums[i]
+                    voting2++
+                    continue
+                }
+                voting1--
+                voting2--
+            }
+            voting1 = 0
+            voting2 = 0
+            for (i in nums.indices) {//计数阶段, 找到两个候选人之后, 确定票数是否 >=3
+                if (candidate1 == nums[i]) {
+                    voting1++
+                } else if (candidate2 == nums[i]) {
+                    voting2++
+                }
+            }
+            if (voting1 > nums.size / 3) {
+                ans.add(candidate1)
+            }
+            if (voting2 > nums.size / 3) {
+                ans.add(candidate2)
+            }
+        }
+        return ans
+    }
+
+    fun isMajorityElement(nums: IntArray, target: Int): Boolean {//1150
+        if (nums.isNotEmpty() && target == nums[nums.size / 2]) {
+            var count = 1
+            val half = nums.size / 2
+            var i = half
+            while (--i > -1 && nums[i] == target) {
+                count++
+            }
+            i = half
+            while (++i < nums.size && nums[i] == target) {
+                count++
+            }
+            return count > half
+        }
+        return false
+    }
+
+    fun findMaxAverage(nums: IntArray, k: Int): Double {//643
+        var sum = 0.0
+        for (i in 0 until k - 1) {
+            sum += nums[i]
+        }
+        var maxSum = sum + nums[k - 1]
+        for (i in k - 1 until nums.size) {
+            sum += nums[i]
+            if (sum > maxSum) {
+                maxSum = sum
+            }
+            sum -= nums[i - k + 1]
+        }
+        return maxSum / k
+    }
 }
