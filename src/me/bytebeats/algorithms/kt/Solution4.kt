@@ -923,8 +923,8 @@ class Solution4 {
             return 1 + longestCommonSubsequence(text1, m - 1, text2, n - 1)
         } else {
             return Math.max(
-                longestCommonSubsequence(text1, m, text2, n - 1),
-                longestCommonSubsequence(text1, m - 1, text2, n)
+                    longestCommonSubsequence(text1, m, text2, n - 1),
+                    longestCommonSubsequence(text1, m - 1, text2, n)
             )
         }
     }
@@ -1310,4 +1310,73 @@ class Solution4 {
         return false
     }
 
+    fun bitwiseComplement(N: Int): Int {//1009
+        if (N == 0) {
+            return 1
+        }
+        var ans = 1L
+        while (ans <= N) {
+            ans = ans shl 1
+        }
+        return (ans - 1 - N).toInt()
+    }
+
+    fun toHex(num: Int): String {//405
+        if (num == 0) {
+            return "0"
+        }
+        val hexChars = "0123456789abcdef"
+        var n = num
+        val ans = StringBuilder()
+        while (ans.length < 8 || n != 0) {
+            ans.append(hexChars[n and 0xf])
+            n = n shr 4
+        }
+        return ans.reverse().toString()
+    }
+
+    fun sortByBits(arr: IntArray): IntArray {//1356
+        return arr.groupBy { count1s(it) }.toSortedMap().flatMap { it.value.sorted() }.toIntArray()
+    }
+
+    private fun count1s(num: Int): Int {
+        var count = 0
+        var n = num
+        while (n != 0) {
+            if (n and 1 == 1) {
+                count++
+            }
+            n = n shr 1
+        }
+        return count
+    }
+
+    fun countBits(num: Int): IntArray {//338
+        val ans = IntArray(num + 1)
+        for (i in 0..num) {
+            ans[i] = bitCount(i)
+        }
+        return ans
+    }
+
+    private fun bitCount(num: Int): Int {
+        var i = num
+        i -= i ushr 1 and 1431655765
+        i = (i and 858993459) + (i ushr 2 and 858993459)
+        i = i + (i ushr 4) and 252645135
+        i += i ushr 8
+        i += i ushr 16
+        return i and 63
+    }
+
+    fun getDecimalValue(head: ListNode?): Int {//1290
+        var ans = 0
+        var p = head
+        while (p != null) {
+            ans *= 2
+            ans += p.`val`
+            p = p.next
+        }
+        return ans
+    }
 }

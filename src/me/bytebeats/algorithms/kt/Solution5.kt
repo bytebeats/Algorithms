@@ -82,6 +82,27 @@ class Solution5 {
         }
     }
 
+    fun singleNumber(nums: IntArray): IntArray {//260
+        var xorV = 0
+        for (num in nums) {
+            xorV = xorV xor num
+        }
+        var d = 1
+        while (d and xorV == 0) {
+            d = d shl 1
+        }
+        var a = 0
+        var b = 0
+        for (num in nums) {
+            if (num and d == 0) {
+                a = a xor num
+            } else {
+                b = b xor num
+            }
+        }
+        return intArrayOf(a, b)
+    }
+
     fun mincostTickets(days: IntArray, costs: IntArray): Int {//983
         return dp(days, costs, 0, Array(days.size) { null })
     }
