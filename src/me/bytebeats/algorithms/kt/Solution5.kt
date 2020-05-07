@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.kt.design.Employee
+import me.bytebeats.algorithms.kt.design.NestedInteger
 import me.bytebeats.algorithms.meta.TreeNode
 import me.bytebeats.algorithms.meta.TreeNode2
 
@@ -392,6 +393,87 @@ class Solution5 {
                 return node
             }
         }
+    }
+
+    fun depthSum(nestedList: List<NestedInteger>): Int {// 339
+        var sum = 0
+        val list = mutableListOf<NestedInteger>()
+        list.addAll(nestedList)
+        var depth = 1
+        val sub = mutableListOf<NestedInteger>()
+        while (list.isNotEmpty()) {
+            list.forEach {
+                if (it.isInteger()) {
+                    sum += depth * (it.getInteger() ?: 0)
+                }
+                it.getList()?.apply {
+                    sub.addAll(this)
+                }
+            }
+            depth++
+            list.clear()
+            list.addAll(sub)
+            sub.clear()
+        }
+        return sum
+    }
+
+    fun depthSumInverse(nestedList: List<NestedInteger>): Int {//364
+        var sum = 0
+        val list = mutableListOf<NestedInteger>()
+        list.addAll(nestedList)
+        var depth = 1
+        val sub = mutableListOf<NestedInteger>()
+        while (list.isNotEmpty()) {//computing max depth
+            list.forEach {
+                it.getList()?.apply {
+                    sub.addAll(this)
+                }
+            }
+            depth++
+            list.clear()
+            list.addAll(sub)
+            sub.clear()
+        }
+        list.addAll(nestedList)
+        sub.clear()
+        while (list.isNotEmpty()) {
+            depth--
+            list.forEach {
+                if (it.isInteger()) {
+                    sum += depth * (it.getInteger() ?: 0)
+                }
+                it.getList()?.apply {
+                    sub.addAll(this)
+                }
+            }
+            list.clear()
+            list.addAll(sub)
+            sub.clear()
+        }
+        return sum
+    }
+
+    fun arrayNesting(nums: IntArray): Int {//565
+        var ans = 0
+        val visited = BooleanArray(nums.size) { false }
+        var start = 0
+        var count = 0
+        for (i in nums.indices) {
+            if (!visited[i]) {
+                start = nums[i]
+                count = 0
+                do {
+                    start = nums[start]
+                    count++
+                    visited[start] = true
+                } while (start != nums[i])
+                if (count > ans) {
+                    ans = count
+                }
+            }
+        }
+        return ans
     }
 
 }
