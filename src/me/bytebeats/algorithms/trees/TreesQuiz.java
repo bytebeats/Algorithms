@@ -1057,4 +1057,47 @@ public class TreesQuiz {
         }
         return root;
     }
+
+    public boolean isCousins(TreeNode root, int x, int y) {//993
+        if (root != null) {
+            Queue<TreeNode> queue = new LinkedList<>();
+            TreeNode p = null;
+            queue.offer(root);
+            int countDown = 1;
+            int count = 0;
+            int depth = 0;
+            int xDepth = 0;
+            int yDepth = 0;
+            while (!queue.isEmpty()) {
+                p = queue.poll();
+                countDown--;
+                if (p.left != null && p.right != null) {
+                    if (p.left.val == x && p.right.val == y || p.left.val == y && p.right.val == x) {
+                        return false;
+                    }
+                }
+                if (p.val == x) {
+                    xDepth = depth;
+                }
+                if (p.val == y) {
+                    yDepth = depth;
+                }
+                if (p.left != null) {
+                    queue.offer(p.left);
+                    count++;
+                }
+                if (p.right != null) {
+                    queue.offer(p.right);
+                    count++;
+                }
+                if (countDown == 0) {
+                    countDown = count;
+                    count = 0;
+                    depth++;
+                }
+            }
+            return xDepth == yDepth;
+        }
+        return false;
+    }
 }

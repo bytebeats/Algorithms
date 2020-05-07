@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.kt.design.Employee
 import me.bytebeats.algorithms.meta.TreeNode
 import me.bytebeats.algorithms.meta.TreeNode2
 
@@ -265,4 +266,132 @@ class Solution5 {
         }
         return maxAvg
     }
+
+    fun isSubtree(s: TreeNode?, t: TreeNode?): Boolean {//572
+        if (s == null) {
+            return t == null
+        } else {
+            var flag = isSameTree(s, t)
+            if (s.left != null) {
+                flag = flag or isSubtree(s?.left, t)
+            }
+            if (s.right != null) {
+                flag = flag or isSubtree(s?.right, t)
+            }
+            return flag
+        }
+    }
+
+    private fun isSameTree(s: TreeNode?, t: TreeNode?): Boolean {
+        if (s == null && t == null) {
+            return true
+        } else if (s != null && t != null) {
+            return s.`val` == t.`val` && isSameTree(s.left, t.left) && isSameTree(s.right, t.right)
+        } else {
+            return false
+        }
+    }
+
+    fun getImportance(employees: List<Employee?>, id: Int): Int {//690
+        var count = 0
+        val set = mutableSetOf<Int>()
+        set.add(id)
+        val sub = mutableSetOf<Int>()
+        while (set.isNotEmpty()) {
+            set.forEach { id ->
+                employees.first { it?.id == id }?.apply {
+                    count += importance
+                    subordinates?.apply { sub.addAll(this) }
+                }
+            }
+            set.clear()
+            set.addAll(sub)
+            sub.clear()
+        }
+        return count
+    }
+
+    fun countUnivalSubtrees(root: TreeNode?): Int {//250
+        val map = mutableMapOf<Int, Int>()
+        traverse(root, map)
+        for (key in map.keys) {
+            count(root, key, map)
+        }
+        map.forEach { t, u -> println("$t, $u") }
+        return map.entries.filter { it.value > 1 }.map { it.value }.sum()
+    }
+
+    private fun count(node: TreeNode?, `val`: Int, map: MutableMap<Int, Int>) {
+        node?.apply {
+            if (isUnivalSubtree(this, `val`)) {
+                map.compute(`val`) { _, v -> if (v == null) 1 else v + 1 }
+            }
+            if (left != null) {
+                count(left, `val`, map)
+            }
+            if (right != null) {
+                count(right, `val`, map)
+            }
+        }
+    }
+
+    private fun isUnivalSubtree(root: TreeNode?, `val`: Int): Boolean {
+        if (root == null) {
+            return true
+        }
+        return root.`val` == `val` && isUnivalSubtree(root.left, `val`) && isUnivalSubtree(root.right, `val`)
+    }
+
+    private fun traverse(root: TreeNode?, map: MutableMap<Int, Int>) {
+        if (root == null) {
+            return
+        }
+        if (!map.containsKey(root.`val`)) {
+            map[root.`val`] = 0
+        }
+        if (root.left != null) {
+            traverse(root.left, map)
+        }
+        if (root.right != null) {
+            traverse(root.right, map)
+        }
+    }
+
+    fun constructMaximumBinaryTree(nums: IntArray): TreeNode? {//654
+        return constructMaximumBinaryTree(nums, 0, nums.lastIndex)
+    }
+
+    fun constructMaximumBinaryTree(nums: IntArray, left: Int, right: Int): TreeNode? {//654
+        if (left > right) {
+            return null
+        }
+        var max = nums[left]
+        var index = left
+        for (i in left..right) {
+            if (nums[i] > max) {
+                max = nums[i]
+                index = i
+            }
+        }
+        val root = TreeNode(max)
+        root.left = constructMaximumBinaryTree(nums, left, index - 1)
+        root.right = constructMaximumBinaryTree(nums, index + 1, right)
+        return root
+    }
+
+    fun insertIntoMaxTree(root: TreeNode?, `val`: Int): TreeNode? {//998
+        if (root == null) {
+            return TreeNode(`val`)
+        } else {
+            if (root.`val` > `val`) {
+                root.right = insertIntoMaxTree(root.right, `val`)
+                return root
+            } else {
+                val node = TreeNode(`val`)
+                node.left = root
+                return node
+            }
+        }
+    }
+
 }
