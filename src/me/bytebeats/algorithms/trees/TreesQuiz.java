@@ -1100,4 +1100,38 @@ public class TreesQuiz {
         }
         return false;
     }
+
+    public List<Integer> largestValues(TreeNode root) {//515
+        List<Integer> ans = new ArrayList<>();
+        if (root != null) {
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.offer(root);
+            TreeNode p = null;
+            int countDown = 1;
+            int count = 0;
+            int max = Integer.MIN_VALUE;
+            while (!queue.isEmpty()) {
+                p = queue.poll();
+                if (p.val > max) {
+                    max = p.val;
+                }
+                countDown--;
+                if (p.left != null) {
+                    count++;
+                    queue.offer(p.left);
+                }
+                if (p.right != null) {
+                    count++;
+                    queue.offer(p.right);
+                }
+                if (countDown == 0) {
+                    ans.add(max);
+                    countDown = count;
+                    count = 0;
+                    max = Integer.MIN_VALUE;
+                }
+            }
+        }
+        return ans;
+    }
 }

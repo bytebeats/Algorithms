@@ -719,4 +719,19 @@ class Solution5 {
         }
     }
 
+    fun findMode(root: TreeNode?): IntArray {//501
+        val map = mutableMapOf<Int, Int>()
+        countMode(root, map)
+        val max = map.values.max()
+        return map.entries.filter { it.value == max }.map { it.key }.toIntArray()
+    }
+
+    private fun countMode(root: TreeNode?, map: MutableMap<Int, Int>) {
+        root?.apply {
+            map.compute(`val`) { _, v -> if (v == null) 1 else v + 1 }
+            left?.apply { countMode(this@apply, map) }
+            right?.apply { countMode(this@apply, map) }
+        }
+    }
+
 }
