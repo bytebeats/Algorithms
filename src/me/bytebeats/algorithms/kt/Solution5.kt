@@ -621,4 +621,102 @@ class Solution5 {
         return true
     }
 
+    fun balanceBST(root: TreeNode?): TreeNode? {//1382
+        val list = mutableListOf<Int>()
+        midReversal(root, list)
+        return createBST(list, 0, list.lastIndex)
+    }
+
+    private fun createBST(list: MutableList<Int>, left: Int, right: Int): TreeNode? {
+        if (left < 0 || left > right || right > list.lastIndex) {
+            return null
+        }
+        val mid = left + (right - left) / 2
+        val root = TreeNode(list[mid])
+        root.left = createBST(list, left, mid - 1)
+        root.right = createBST(list, mid + 1, right)
+        return root
+    }
+
+    private fun midReversal(root: TreeNode?, list: MutableList<Int>) {
+        if (root == null) {
+            return
+        }
+        midReversal(root.left, list)
+        list.add(root.`val`)
+        midReversal(root.right, list)
+    }
+
+    fun twoSumBSTs(root1: TreeNode?, root2: TreeNode?, target: Int): Boolean {//1214
+        if (root1 == null) {
+            return false
+        }
+        return sumBSTs(root1.`val`, root2, target) || twoSumBSTs(root1.left, root2, target) || twoSumBSTs(
+            root1.right,
+            root2,
+            target
+        )
+    }
+
+    private fun sumBSTs(`val`: Int, root2: TreeNode?, target: Int): Boolean {
+        if (root2 == null) {
+            return false
+        }
+        return `val` + root2.`val` == target || sumBSTs(`val`, root2.left, target) || sumBSTs(
+            `val`,
+            root2.right,
+            target
+        )
+    }
+
+    var maxSum: Int? = null
+    fun maxSumBST(root: TreeNode?): Int {//1373
+        maxSum = null
+        reverse(root)
+        return if (maxSum ?: 0 < 0) 0 else maxSum!!
+    }
+
+    private fun reverse(root: TreeNode?) {
+        if (root == null) {
+            return
+        }
+        if (isBST(root)) {
+            sumBST(root)
+        }
+        reverse(root.left)
+        reverse(root.right)
+    }
+
+    private fun isBST(root: TreeNode?): Boolean {
+        if (root == null || root.left == null && root.right == null) {
+            return true
+        } else if (root.left != null && root.right != null) {
+            return root.`val` > root.left.`val` && root.`val` < root.right.`val` && isBST(root.left) && isBST(root.right)
+        } else if (root.left != null) {
+            return root.`val` > root.left.`val` && isBST(root.left)
+        } else {
+            return root.`val` < root.right.`val` && isBST(root.right)
+        }
+    }
+
+    private fun sumBST(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        } else {
+            var sum = root.`val`
+            if (root.left != null) {
+                sum += sumBST(root.left)
+            }
+            if (root.right != null) {
+                sum += sumBST(root.right)
+            }
+            if (maxSum == null) {
+                maxSum = sum
+            } else if (maxSum!! < sum) {
+                maxSum = sum
+            }
+            return sum
+        }
+    }
+
 }
