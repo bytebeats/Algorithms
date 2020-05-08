@@ -613,7 +613,7 @@ public class TreesQuiz {
         return head;
     }
 
-    public boolean findTarget(TreeNode root, int k) {
+    public boolean findTarget(TreeNode root, int k) {//1214
         if (root == null || root.left == null && root.right == null) {
             return false;
         }
