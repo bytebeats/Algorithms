@@ -476,4 +476,149 @@ class Solution5 {
         return ans
     }
 
+    fun findPairs(nums: IntArray, k: Int): Int {//532
+        var count = 0
+        nums.sort()
+        var left = 0
+        var right = 1
+        var diff = 0
+        while (right < nums.size) {
+            diff = nums[right] - nums[left]
+            if (diff < k) {
+                right++
+            } else if (diff > k) {
+                left++
+                while (left >= right) {
+                    right++
+                }
+            } else {
+                count++
+                while (right < nums.lastIndex && nums[right] == nums[right + 1]) {
+                    right++
+                }
+                while (left < right && nums[left] == nums[left + 1]) {
+                    left++
+                }
+                left++
+                do {
+                    right++
+                } while (left >= right)
+            }
+        }
+        return count
+    }
+
+    fun convertBST(root: TreeNode?): TreeNode? {//538
+        val list = mutableListOf<TreeNode>()
+        convertBST2List(root, list)
+        var sum = 0
+        var value = 0
+        for (i in list.lastIndex downTo 0) {
+            value = list[i].`val`
+            list[i].`val` += sum
+            sum += value
+        }
+        return root
+    }
+
+    fun bstToGst(root: TreeNode?): TreeNode? {//1038
+        val list = mutableListOf<TreeNode>()
+        convertBST2List(root, list)
+        var sum = 0
+        var value = 0
+        for (i in list.lastIndex downTo 0) {
+            value = list[i].`val`
+            list[i].`val` += sum
+            sum += value
+        }
+        return root
+    }
+
+    private fun convertBST2List(root: TreeNode?, list: MutableList<TreeNode>) {
+        if (root == null) {
+            return
+        }
+        convertBST2List(root.left, list)
+        list.add(root)
+        convertBST2List(root.right, list)
+    }
+
+    fun convertBiNode(root: TreeNode?): TreeNode? {//面试题17.12
+        if (root == null) {
+            return null
+        }
+        val list = mutableListOf<TreeNode>()
+        convertBST2List(root, list)
+        for (i in list.indices) {
+            list[i].left = null
+            if (i < list.lastIndex) {
+                list[i].right = list[i + 1]
+            } else {
+                list[i].right = null
+            }
+        }
+        return list[0]
+    }
+
+    fun matrixReshape(nums: Array<IntArray>, r: Int, c: Int): Array<IntArray> {//566
+        val row = nums.size
+        val column = nums[0].size
+        if (row * column != r * c) {
+            return nums
+        }
+        val ans = Array(r) { IntArray(c) }
+        for (i in 0 until r * c) {
+            ans[i / c][i % c] = nums[i / column][i % column]
+        }
+        return ans
+    }
+
+    fun canThreePartsEqualSum(A: IntArray): Boolean {//1013
+        if (A.size > 2) {
+            var sum = A.sum()
+            if (sum % 3 != 0) {
+                return false
+            }
+            val third = sum / 3
+            var pivot1 = 0
+            sum = 0
+            for (i in A.indices) {
+                sum += A[i]
+                if (sum == third) {
+                    pivot1 = i
+                    break
+                }
+            }
+            if (pivot1 < A.lastIndex - 1) {
+                var pivot2 = 0
+                sum = 0
+                for (i in pivot1 + 1 until A.lastIndex) {
+                    sum += A[i]
+                    if (sum == third) {
+                        pivot2 = i
+                        break
+                    }
+                }
+                return pivot2 in pivot1 + 1 until A.lastIndex && A.drop(pivot2 + 1).sum() == third
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+
+    fun checkStraightLine(coordinates: Array<IntArray>): Boolean {//1232
+        val point1 = coordinates.first()
+        val point2 = coordinates.last()
+        val a = point1[1] - point2[1]
+        val b = point2[0] - point1[0]
+        val c = point1[0] * point2[1] - point2[0] * point1[1]
+        for (i in 1 until coordinates.lastIndex) {
+            if (a * coordinates[i][0] + b * coordinates[i][1] + c != 0) {
+                return false
+            }
+        }
+        return true
+    }
+
 }

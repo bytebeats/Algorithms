@@ -690,7 +690,7 @@ public class TreesQuiz {
     }
 
 
-    public int getMinimumDifference(TreeNode root) {
+    public int getMinimumDifference(TreeNode root) {//530
         int minDiff = Integer.MAX_VALUE;
         if (root != null) {
             Stack<TreeNode> s = new Stack<>();
