@@ -708,9 +708,9 @@ class Solution2 {
         return preXDummy.next
     }
 
-    fun arrayPairSum(nums: IntArray): Int {
+    fun arrayPairSum(nums: IntArray): Int {//561
         nums.sort()
-        return nums.filterIndexed { index, _ -> index and 1 == 1 }.sum()
+        return nums.filterIndexed { index, _ -> index and 1 == 0 }.sum()
     }
 
     fun thirdMax(nums: IntArray): Int {
