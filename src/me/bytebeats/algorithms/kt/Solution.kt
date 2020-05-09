@@ -79,20 +79,21 @@ class Solution {
         return 1L
     }
 
-    fun isPerfectSquare(num: Int): Boolean {
+    fun isPerfectSquare(num: Int): Boolean {//367, binary search
         if (num < 1) {
             return false
         } else if (num == 1) {
             return true
         } else {
+            val n = num.toLong()
             var l = 1L
             var h: Long = (num / 2).toLong()
             var mid = 0L
             while (l <= h) {
                 mid = l + (h - l) / 2L
-                if (mid * mid == num.toLong()) {
+                if (mid * mid == n) {
                     return true
-                } else if (mid * mid > num.toLong()) {
+                } else if (mid * mid > n) {
                     h = mid - 1
                 } else {
                     l = mid + 1
