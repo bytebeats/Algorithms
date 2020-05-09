@@ -734,4 +734,87 @@ class Solution5 {
         }
     }
 
+    fun generateAbbreviations(word: String): List<String> {//320
+        val ans = mutableListOf<String>()
+        for (i in 1..word.length) {
+
+        }
+        return ans
+    }
+
+    //1035, equals to longest common sequences, which is not longest common substring
+    fun maxUncrossedLines1(A: IntArray, B: IntArray): Int {
+        val row = A.size
+        val column = B.size
+        val dp = Array(row + 1) { IntArray(column + 1) }
+        for (i in 0 until row) {
+            for (j in 0 until column) {
+                if (A[i] == B[j]) {
+                    dp[i + 1][j + 1] = dp[i][j] + 1
+                } else {
+                    dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1])
+                }
+            }
+        }
+        return dp[row][column]
+    }
+
+    fun maxUncrossedLines(A: IntArray, B: IntArray): Int {//1035
+        return maxUncrossedLines(A, 0, B, 0)
+    }
+
+    fun maxUncrossedLines(A: IntArray, a: Int, B: IntArray, b: Int): Int {
+        if (a > A.lastIndex || b > B.lastIndex) {
+            return 0
+        } else {
+            if (A[a] == B[b]) {
+                return 1 + maxUncrossedLines(A, a + 1, B, b + 1)
+            } else {
+                return Math.max(maxUncrossedLines(A, a + 1, B, b), maxUncrossedLines(A, a, B, b + 1))
+            }
+        }
+    }
+
+    fun findUnsortedSubarray(nums: IntArray): Int {//581
+        var ans = 0
+        val copy = nums.copyOfRange(0, nums.size)
+        copy.sort()
+        var start = 0
+        while (start < nums.size && copy[start] == nums[start]) {
+            start++
+        }
+        var end = nums.lastIndex
+        while (end >= start && copy[end] == nums[end]) {
+            end--
+        }
+        if (end >= start) {
+            return end - start + 1
+        } else {
+            return 0
+        }
+    }
+
+    fun pairSums(nums: IntArray, target: Int): List<List<Int>> {//面试题16.24
+        val ans = mutableListOf<MutableList<Int>>()
+        nums.sort()
+        var i = 0
+        var j = nums.lastIndex
+        var sum = 0
+        while (i < j) {
+            sum = nums[i] + nums[j]
+            if (sum > target) {
+                j--
+            } else if (sum < target) {
+                i++
+            } else {
+                val pair = mutableListOf<Int>()
+                pair.add(nums[i])
+                pair.add(nums[j])
+                ans.add(pair)
+                i++
+                j--
+            }
+        }
+        return ans
+    }
 }
