@@ -54,7 +54,7 @@ class Solution {
         return if (n and 1 == 1) halfP * halfP * x else halfP * halfP
     }
 
-    fun mySqrt(x: Int): Int {
+    fun mySqrt(x: Int): Int {//69
         if (x == 0) {
             return 0
         } else {
