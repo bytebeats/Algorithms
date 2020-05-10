@@ -875,4 +875,31 @@ class Solution5 {
         }
         return ans
     }
+
+    fun findJudge(N: Int, trust: Array<IntArray>): Int {//997
+        val degrees = IntArray(N + 1) { 0 }
+        trust.forEach {
+            degrees[it[0]]--
+            degrees[it[1]]++
+        }
+        for (i in 1..N) {
+            if (degrees[i] == N - 1) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    fun findDuplicates(nums: IntArray): List<Int> {//442
+        val ans = mutableListOf<Int>()
+        var index = 0
+        for (i in nums.indices) {
+            index = Math.abs(nums[i]) - 1
+            if (nums[index] < 0) {
+                ans.add(index + 1)
+            }
+            nums[index] = -nums[index]
+        }
+        return ans
+    }
 }
