@@ -110,11 +110,11 @@ class Solution5 {
     }
 
     private fun dp(
-        days: IntArray,
-        costs: IntArray,
-        i: Int,
-        memo: Array<Int?>,
-        durations: IntArray = intArrayOf(1, 7, 30)
+            days: IntArray,
+            costs: IntArray,
+            i: Int,
+            memo: Array<Int?>,
+            durations: IntArray = intArrayOf(1, 7, 30)
     ): Int {
         if (i >= days.size) {
             return 0
@@ -652,9 +652,9 @@ class Solution5 {
             return false
         }
         return sumBSTs(root1.`val`, root2, target) || twoSumBSTs(root1.left, root2, target) || twoSumBSTs(
-            root1.right,
-            root2,
-            target
+                root1.right,
+                root2,
+                target
         )
     }
 
@@ -663,9 +663,9 @@ class Solution5 {
             return false
         }
         return `val` + root2.`val` == target || sumBSTs(`val`, root2.left, target) || sumBSTs(
-            `val`,
-            root2.right,
-            target
+                `val`,
+                root2.right,
+                target
         )
     }
 
@@ -813,6 +813,64 @@ class Solution5 {
                 ans.add(pair)
                 i++
                 j--
+            }
+        }
+        return ans
+    }
+
+    var ans: TreeNode? = null
+    fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {//236
+        ans = null
+        dfs(root, p, q)
+        return ans
+    }
+
+    private fun dfs(root: TreeNode?, p: TreeNode?, q: TreeNode?): Boolean {
+        if (root == null) {
+            return false
+        }
+        val lson = dfs(root.left, p, q)
+        val rson = dfs(root.right, p, q)
+        if (lson && rson || (lson || rson) && (root.`val` == p?.`val` || root.`val` == q?.`val`)) {
+            ans = root
+        }
+        return lson || rson || (root.`val` == p?.`val` || root.`val` == q?.`val`)
+    }
+
+    fun buildArray(target: IntArray, n: Int): List<String> {
+        val ans = mutableListOf<String>()
+        var count = 1
+        for (i in target.indices) {
+            for (j in count..n) {
+                if (target[i] > j) {
+                    ans.add("Push")
+                    ans.add("Pop")
+                } else if (target[i] == j) {
+                    ans.add("Push")
+                }
+                count++
+            }
+        }
+        return ans
+    }
+
+    fun countTriplets(arr: IntArray): Int {
+        var ans = 0
+        var jxor = 0
+        var kxor = 0
+        for (i in 0..arr.size - 2) {
+            jxor = arr[i]
+            for (j in i + 1 until arr.size) {
+                if (j > i + 1) {
+                    jxor = jxor xor arr[j - 1]
+                }
+                kxor = 0
+                for (k in j until arr.size) {
+                    kxor = kxor xor arr[k]
+                    if (jxor == kxor) {
+                        ans++
+                    }
+                }
             }
         }
         return ans
