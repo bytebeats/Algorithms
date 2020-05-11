@@ -38,7 +38,7 @@ class Solution {
         return root
     }
 
-    fun myPow(x: Double, n: Int): Double {
+    fun myPow(x: Double, n: Int): Double {//50
         var xVal = x
         if (n < 0) {
             xVal = 1 / x

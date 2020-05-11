@@ -110,11 +110,11 @@ class Solution5 {
     }
 
     private fun dp(
-            days: IntArray,
-            costs: IntArray,
-            i: Int,
-            memo: Array<Int?>,
-            durations: IntArray = intArrayOf(1, 7, 30)
+        days: IntArray,
+        costs: IntArray,
+        i: Int,
+        memo: Array<Int?>,
+        durations: IntArray = intArrayOf(1, 7, 30)
     ): Int {
         if (i >= days.size) {
             return 0
@@ -652,9 +652,9 @@ class Solution5 {
             return false
         }
         return sumBSTs(root1.`val`, root2, target) || twoSumBSTs(root1.left, root2, target) || twoSumBSTs(
-                root1.right,
-                root2,
-                target
+            root1.right,
+            root2,
+            target
         )
     }
 
@@ -663,9 +663,9 @@ class Solution5 {
             return false
         }
         return `val` + root2.`val` == target || sumBSTs(`val`, root2.left, target) || sumBSTs(
-                `val`,
-                root2.right,
-                target
+            `val`,
+            root2.right,
+            target
         )
     }
 
@@ -854,7 +854,7 @@ class Solution5 {
         return ans
     }
 
-    fun countTriplets(arr: IntArray): Int {
+    fun countTriplets(arr: IntArray): Int {//1442
         var ans = 0
         var jxor = 0
         var kxor = 0
@@ -900,6 +900,76 @@ class Solution5 {
             }
             nums[index] = -nums[index]
         }
+        return ans
+    }
+
+    fun minTime(time: IntArray, m: Int): Int {//LCP 12
+        var left = 0
+        var right = 0
+        var mid = 0
+        for (i in time.indices) {
+            right += time[i]
+        }
+        while (left <= right) {
+            mid = left + (right - left) / 2
+            if (check(mid, time, m)) {
+                right = mid - 1
+            } else {
+                left = mid + 1
+            }
+        }
+        return left
+    }
+
+    private fun check(limit: Int, time: IntArray, day: Int): Boolean {
+        var useDay = 1
+        var totalTime = 0
+        var maxTime = 0
+        var nextTime = 0
+        for (i in time.indices) {
+            nextTime = Math.min(maxTime, time[i])
+            if (nextTime + totalTime <= limit) {
+                totalTime += nextTime
+                maxTime = Math.max(maxTime, time[i])
+            } else {
+                useDay++
+                totalTime = 0
+                maxTime = time[i]
+            }
+        }
+        return useDay <= day
+    }
+
+    fun isBoomerang(points: Array<IntArray>): Boolean {//1037
+        val p1 = points[0]
+        val p2 = points[1]
+        val p3 = points[2]
+        if (p1[0] == p2[0] && p1[1] == p2[1] || p1[0] == p3[0] && p1[1] == p3[1] || p3[0] == p2[0] && p3[1] == p2[1]) {
+            return false
+        }
+        val a = p2[1] - p1[1]
+        val b = p1[0] - p2[0]
+        val c = p2[0] * p1[1] - p1[0] * p2[1]
+        return a * p3[0] + b * p3[1] + c != 0
+    }
+
+    fun isOneBitCharacter(bits: IntArray): Boolean {//717
+        var is2ndChar = false
+        var i = 0
+        while (i < bits.size) {
+            if (bits[i] == 1) {
+                i += 2
+                is2ndChar = true
+            } else {
+                i++
+                is2ndChar = false
+            }
+        }
+        return !is2ndChar
+    }
+
+    fun grayCode(n: Int): List<Int> {//89
+        val ans = mutableListOf<Int>()
         return ans
     }
 }
