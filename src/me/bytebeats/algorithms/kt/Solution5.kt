@@ -972,4 +972,55 @@ class Solution5 {
         val ans = mutableListOf<Int>()
         return ans
     }
+
+    fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, newColor: Int): Array<IntArray> {//733
+        if (image.isNotEmpty() && image[0].isNotEmpty() && image[sr][sc] != newColor) {
+            floodFill(image, sr, sc, image[sr][sc], newColor)
+        }
+        return image
+    }
+
+    private fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, oldColor: Int, newColor: Int) {//733
+        if (sr < 0 || sc < 0 || sr > image.lastIndex || sc > image[0].lastIndex) {
+            return
+        }
+        if (image[sr][sc] == oldColor) {
+            image[sr][sc] = newColor
+            if (sr - 1 > -1 && image[sr - 1][sc] == oldColor) {
+                floodFill(image, sr - 1, sc, oldColor, newColor)
+            }
+            if (sr + 1 < image.size && image[sr + 1][sc] == oldColor) {
+                floodFill(image, sr + 1, sc, oldColor, newColor)
+            }
+            if (sc - 1 > -1 && image[sr][sc - 1] == oldColor) {
+                floodFill(image, sr, sc - 1, oldColor, newColor)
+            }
+            if (sc + 1 < image[0].size && image[sr][sc + 1] == oldColor) {
+                floodFill(image, sr, sc + 1, oldColor, newColor)
+            }
+        }
+    }
+
+    fun islandPerimeter(grid: Array<IntArray>): Int {//463
+        var perimeter = 0
+        for (i in grid.indices) {
+            for (j in grid[0].indices) {
+                if (grid[i][j] == 1) {
+                    if (i - 1 < 0 || grid[i - 1][j] == 0) {
+                        perimeter++
+                    }
+                    if (i + 1 > grid.lastIndex || grid[i + 1][j] == 0) {
+                        perimeter++
+                    }
+                    if (j - 1 < 0 || grid[i][j - 1] == 0) {
+                        perimeter++
+                    }
+                    if (j + 1 > grid[0].lastIndex || grid[i][j + 1] == 0) {
+                        perimeter++
+                    }
+                }
+            }
+        }
+        return perimeter
+    }
 }
