@@ -1023,4 +1023,122 @@ class Solution5 {
         }
         return perimeter
     }
+
+    fun subdomainVisits(cpdomains: Array<String>): List<String> {//811
+        val map = mutableMapOf<String, Int>()
+        for (d in cpdomains) {
+            val sp = d.split(" ")
+            val count = sp[0].toInt()
+            for (key in subDomains(sp[1])) {
+                map.compute(key) { _, v -> if (v == null) count else v + count }
+            }
+        }
+        return map.entries.map { "${it.value} ${it.key}" }
+    }
+
+    private fun subDomains(domain: String): List<String> {
+        val ans = mutableListOf<String>()
+        val keys = domain.split(".")
+        var tmp = ""
+        for (i in keys.lastIndex downTo 0) {
+            if (i == keys.lastIndex) {
+                tmp = keys[i]
+            } else {
+                tmp = "${keys[i]}.$tmp"
+            }
+            ans.add(tmp)
+        }
+        return ans
+    }
+
+    fun findRepeatedDnaSequences1(s: String): List<String> {//187
+        val ans = mutableListOf<String>()
+        var sub = ""
+        for (i in 0 until s.length - 10) {
+            sub = s.substring(i, i + 10)
+            if (s.indexOf(sub, i + 1) > 0 && !ans.contains(sub)) {
+                ans.add(sub)
+            }
+        }
+        return ans
+    }
+
+    fun findRepeatedDnaSequences(s: String): List<String> {//187
+        val ans = mutableListOf<String>()
+        val next = IntArray(10)
+        var sub = ""
+        for (i in 0 until s.length - 10) {
+            next(s, i, i + 9, next)
+            for (j in i + 10 until s.length) {
+                if (kmp(s, j, next, i) > -1) {
+                    sub = s.substring(i, i + 10)
+                    if (!ans.contains(sub)) {
+                        ans.add(sub)
+                    }
+                }
+            }
+        }
+        return ans
+    }
+
+    private fun next(s: String, start: Int, end: Int, next: IntArray) {
+        for (i in 0 until 10) {
+            next[i] = 0
+        }
+        var j = 0
+        for (i in start + 1..end) {
+            while (j > 0 && s[i] != s[j + start]) {
+                j = next[j - 1]
+            }
+            if (s[i] == s[j + start]) {
+                j++
+            }
+            next[i - start] = j
+        }
+    }
+
+    private fun kmp(s: String, start: Int, next: IntArray, nS: Int): Int {
+        var j = 0
+        for (i in start until s.length) {
+            while (j > 0 && s[i] != s[j + nS]) {
+                j = next[j - 1]
+            }
+            if (s[i] == s[j + nS]) {
+                j++
+            }
+            if (j == 10) {
+                return i - j - nS + 1
+            }
+        }
+        return -1
+    }
+
+    /**
+     * single element in a sorted array
+     */
+
+    fun singleNonDuplicate(nums: IntArray): Int {//540
+        var xorVal = 0
+        nums.forEach {
+            xorVal = xorVal xor it
+        }
+        return xorVal
+    }
+
+    fun singleNonDuplicate1(nums: IntArray): Int {//540, 只考虑 index 为偶数的索引
+        var low = 0
+        var high = nums.lastIndex
+        var mid = 0
+        while (low < high) {
+            mid = low + (high - low) / 2
+            if (mid and 1 == 1) mid--
+            if (nums[mid] == nums[mid + 1]) {
+                low = mid + 2
+            } else {
+                high = mid
+            }
+        }
+        return nums[low]
+    }
+
 }

@@ -1,6 +1,6 @@
 package me.bytebeats.algorithms.kt.design
 
-class MinStack {
+class MinStack {//155
 
     /**
      * initialize your data structure here.
@@ -34,7 +34,7 @@ class MinStack {
     /**
      * Returns whether the stack is empty.
      */
-    fun empty(): Boolean {
+    private fun empty(): Boolean {
         return top <= 0
     }
 
