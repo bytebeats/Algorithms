@@ -351,7 +351,7 @@ public class TreesQuiz {
         return res;
     }
 
-    public List<List<Integer>> levelOrder(TreeNode root) {
+    public List<List<Integer>> levelOrder(TreeNode root) {//102
         List<List<Integer>> res = new ArrayList<>();
         if (root != null) {
             Queue<TreeNode> queue = new LinkedList<>();
@@ -1129,6 +1129,44 @@ public class TreesQuiz {
                     countDown = count;
                     count = 0;
                     max = Integer.MIN_VALUE;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> verticalOrder(TreeNode root) {//314
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root != null) {
+            Map<Integer, List<Integer>> map = new TreeMap<>();
+            Queue<TreeNode> nodeQueue = new LinkedList<>();
+            Queue<Integer> indexQueue = new LinkedList<>();
+            nodeQueue.offer(root);
+            indexQueue.offer(0);
+            TreeNode node = null;
+            int index = 0;
+            while (!nodeQueue.isEmpty()) {
+                node = nodeQueue.poll();
+                index = indexQueue.poll();
+                if (map.containsKey(index)) {
+                    map.get(index).add(node.val);
+                } else {
+                    List<Integer> e = new ArrayList<>();
+                    e.add(node.val);
+                    map.put(index, e);
+                }
+                if (node.left != null) {
+                    nodeQueue.offer(node.left);
+                    indexQueue.offer(index - 1);
+                }
+                if (node.right != null) {
+                    nodeQueue.offer(node.right);
+                    indexQueue.offer(index + 1);
+                }
+            }
+            if (!map.isEmpty()) {
+                for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+                    ans.add(entry.getValue());
                 }
             }
         }
