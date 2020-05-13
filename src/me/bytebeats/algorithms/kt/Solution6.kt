@@ -1,5 +1,7 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.meta.Node
+
 class Solution6 {
 
     fun nextGreatestLetter(letters: CharArray, target: Char): Char {//744, O(n)
@@ -27,5 +29,24 @@ class Solution6 {
 
     fun isToeplitzMatrix(matrix: Array<IntArray>): Boolean {//766
         return false
+    }
+
+    private val visited = mutableMapOf<Node, Node>()
+    fun cloneGraph(node: Node?): Node? {//133
+        if (node == null) {
+            return null
+        }
+        if (visited.containsKey(node)) {
+            return visited[node]
+        }
+        val cloned = Node(node.`val`)
+        cloned.neighbors = ArrayList()
+        visited[node] = cloned
+        if (node.neighbors != null) {
+            for (neighbor in node.neighbors!!) {
+                cloned?.neighbors?.add(cloneGraph(neighbor))
+            }
+        }
+        return cloned
     }
 }
