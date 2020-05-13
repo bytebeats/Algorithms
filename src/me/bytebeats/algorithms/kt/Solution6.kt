@@ -28,7 +28,16 @@ class Solution6 {
     }
 
     fun isToeplitzMatrix(matrix: Array<IntArray>): Boolean {//766
-        return false
+        if (matrix.isNotEmpty() && matrix[0].isNotEmpty()) {
+            for (i in matrix.indices) {
+                for (j in matrix[0].indices) {
+                    if (i > 0 && j > 0 && matrix[i][j] != matrix[i - 1][j - 1]) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
     }
 
     private val visited = mutableMapOf<Node, Node>()
@@ -48,5 +57,80 @@ class Solution6 {
             }
         }
         return cloned
+    }
+
+    fun validWordSquare(words: List<String>): Boolean {//422
+        if (words.isNotEmpty()) {
+            val row = words.size
+            val column = words.map { it.length }.max()
+            if (row != column) {
+                return false
+            }
+            for (i in 0 until row) {
+                if (words[i].length != row) {
+                    val sb  = StringBuilder(words[i])
+                    for (j in 0 until row - words[i].length) {
+                        sb.append("0")
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    fun removeKdigits(num: String, k: Int): String {//402
+        if (num.isEmpty() || num.length <= k) {
+            return "0"
+        }
+        if (k <= 0) {
+            return num
+        }
+        var ans = StringBuilder()
+        ans.append(num)
+        var count = k
+        var index = -1
+        while (count-- > 0) {
+            index = -1
+            for (i in 0 until ans.length - 1) {
+                if (ans[i] > ans[i + 1]) {
+                    index = i
+                    break
+                }
+            }
+            ans.deleteCharAt(if (index == -1) ans.lastIndex else index)
+        }
+        while (ans.isNotEmpty() && ans.first() == '0') {
+            ans.deleteCharAt(0)
+        }
+        if (ans.isEmpty()) {
+            ans.append('0')
+        }
+        return ans.toString()
+    }
+
+//    fun maxNumber(nums1: IntArray, nums2: IntArray, k: Int): IntArray {//321
+//
+//    }
+
+    fun monotoneIncreasingDigits(N: Int): Int {//738
+        val chs = N.toString().toCharArray()
+        var i = -1
+        for (j in 0 until chs.lastIndex) {
+            if (chs[j] > chs[j + 1]) {
+                i = j
+                break
+            }
+        }
+        if (i == -1) {
+            return N
+        }
+        while (i > 0 && chs[i] == chs[i - 1]) {
+            i--
+        }
+        chs[i]--
+        for (j in i + 1 until chs.size) {
+            chs[j] = '9'
+        }
+        return String(chs).toInt()
     }
 }
