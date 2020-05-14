@@ -68,7 +68,7 @@ class Solution6 {
             }
             for (i in 0 until row) {
                 if (words[i].length != row) {
-                    val sb  = StringBuilder(words[i])
+                    val sb = StringBuilder(words[i])
                     for (j in 0 until row - words[i].length) {
                         sb.append("0")
                     }
@@ -132,5 +132,92 @@ class Solution6 {
             chs[j] = '9'
         }
         return String(chs).toInt()
+    }
+
+    fun letterCasePermutation(S: String): List<String> {//784
+        val ans = mutableListOf<String>()
+        val sb = StringBuilder(S)
+        return ans
+    }
+
+    fun areSentencesSimilar(words1: Array<String>, words2: Array<String>, pairs: List<List<String>>): Boolean {//734
+        if (words1.size != words2.size) {
+            return false
+        }
+        for (i in words1.indices) {
+            if (words1[i] == words2[i]) {
+                continue
+            } else {
+                var flag = false
+                for (j in pairs.indices) {
+                    if (pairs[j][0] == words1[i] && pairs[j][1] == words2[i] || pairs[j][1] == words1[i] && pairs[j][0] == words2[i]) {
+                        flag = true
+                        break
+                    }
+                }
+                if (!flag) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    fun areSentencesSimilarTwo(words1: Array<String>, words2: Array<String>, pairs: List<List<String>>): Boolean {//737
+        if (words1.size != words2.size) {
+            return false
+        }
+        val graph = mutableMapOf<String, MutableList<String>>()
+        for (pair in pairs) {
+            for (word in pair) {
+                if (!graph.containsKey(word)) {
+                    graph[word] = mutableListOf()
+                }
+            }
+            graph[pair[0]]?.add(pair[1])
+            graph[pair[1]]?.add(pair[0])
+        }
+        var word1 = ""
+        var word2 = ""
+        for (i in words1.indices) {
+            word1 = words1[i]
+            word2 = words2[i]
+            val stack = mutableListOf<String>()
+            val seen = mutableSetOf<String>()
+            stack.add(word1)
+            seen.add(word1)
+            search@ while (stack.isNotEmpty()) {
+                val word = stack.removeAt(stack.lastIndex)
+                if (word == word2) break@search
+                if (graph.containsKey(word)) {
+                    for (similar in graph[word]!!) {
+                        if (!seen.contains(similar)) {
+                            stack.add(similar)
+                            seen.add(similar)
+                        }
+                    }
+                }
+                if (stack.isEmpty()) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    fun replaceWords(dict: List<String>, sentence: String): String {//648
+        val words = sentence.split(" ")
+        val ans = StringBuilder()
+        for (word in words) {
+            val roots = dict.filter { word.length > it.length && word.startsWith(it) }
+            if (roots.isEmpty()) {
+                ans.append(word)
+                ans.append(" ")
+            } else {
+                ans.append(roots.sortedBy { it.length }.first())
+                ans.append(" ")
+            }
+        }
+        return ans.trim().toString()
     }
 }
