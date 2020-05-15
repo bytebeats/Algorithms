@@ -220,4 +220,116 @@ class Solution6 {
         }
         return ans.trim().toString()
     }
+
+    fun subarraysDivByK(A: IntArray, K: Int): Int {//974
+        var ans = 0
+        val size = A.size
+        A[0] %= K
+        for (i in 1 until size) {
+            A[i] = (A[i] + A[i - 1]) % K
+        }
+        val count = IntArray(K)
+        count[0]++
+        for (num in A) {
+            count[(num % K + K) % K]++
+        }
+        for (c in count) {
+            ans += c * (c - 1) / 2
+        }
+        return ans
+    }
+
+    fun maxSubarraySumCircular(A: IntArray): Int {//918
+        val s = A.size
+        var ans = A[0]
+        var cur = A[0]
+        for (i in 1 until s) {
+            cur = A[i] + Math.max(cur, 0)
+            ans = Math.max(ans, cur)
+        }
+        val rightSums = IntArray(s)
+        rightSums[s - 1] = A[s - 1]
+        for (i in s - 2 downTo 0) {
+            rightSums[i] = rightSums[i + 1] + A[i]
+        }
+        val maxRight = IntArray(s)
+        maxRight[s - 1] = rightSums[s - 1]
+        for (i in s - 2 downTo 0) {
+            maxRight[i] = Math.max(maxRight[i + 1], rightSums[i])
+        }
+        var leftSum = 0
+        for (i in 0 until s - 2) {
+            leftSum += A[i]
+            ans = Math.max(ans, leftSum + maxRight[i + 2])
+        }
+        return ans
+    }
+
+    /**
+     * 连续子数组的最大值
+     */
+    fun kadane(A: IntArray): Int {
+        var curVal = A[0]
+        var ans = A[0]
+        for (i in 1 until A.size) {
+            curVal = Math.max(A[i], curVal + A[i])
+            ans = Math.max(ans, curVal)
+        }
+        return ans
+    }
+
+    fun sumEvenAfterQueries(A: IntArray, queries: Array<IntArray>): IntArray {//985
+        val ans = IntArray(queries.size)
+        var sum = A.filter { it and 1 == 0 }.sum()
+        for (i in queries.indices) {
+            if (A[queries[i][1]] and 1 == 0) {
+                sum -= A[queries[i][1]]
+            }
+            A[queries[i][1]] += queries[i][0]
+            if (A[queries[i][1]] and 1 == 0) {
+                sum += A[queries[i][1]]
+            }
+            ans[i] = sum
+        }
+        return ans
+    }
+
+    fun isMonotonic(A: IntArray): Boolean {//896
+        var asd = false
+        var desc = false
+        for (i in 1 until A.size) {
+            if (A[i - 1] < A[i]) {
+                asd = true
+            }
+            if (A[i - 1] > A[i]) {
+                desc = true
+            }
+            if (asd && desc) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun countSubstrings(s: String): Int {//647
+        var ans = 0
+        for (i in s.indices) {
+            var j = i
+            while (j < s.length && s[i] == s[j]) {
+                ans++
+                j++
+            }
+            var k = i - 1
+            while (k > -1 && j < s.length && s[k] == s[j]) {
+                k--
+                j++
+                ans++
+            }
+        }
+        return ans
+    }
+
+//    fun subsetsWithDup(nums: IntArray): List<List<Int>> {//90
+//
+//    }
 }
