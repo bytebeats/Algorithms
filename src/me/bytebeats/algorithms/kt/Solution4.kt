@@ -579,6 +579,26 @@ class Solution4 {
         return false
     }
 
+    fun checkSubarraySum1(nums: IntArray, k: Int): Boolean {//523
+        var sum = 0
+        val map = mutableMapOf<Int, Int>()
+        map[0] = -1
+        for (i in nums.indices) {
+            sum += nums[i]
+            if (k != 0) {
+                sum %= k
+            }
+            if (map.containsKey(sum)) {
+                if (i - map[sum]!! > 1) {
+                    return true
+                }
+            } else {
+                map[sum] = i
+            }
+        }
+        return false
+    }
+
     fun superPow(a: Int, b: IntArray): Int {//372
         return superPow(a, b, b.lastIndex)
     }
@@ -923,8 +943,8 @@ class Solution4 {
             return 1 + longestCommonSubsequence(text1, m - 1, text2, n - 1)
         } else {
             return Math.max(
-                    longestCommonSubsequence(text1, m, text2, n - 1),
-                    longestCommonSubsequence(text1, m - 1, text2, n)
+                longestCommonSubsequence(text1, m, text2, n - 1),
+                longestCommonSubsequence(text1, m - 1, text2, n)
             )
         }
     }
