@@ -2,6 +2,8 @@ package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.Node
+import me.bytebeats.algorithms.meta.TreeNode
+import kotlin.collections.ArrayList
 
 class Solution6 {
 
@@ -496,5 +498,107 @@ class Solution6 {
             p = p?.next
         }
         return p
+    }
+
+    fun maxPower(s: String): Int {//5396
+        var max = Int.MIN_VALUE
+        var ch = s[0]
+        var count = 1
+        for (i in 1 until s.length) {
+            if (ch == s[i]) {
+                count++
+                if (max < count) {
+                    max = count
+                }
+            } else {
+                ch = s[i]
+                count = 1
+            }
+        }
+        return max
+    }
+
+    fun simplifiedFractions(n: Int): List<String> {//5397
+        val ans = mutableListOf<String>()
+        for (i in 2..n) {
+            for (j in 1 until i) {
+                if (j == 1 || gcd(j, i) > 1) {
+                    ans.add("$j/$i")
+                }
+            }
+        }
+        return ans
+    }
+
+    private fun gcd(m: Int, n: Int): Int {
+        var j = m
+        var k = n
+        var rem = 0
+        while (k != 0) {
+            rem = j % k
+            j = k
+            k = rem
+        }
+        return j
+    }
+
+    var count = 0
+    fun goodNodes(root: TreeNode?): Int {//5398
+        count = 0
+        goodNodes(root, 0, true)
+        return count
+    }
+
+    private fun goodNodes(root: TreeNode?, max: Int, isRoot: Boolean) {
+        if (root == null) {
+            return
+        }
+        if (isRoot) {
+            count++
+            goodNodes(root.left, root.`val`, false)
+            goodNodes(root.right, root.`val`, false)
+        } else {
+            if (root.`val` >= max) {
+                count++
+            }
+            val newMax = Math.max(root.`val`, max)
+            goodNodes(root.left, newMax, false)
+            goodNodes(root.right, newMax, false)
+        }
+    }
+
+    var ans = "0"
+    fun largestNumber(cost: IntArray, target: Int): String {//5399
+        ans = "0"
+        val map = sortedMapOf<Int, Int>()
+        for (i in 8 downTo 0) {
+            if (!map.containsValue(cost[i])) {
+                map[i] = cost[i]
+            }
+        }
+        largestNumber(map.entries.reversed(), target, StringBuilder())
+        return ans
+    }
+
+    private fun largestNumber(cost: List<MutableMap.MutableEntry<Int, Int>>, target: Int, sb: StringBuilder) {
+        if (target < 0) {
+            return
+        } else if (target == 0) {
+            if (ans.length < sb.length) {
+                ans = sb.toString()
+            } else if (ans.length == sb.length) {
+                if (ans < sb.toString()) {
+                    ans = sb.toString()
+                }
+            }
+        } else {
+            cost.forEach {
+                if (it.value <= target) {
+                    val newSb = StringBuilder(sb)
+                    newSb.append(it.key + 1)
+                    largestNumber(cost, target - it.value, newSb)
+                }
+            }
+        }
     }
 }
