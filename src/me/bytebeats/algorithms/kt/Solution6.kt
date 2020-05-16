@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.Node
 
 class Solution6 {
@@ -332,4 +333,168 @@ class Solution6 {
 //    fun subsetsWithDup(nums: IntArray): List<List<Int>> {//90
 //
 //    }
+    /**
+     * K 个一组逆序链表
+     *1->2->3->4->5 ==> 3->2->1->4->5
+     * @param head
+     * @param k
+     * @return
+     */
+    fun reverseKGroup(head: ListNode?, k: Int): ListNode? {//25
+        val dummy = ListNode(-1)
+        dummy.next = head
+        var pre: ListNode? = dummy
+        var end: ListNode? = dummy
+        while (end?.next != null) {
+            var count = 0
+            while (count < k && end != null) {
+                end = end.next
+                count++
+            }
+            if (end == null) break
+            var start = pre?.next
+            var next = end?.next
+            end?.next = null
+            pre?.next = reverse(start)
+            start?.next = next
+            pre = start
+            end = pre
+        }
+        return dummy.next
+    }
+
+    private fun reverse(head: ListNode?): ListNode? {
+        var pre: ListNode? = null
+        var p = head
+        while (p != null) {
+            val next = p.next
+            p.next = pre
+            pre = p
+            p = next
+        }
+        return pre
+    }
+
+    /**
+     * 将单链表平均分成 k 组
+     */
+    fun splitListToParts(root: ListNode?, k: Int): Array<ListNode?> {//728
+        var count = 0
+        var p = root
+        while (p != null) {//计算链表长度
+            p = p.next
+            count++
+        }
+
+        val s = count / k//每组 s 个元素
+        var c = count % k//不能整除时, 余下的结点个数
+        val ans = Array<ListNode?>(k) { null }
+        p = root
+        for (i in 0 until k) {//k 组
+            ans[i] = p
+            var left = s
+            var pre = p
+            while (left-- > 0) {//每组分配的结点
+                pre = p
+                p = p?.next
+            }
+            if (c > 0) {//余下的结点个数, 分配到前 c 个元素
+                pre = p
+                p = p?.next
+                c--
+            }
+            pre?.next = null//将该组最后一个结点的引用去掉.
+        }
+        return ans
+    }
+
+    fun reorderList(head: ListNode?): Unit {//143
+        var count = 0
+        var p = head
+        while (p != null) {
+            count++
+            p = p.next
+        }
+        val half = (count + 1) / 2
+        var pre: ListNode? = null
+        p = head
+        var i = 0
+        while (i++ < half) {
+            pre = p
+            p = p?.next
+        }
+        pre?.next = null
+        p = reverse(p)
+        var q = head
+        while (p != null) {
+            val next = q?.next
+            q?.next = p
+            p = p.next
+            q?.next?.next = next
+            q = next
+        }
+    }
+
+    fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {//面试题02.05
+        var count1 = 0
+        var p = l1
+        while (p != null) {
+            count1++
+            p = p.next
+        }
+        var count2 = 0
+        var q = l2
+        while (q != null) {
+            count2++
+            q = q.next
+        }
+        if (count1 > count2) {
+            p = l1
+            q = l2
+        } else {
+            p = l2
+            q = l1
+        }
+        val head = p
+        var c = 0
+        var pre: ListNode? = null
+        while (p != null && q != null) {
+            p.`val` += q.`val` + c
+            c = p.`val` / 10
+            p.`val` %= 10
+            pre = p
+            p = p.next
+            q = q.next
+        }
+        while (c != 0) {
+            if (p != null) {
+                p.`val` += c
+                c = p.`val` / 10
+                p.`val` %= 10
+                pre = p
+            } else {
+                pre?.next = ListNode(c)
+                break
+            }
+        }
+        return head
+    }
+
+    fun getKthFromEnd(head: ListNode?, k: Int): ListNode? {//面试题22
+        var count = 0
+        var p = head
+        while (p != null) {
+            p = p.next
+            count++
+        }
+        var diff = count - k
+        if (diff < 0) {
+            return null
+        }
+        p = head
+        while (diff-- > -1) {
+            p = p?.next
+        }
+        return p
+    }
 }

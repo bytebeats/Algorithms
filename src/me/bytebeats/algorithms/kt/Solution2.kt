@@ -669,7 +669,7 @@ class Solution2 {
         return p
     }
 
-    fun oddEvenList(head: ListNode?): ListNode? {//奇数索引节点在前, 偶数索引节点在后
+    fun oddEvenList(head: ListNode?): ListNode? {//328, 奇数索引节点在前, 偶数索引节点在后
         if (head == null) return null
         var odd: ListNode = head
         var even = head.next
