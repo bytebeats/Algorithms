@@ -782,4 +782,32 @@ class Solution6 {
         return ans.toTypedArray()
     }
 
+    fun distributeCandies(candies: IntArray): Int {//575
+        val set = mutableSetOf<Int>()
+        val size = candies.size
+        for (i in 0 until size) {
+            set.add(candies[i])
+            if (set.size >= size / 2) {
+                return size / 2
+            }
+        }
+        return set.size
+    }
+
+    fun multiply(A: Array<IntArray>, B: Array<IntArray>): Array<IntArray> {//311
+        val rowA = A.size
+        val columnA = A[0].size
+        val rowB = B.size
+        val columnB = B[0].size
+        val ans = Array(rowA) { IntArray(columnB) }
+        for (i in 0 until rowA) {
+            for (j in 0 until columnB) {
+                for (k in 0 until rowB) {
+                    ans[i][j] += A[i][k] * B[k][j]
+                }
+            }
+        }
+        return ans
+    }
+
 }
