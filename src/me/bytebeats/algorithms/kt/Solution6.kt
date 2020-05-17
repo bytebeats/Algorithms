@@ -501,7 +501,7 @@ class Solution6 {
     }
 
     fun maxPower(s: String): Int {//5396
-        var max = Int.MIN_VALUE
+        var max = 1
         var ch = s[0]
         var count = 1
         for (i in 1 until s.length) {
@@ -518,11 +518,11 @@ class Solution6 {
         return max
     }
 
-    fun simplifiedFractions(n: Int): List<String> {//5397
+    fun simplifiedFractions(n: Int): List<String> {//5397,1447
         val ans = mutableListOf<String>()
         for (i in 2..n) {
             for (j in 1 until i) {
-                if (j == 1 || gcd(j, i) > 1) {
+                if (j == 1 || gcd(i, j) == 1) {
                     ans.add("$j/$i")
                 }
             }
@@ -543,7 +543,7 @@ class Solution6 {
     }
 
     var count = 0
-    fun goodNodes(root: TreeNode?): Int {//5398
+    fun goodNodes(root: TreeNode?): Int {//5398, 1448
         count = 0
         goodNodes(root, 0, true)
         return count
@@ -601,4 +601,213 @@ class Solution6 {
             }
         }
     }
+
+    fun busyStudent(startTime: IntArray, endTime: IntArray, queryTime: Int): Int {//5412, 1450
+        var count = 0
+        for (i in startTime.indices) {
+            if (queryTime in startTime[i]..endTime[i]) {
+                count++
+            }
+        }
+        return count
+    }
+
+    fun arrangeWords(text: String): String {//5413, 1451
+        val ans = StringBuilder()
+        val words = text.split(" ").sortedBy { it.length }
+        for (i in words.indices) {
+            if (i == 0) {
+                val sb = StringBuilder(words[i])
+                sb[0] = sb[0].toUpperCase()
+                ans.append(sb)
+            } else {
+                ans.append(" ")
+                if (words[i][0].isUpperCase()) {
+                    ans.append(words[i].toLowerCase())
+                } else {
+                    ans.append(words[i])
+                }
+            }
+        }
+        return ans.toString()
+    }
+
+    fun peopleIndexes(favoriteCompanies: List<List<String>>): List<Int> {//5414, 1452
+        var set = mutableSetOf<Int>()
+        for (i in 0 until favoriteCompanies.lastIndex) {
+            for (j in i + 1 until favoriteCompanies.size) {
+                if (favoriteCompanies[i].size > favoriteCompanies[j].size
+                    && contains(favoriteCompanies[i], favoriteCompanies[j])
+                ) {
+                    set.add(j)
+                } else if (favoriteCompanies[i].size < favoriteCompanies[j].size
+                    && contains(favoriteCompanies[j], favoriteCompanies[i])
+                ) {
+                    set.add(i)
+                }
+            }
+        }
+        val ans = mutableListOf<Int>()
+        for (i in favoriteCompanies.indices) {
+            ans.add(i)
+        }
+        ans.removeAll(set)
+        return ans
+    }
+
+    private fun contains(long: List<String>, short: List<String>): Boolean {
+        for (i in short.indices) {
+            if (!long.contains(short[i])) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun canFinish(numCourses: Int, prerequisites: Array<IntArray>): Boolean {//207
+        val inDegrees = IntArray(numCourses)
+        val graph = mutableMapOf<Int, MutableList<Int>>()
+        for (prerequisite in prerequisites) {
+            inDegrees[prerequisite[0]]++
+            if (graph.containsKey(prerequisite[1])) {
+                graph[prerequisite[1]]?.add(prerequisite[0])
+            } else {
+                val dependencies = mutableListOf<Int>()
+                dependencies.add(prerequisite[0])
+                graph[prerequisite[1]] = dependencies
+            }
+        }
+        val q = mutableListOf<Int>()
+        for (i in 0 until numCourses) {
+            if (inDegrees[i] == 0) q.add(i)
+        }
+        while (q.isNotEmpty()) {
+            val cur = q.removeAt(0)
+            graph[cur]?.apply {
+                for (i in 0 until size) {
+                    inDegrees[this[i]]--
+                    if (inDegrees[this[i]] == 0) {
+                        q.add(this[i])
+                    }
+                }
+            }
+        }
+        for (i in 0 until numCourses) {
+            if (inDegrees[i] != 0) return false
+        }
+        return true
+    }
+
+    fun findOrder(numCourses: Int, prerequisites: Array<IntArray>): IntArray {//210
+        val inDegrees = IntArray(numCourses) { 0 }
+        val graph = mutableMapOf<Int, MutableList<Int>>()
+        for (prerequisite in prerequisites) {
+            inDegrees[prerequisite[0]]++
+            if (graph.containsKey(prerequisite[1])) {
+                graph[prerequisite[1]]?.add(prerequisite[0])
+            } else {
+                val dependencies = mutableListOf<Int>()
+                dependencies.add(prerequisite[0])
+                graph[prerequisite[1]] = dependencies
+            }
+        }
+        val ans = mutableListOf<Int>()
+        val q = mutableListOf<Int>()//used as queue
+        for (i in 0 until numCourses) {
+            if (inDegrees[i] == 0) q.add(i)
+        }
+        while (q.isNotEmpty()) {
+            val cur = q.removeAt(0)
+            ans.add(cur)
+            graph[cur]?.apply {
+                for (i in 0 until size) {
+                    inDegrees[this[i]]--
+                    if (inDegrees[this[i]] == 0) {
+                        q.add(this[i])
+                    }
+                }
+            }
+        }
+        return if (ans.size == numCourses) ans.toIntArray() else IntArray(0)
+    }
+
+    fun findAnagrams(s: String, p: String): List<Int> {//438
+        val ans = mutableListOf<Int>()
+        if (s.isNotEmpty() && s.length >= p.length) {
+            val pChs = IntArray(26) { 0 }
+            for (element in p) {
+                pChs[element - 'a']++
+            }
+            val sChs = IntArray(26) { 0 }
+            for (i in 0 until p.lastIndex) {
+                sChs[s[i] - 'a']++
+            }
+            for (i in p.lastIndex until s.length) {
+                sChs[s[i] - 'a']++
+                if (isEqual(pChs, sChs)) {
+                    ans.add(i - p.length + 1)
+                }
+                sChs[s[i - p.length + 1] - 'a']--
+            }
+
+        }
+        return ans
+    }
+
+    private fun isEqual(s: IntArray, p: IntArray): Boolean {
+        for (i in s.indices) {
+            if (s[i] != p[i]) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun uncommonFromSentences(A: String, B: String): Array<String> {//884
+        val amap = mutableMapOf<String, Int>()
+        A.split(" ").forEach { amap.compute(it) { _, v -> if (v == null) 1 else v + 1 } }
+        val bmap = mutableMapOf<String, Int>()
+        B.split(" ").forEach { bmap.compute(it) { _, v -> if (v == null) 1 else v + 1 } }
+        val ans = mutableListOf<String>()
+        amap.entries.filter { it.value == 1 }.map { it.key }.forEach {
+            if (!bmap.containsKey(it)) {
+                ans.add(it)
+            }
+        }
+        bmap.entries.filter { it.value == 1 }.map { it.key }.forEach {
+            if (!amap.containsKey(it)) {
+                ans.add(it)
+            }
+        }
+        return ans.toTypedArray()
+    }
+
+    fun distributeCandies(candies: IntArray): Int {//575
+        val set = mutableSetOf<Int>()
+        val size = candies.size
+        for (i in 0 until size) {
+            set.add(candies[i])
+            if (set.size >= size / 2) {
+                return size / 2
+            }
+        }
+        return set.size
+    }
+
+    fun multiply(A: Array<IntArray>, B: Array<IntArray>): Array<IntArray> {//311
+        val rowA = A.size
+        val columnA = A[0].size
+        val rowB = B.size
+        val columnB = B[0].size
+        val ans = Array(rowA) { IntArray(columnB) }
+        for (i in 0 until rowA) {
+            for (j in 0 until columnB) {
+                for (k in 0 until rowB) {
+                    ans[i][j] += A[i][k] * B[k][j]
+                }
+            }
+        }
+        return ans
+    }
+
 }
