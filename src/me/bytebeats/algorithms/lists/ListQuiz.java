@@ -244,7 +244,6 @@ public class ListQuiz {
                 start = p;
             } else if (count == k - 1) {
                 end = p;
-
             }
 
             count++;
@@ -315,7 +314,7 @@ public class ListQuiz {
         return null;
     }
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {////面试题52
         if (headA == null || headB == null) {
             return null;
         }
