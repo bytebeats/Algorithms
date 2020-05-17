@@ -718,7 +718,7 @@ public class StringsQuiz {
         return sb.toString();
     }
 
-    public List<Integer> findAnagrams(String s, String p) {
+    public List<Integer> findAnagrams(String s, String p) {//438
         List<Integer> res = new ArrayList<>();
         if (s != null && s.length() >= p.length()) {
             int pSize = p.length();
