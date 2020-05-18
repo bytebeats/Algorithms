@@ -810,4 +810,86 @@ class Solution6 {
         return ans
     }
 
+    fun numSubarrayProductLessThanK(nums: IntArray, k: Int): Int {//713
+        var ans = 0
+        if (nums.isNotEmpty() && k > 1) {//if k <= 1 return 0
+            var product = 1
+            var left = 0
+            for (right in nums.indices) {
+                product *= nums[right]
+                while (product >= k) product /= nums[left++]//essence!
+                ans += right - left + 1
+            }
+        }
+        return ans
+    }
+
+    fun twoSumLessThanK(A: IntArray, K: Int): Int {//1099
+        var sum = -1
+        if (A.size > 1) {
+            A.sort()
+            var i = 0
+            var j = A.lastIndex
+            var tmp = 0
+            while (i < j) {
+                tmp = A[i] + A[j]
+                if (tmp >= K) {
+                    j--
+                } else {
+                    if (tmp > sum) {
+                        sum = tmp
+                    }
+                    i++
+                }
+            }
+        }
+        return sum
+    }
+
+    fun maxSubArrayLen(nums: IntArray, k: Int): Int {//325, prefix sum hashmap
+        var ans = 0
+        val preSums = mutableMapOf<Int, Int>()
+        preSums[0] = -1
+        var sum = 0
+        for (i in nums.indices) {
+            sum += nums[i]
+            if (preSums.containsKey(sum - k)) {
+                ans = Math.max(ans, i - preSums[sum - k]!!)
+            }
+            if (!preSums.containsKey(sum)) {
+                preSums[sum] = i
+            }
+        }
+        return ans
+    }
+
+    fun checkInclusion(s1: String, s2: String): Boolean {//567
+        if (s1.length > s2.length) {
+            return false
+        }
+        val ch1 = CharArray(26)
+        for (c in s1) {
+            ch1[c - 'a']++
+        }
+        val ch2 = CharArray(26)
+        for (i in 0 until s1.lastIndex) {
+            ch2[s2[i] - 'a']++
+        }
+        for (i in s1.lastIndex until s2.length) {
+            ch2[s2[i] - 'a']++
+            var flag = false
+            for (j in 0 until 26) {
+                if (ch1[j] != ch2[j]) {
+                    flag = true
+                    break
+                }
+            }
+            if (!flag) {
+                return true
+            }
+            ch2[s2[i - s1.length + 1] - 'a']--
+        }
+        return false
+    }
+
 }
