@@ -892,4 +892,31 @@ class Solution6 {
         return false
     }
 
+    fun validPalindrome(s: String): Boolean {//680
+        var i = 0
+        var j = s.lastIndex
+        while (i < j) {
+            if (s[i] == s[j]) {
+                i++
+                j--
+            } else {
+                return validPalindrome(s, i + 1, j) || validPalindrome(s, i, j - 1)
+            }
+        }
+        return true
+    }
+
+    private fun validPalindrome(s: String, left: Int, right: Int): Boolean {//680
+        var i = left
+        var j = right
+        while (i < j) {
+            if (s[i] == s[j]) {
+                i++
+                j--
+            } else {
+                return false
+            }
+        }
+        return true
+    }
 }

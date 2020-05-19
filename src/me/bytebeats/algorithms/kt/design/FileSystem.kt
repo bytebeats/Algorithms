@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt.design
 
-class FileSystem() {//588
+class FileSystem() {
+    //588
     private val root = File()
 
     fun ls(path: String): List<String> {
@@ -84,6 +85,53 @@ class FileSystem() {//588
         var name = ""
         var content = ""
         var files = mutableListOf<File>()
+    }
+
+}
+
+class FileSystem1() { //1166
+    val root = Trie("", -1)
+
+    fun createPath(path: String, value: Int): Boolean {
+        var existed = true
+        val paths = path.substring(1).split("/")
+        var trie = root
+        for (p in paths) {
+            if (!trie.map.containsKey(p)) {
+                existed = false
+                val newTrie = Trie(p, -1)
+                trie.map[p] = newTrie
+            }
+            trie = trie.map[p]!!
+        }
+        if (!existed) {
+            trie.value = value
+        }
+        trie = root
+        for (p in paths) {
+            if (trie.map[p]!!.value == -1) {
+                return false
+            }
+            trie = trie.map[p]!!
+        }
+        return !existed
+    }
+
+    fun get(path: String): Int {
+        var trie = root
+        val paths = path.substring(1).split("/")
+        for (p in paths) {
+            if (trie.map.containsKey(p)) {
+                trie = trie.map[p]!!
+            } else {
+                trie = Trie(p, -1)
+            }
+        }
+        return trie.value
+    }
+
+    class Trie(val path: String, var value: Int) {
+        val map = mutableMapOf<String, Trie>()
     }
 
 }
