@@ -919,4 +919,24 @@ class Solution6 {
         }
         return true
     }
+
+    fun countSquares(matrix: Array<IntArray>): Int {//1277
+        var ans = 0
+        if (matrix.isNotEmpty()) {
+            val f = Array(matrix.size) { IntArray(matrix[0].size) { 0 } }
+            for (i in matrix.indices) {
+                for (j in matrix[0].indices) {
+                    if (i == 0 || j == 0) {
+                        f[i][j] = matrix[i][j]
+                    } else if (matrix[i][j] == 0) {
+                        f[i][j] = 0
+                    } else {
+                        f[i][j] = Math.min(Math.min(f[i][j - 1], f[i - 1][j]), f[i - 1][j - 1]) + 1
+                    }
+                    ans += f[i][j]
+                }
+            }
+        }
+        return ans
+    }
 }
