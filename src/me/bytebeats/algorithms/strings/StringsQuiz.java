@@ -504,7 +504,7 @@ public class StringsQuiz {
         return max;
     }
 
-    public String longestPalindrome(String s) {//最长回文子串
+    public String longestPalindrome(String s) {//5, 最长回文子串
         String res = "";
         if (s != null && s.length() > 0) {
             String tmp = "";

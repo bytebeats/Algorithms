@@ -93,28 +93,30 @@ class FileSystem1() { //1166
     val root = Trie("", -1)
 
     fun createPath(path: String, value: Int): Boolean {
-        var existed = true
         val paths = path.substring(1).split("/")
         var trie = root
-        for (p in paths) {
-            if (!trie.map.containsKey(p)) {
-                existed = false
-                val newTrie = Trie(p, -1)
-                trie.map[p] = newTrie
-            }
-            trie = trie.map[p]!!
-        }
-        if (!existed) {
-            trie.value = value
-        }
-        trie = root
-        for (p in paths) {
-            if (trie.map[p]!!.value == -1) {
+        if (paths.size == 1) {
+            if (trie.map.containsKey(paths[0])) {
                 return false
+            } else {
+                trie.map[paths[0]] = Trie(paths[0], value)
+                return true
             }
-            trie = trie.map[p]!!
+        } else {
+            for (i in 0 until paths.lastIndex) {
+                if (trie.map.containsKey(paths[i])) {
+                    trie = trie.map[paths[i]]!!
+                } else {
+                    return false
+                }
+            }
+            if (trie.map.containsKey(paths.last())) {
+                return false
+            } else {
+                trie.map[paths.last()] = Trie(paths.last(), value)
+                return true
+            }
         }
-        return !existed
     }
 
     fun get(path: String): Int {
@@ -124,7 +126,7 @@ class FileSystem1() { //1166
             if (trie.map.containsKey(p)) {
                 trie = trie.map[p]!!
             } else {
-                trie = Trie(p, -1)
+                return -1
             }
         }
         return trie.value
