@@ -159,6 +159,21 @@ class Solution4 {
         return -1
     }
 
+    fun findMin2(nums: IntArray): Int {//153
+        var left = 0
+        var right = nums.lastIndex
+        var mid = 0
+        while (left < right) {
+            mid = left + (right - left) / 2
+            if (nums[mid] < nums[right]) {
+                right = mid
+            } else {
+                left = mid + 1
+            }
+        }
+        return nums[left]
+    }
+
     fun findMin1(nums: IntArray): Int {//154
         var low = 0
         var high = nums.lastIndex
@@ -943,8 +958,8 @@ class Solution4 {
             return 1 + longestCommonSubsequence(text1, m - 1, text2, n - 1)
         } else {
             return Math.max(
-                longestCommonSubsequence(text1, m, text2, n - 1),
-                longestCommonSubsequence(text1, m - 1, text2, n)
+                    longestCommonSubsequence(text1, m, text2, n - 1),
+                    longestCommonSubsequence(text1, m - 1, text2, n)
             )
         }
     }
