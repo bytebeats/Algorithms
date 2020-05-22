@@ -939,4 +939,15 @@ class Solution6 {
         }
         return ans
     }
+
+    fun trailingZeroes(n: Int): Int {//面试题16.05
+        var ans = 0
+        var k = n
+        while (k > 1) {
+            k /= 5
+            ans++
+        }
+        return ans
+
+    }
 }
