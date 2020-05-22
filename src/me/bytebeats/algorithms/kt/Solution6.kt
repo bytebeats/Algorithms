@@ -637,11 +637,11 @@ class Solution6 {
         for (i in 0 until favoriteCompanies.lastIndex) {
             for (j in i + 1 until favoriteCompanies.size) {
                 if (favoriteCompanies[i].size > favoriteCompanies[j].size
-                    && contains(favoriteCompanies[i], favoriteCompanies[j])
+                        && contains(favoriteCompanies[i], favoriteCompanies[j])
                 ) {
                     set.add(j)
                 } else if (favoriteCompanies[i].size < favoriteCompanies[j].size
-                    && contains(favoriteCompanies[j], favoriteCompanies[i])
+                        && contains(favoriteCompanies[j], favoriteCompanies[i])
                 ) {
                     set.add(i)
                 }
@@ -986,6 +986,48 @@ class Solution6 {
             ans++
         }
         return ans
+    }
 
+    fun findNumberIn2DArray(matrix: Array<IntArray>, target: Int): Boolean {// 面试题04
+        if (matrix.isNotEmpty() && matrix[0].isNotEmpty()) {
+            var i = 0
+            var j = matrix[0].lastIndex
+            while (i < matrix.size && j > -1) {
+                if (matrix[i][j] < target) {
+                    i++
+                } else if (matrix[i][j] > target) {
+                    j--
+                } else {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun replaceSpace(s: String): String {//面试题05
+        val ans = StringBuilder()
+        for (c in s) {
+            if (c == ' ') {
+                ans.append("%20")
+            } else {
+                ans.append(c)
+            }
+        }
+        return ans.toString()
+    }
+
+    fun numWays(n: Int): Int {//面试题10-II
+        val MOD = 1_000_000_007
+        var pre = 1
+        var ans = 1
+        var tmp = 0
+        var k = n
+        while (k-- > 1) {
+            tmp = (pre + ans) % MOD
+            pre = ans
+            ans = tmp
+        }
+        return ans
     }
 }
