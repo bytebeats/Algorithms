@@ -312,7 +312,7 @@ class Solution2 {
         }
     }
 
-    fun buildTree(preorder: IntArray, inorder: IntArray): TreeNode? {
+    fun buildTree(preorder: IntArray, inorder: IntArray): TreeNode? {//105
         if (preorder == null || inorder == null || preorder.size != inorder.size) {
             return null
         }

@@ -940,6 +940,44 @@ class Solution6 {
         return ans
     }
 
+    fun findLongestSubarray(array: Array<String>): Array<String> {//面试题17.05
+        var s = 0
+        var e = 0
+        var ans = 0
+        var count = 0
+        val size = array.size
+        val memo = IntArray((size shr 1) + 1) { -2 }
+        memo[size] = -1
+        for (i in array.indices) {
+            count += if (array[i][0].isLetter()) 1 else -1
+            if (memo[count + size] > -2) {
+                if (i - memo[count + size] > ans) {
+                    s = memo[count + size] + 1
+                    e = i + 1
+                    ans = i - memo[count + size]
+                }
+            } else {
+                memo[count + size] = i
+            }
+        }
+        return array.copyOfRange(s, e)
+    }
+
+    fun frequencySort(s: String): String {//451
+        val map = sortedMapOf<Char, Int>()
+        for (c in s) {
+            map.compute(c) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        val ans = StringBuilder()
+        map.entries.sortedByDescending { it.value }.map {
+            var k = it.value
+            while (k-- > 0) {
+                ans.append(it.key)
+            }
+        }
+        return ans.toString()
+    }
+
     fun trailingZeroes(n: Int): Int {//面试题16.05
         var ans = 0
         var k = n
