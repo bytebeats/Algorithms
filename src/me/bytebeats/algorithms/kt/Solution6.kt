@@ -1030,4 +1030,103 @@ class Solution6 {
         }
         return ans
     }
+
+    fun minArray(numbers: IntArray): Int {//面试题11
+        var left = 0
+        var right = numbers.lastIndex
+        var mid = 0
+        while (left < right) {
+            mid = left + (right - left) / 2
+            if (numbers[mid] < numbers[right]) {
+                right = mid
+            } else if (numbers[mid] > numbers[right]) {
+                left = mid + 1
+            } else {
+                right--
+            }
+        }
+        return numbers[left]
+    }
+
+    fun firstUniqChar(s: String): Char {//面试题50
+        val map = mutableMapOf<Char, Int>()
+        for (c in s) {
+            map.compute(c) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        val chs = map.entries.filter { it.value == 1 }.map { it.key }
+        if (chs.isNotEmpty()) {
+            for (i in s.indices) {
+                if (chs.contains(s[i])) {
+                    return s[i]
+                }
+            }
+        }
+        return ' '
+    }
+
+    fun missingNumber(nums: IntArray): Int {//面试题53-II
+        var ans = 0
+        val size = nums.size
+        ans = ans xor size
+        for (i in nums.indices) {
+            ans = ans xor i
+            ans = ans xor nums[i]
+        }
+        return ans
+    }
+
+    fun printNumbers(n: Int): IntArray {//面试题17
+        var size = 1
+        for (i in 0 until n) {
+            size *= 10
+        }
+        val ans = IntArray(size - 1)
+        for (i in 0 until size - 1) {
+            ans[i] = i + 1
+        }
+        return ans
+    }
+
+    fun twoSum(nums: IntArray, target: Int): IntArray {//面试题57
+        val ans = IntArray(2) { -1 }
+        var i = 0
+        var j = nums.lastIndex
+        while (i < j) {
+            if (nums[i] + nums[j] > target) {
+                j--
+            } else if (nums[i] + nums[j] < target) {
+                i++
+            } else {
+                ans[0] = nums[i]
+                ans[1] = nums[j]
+                break
+            }
+        }
+        return ans
+    }
+
+    fun search(nums: IntArray, target: Int): Int {//面试题53 - I
+        var i = 0
+        var j = nums.lastIndex
+        var mid = 0
+        while (i <= j) {
+            mid = i + (j - i) / 2
+            if (nums[mid] > target) {
+                j = mid - 1
+            } else if (nums[mid] < target) {
+                i = mid + 1
+            } else {
+                i = mid
+                j = mid
+                while (i > 0 && nums[i] == nums[i - 1]) {
+                    i--
+                }
+                while (j < nums.lastIndex && nums[j] == nums[j + 1]) {
+                    j++
+                }
+                return j - i + 1
+            }
+        }
+        return 0
+    }
 }

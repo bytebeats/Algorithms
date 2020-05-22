@@ -530,4 +530,23 @@ public class BitsQuiz {
     public int kthGrammar(int N, int K) {
         return Integer.bitCount(K - 1) % 2;
     }
+
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {//面试题15
+        int ans = 0;
+        while (n != 0) {
+            ans += n & 1;
+            n >>>= 1;
+        }
+        return ans;
+    }
+
+    public int hammingWeight1(int n) {//面试题15
+        int ans = 0;
+        while (n != 0) {
+            ans++;
+            n &= n - 1;
+        }
+        return ans;
+    }
 }

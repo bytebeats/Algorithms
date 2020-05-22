@@ -1,6 +1,6 @@
 package me.bytebeats.algorithms.kt.design
 
-class MinStack {//155
+class MinStack {//155, 面试题30
 
     /**
      * initialize your data structure here.
@@ -53,10 +53,7 @@ class MinStack {//155
 
     private fun ensureCapacity() {
         if (top >= table.size) {
-            val tmp = table
-            val length = table.size * 3 / 2
-            table = IntArray(length)
-            System.arraycopy(tmp, 0, table, 0, top)
+            table = table.copyOf(table.size * 3 / 2)
         }
     }
 }
