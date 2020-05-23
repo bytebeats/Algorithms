@@ -637,11 +637,11 @@ class Solution6 {
         for (i in 0 until favoriteCompanies.lastIndex) {
             for (j in i + 1 until favoriteCompanies.size) {
                 if (favoriteCompanies[i].size > favoriteCompanies[j].size
-                        && contains(favoriteCompanies[i], favoriteCompanies[j])
+                    && contains(favoriteCompanies[i], favoriteCompanies[j])
                 ) {
                     set.add(j)
                 } else if (favoriteCompanies[i].size < favoriteCompanies[j].size
-                        && contains(favoriteCompanies[j], favoriteCompanies[i])
+                    && contains(favoriteCompanies[j], favoriteCompanies[i])
                 ) {
                     set.add(i)
                 }
@@ -1128,5 +1128,58 @@ class Solution6 {
             }
         }
         return 0
+    }
+
+    fun arrangeCoins(n: Int): Int {//441
+        var left = n
+        var rows = 1
+        var ans = 0
+        while (left >= rows) {
+            left -= rows
+            rows++
+            ans++
+        }
+        return ans
+    }
+
+    fun dayOfYear(date: String): Int {//1154
+        val year = date.split("-")[0]
+        val firstDate = "$year-01-01"
+        return daysOfDate(date) - daysOfDate(firstDate) + 1
+    }
+
+    private fun daysOfDate(date: String): Int {//Zeller formula
+        val arr = date.split("-")
+        var day = arr[2].toInt()
+        var month = arr[1].toInt()
+        var year = arr[0].toInt()
+        if (month <= 2) {
+            month += 10
+            year--
+        } else {
+            month -= 2
+        }
+        return day + month * 30 + (3 * month - 1) / 5 + 365 * year + year / 4 - year / 100 + year / 400
+    }
+
+    fun getHint(secret: String, guess: String): String {//299
+        var bulls = 0
+        var cows = 0
+        val bucket = IntArray(10) { 0 }
+        for (i in secret.indices) {
+            if (guess[i] == secret[i]) {
+                bulls++
+            } else {
+                bucket[secret[i] - '0'] += 1
+                bucket[guess[i] - '0'] -= 1
+            }
+        }
+        for (i in bucket) {
+            if (i > 0) {
+                cows += i
+            }
+        }
+        cows = secret.length - cows - bulls
+        return "${bulls}A${cows}B"
     }
 }
