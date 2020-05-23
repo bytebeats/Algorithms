@@ -1182,4 +1182,29 @@ class Solution6 {
         cows = secret.length - cows - bulls
         return "${bulls}A${cows}B"
     }
+
+
+    fun convertInteger(A: Int, B: Int): Int {//面试题05.06
+        var a = A
+        var b = B
+        var ans = 0
+        while (a != 0 || b != 0) {
+            if (a and 1 != b and 1) {
+                ans++
+            }
+            a = a ushr 1
+            b = b ushr 1
+        }
+        return ans
+    }
+
+    fun convertInteger1(A: Int, B: Int): Int {//面试题05.06
+        var ans = 0
+        var n = A xor B
+        while (n != 0) {
+            n = n and (n - 1)
+            ans++
+        }
+        return ans
+    }
 }
