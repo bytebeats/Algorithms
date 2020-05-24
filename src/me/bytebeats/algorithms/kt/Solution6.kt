@@ -637,11 +637,11 @@ class Solution6 {
         for (i in 0 until favoriteCompanies.lastIndex) {
             for (j in i + 1 until favoriteCompanies.size) {
                 if (favoriteCompanies[i].size > favoriteCompanies[j].size
-                    && contains(favoriteCompanies[i], favoriteCompanies[j])
+                        && contains(favoriteCompanies[i], favoriteCompanies[j])
                 ) {
                     set.add(j)
                 } else if (favoriteCompanies[i].size < favoriteCompanies[j].size
-                    && contains(favoriteCompanies[j], favoriteCompanies[i])
+                        && contains(favoriteCompanies[j], favoriteCompanies[i])
                 ) {
                     set.add(i)
                 }
@@ -1207,4 +1207,184 @@ class Solution6 {
         }
         return ans
     }
+
+    fun isPrefixOfWord(sentence: String, searchWord: String): Int {//5416
+        val words = sentence.split(" ")
+        for (i in words.indices) {
+            if (words[i].startsWith(searchWord)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    fun maxVowels(s: String, k: Int): Int {//5417
+        val vowels = setOf('a', 'e', 'i', 'o', 'u')
+        var ans = 0
+        var count = 0
+        for (i in 0 until k - 1) {
+            if (s[i] in vowels) {
+                count++
+            }
+        }
+        for (i in k - 1 until s.length) {
+            if (s[i] in vowels) {
+                count++
+            }
+            ans = Math.max(ans, count)
+            if (s[i - k + 1] in vowels) {
+                count--
+            }
+        }
+        return ans
+    }
+
+    var paths = 0
+    fun pseudoPalindromicPaths(root: TreeNode?): Int {//5418
+        paths = 0
+        pseudoPalindromicPaths(root, mutableListOf())
+        return paths
+    }
+
+    private fun pseudoPalindromicPaths(root: TreeNode?, list: MutableList<Int>) {
+        if (root == null) {
+            return
+        }
+        if (root.left == null && root.right == null) {
+            list.add(root.`val`)
+            if (containsPalindromic(list)) {
+                paths++
+            }
+        } else {
+            if (root.left != null) {
+                val left = mutableListOf<Int>()
+                left.addAll(list)
+                left.add(root.`val`)
+                pseudoPalindromicPaths(root.left, left)
+            }
+            if (root.right != null) {
+                val right = mutableListOf<Int>()
+                right.addAll(list)
+                right.add(root.`val`)
+                pseudoPalindromicPaths(root.right, right)
+            }
+        }
+    }
+
+    private fun containsPalindromic(list: MutableList<Int>): Boolean {
+        return list.groupBy { it }.entries.filter { it.value.size and 1 == 1 }.size <= 1
+    }
+
+    fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {//4
+        val totalSize = nums1.size + nums2.size
+        if (totalSize and 1 == 1) {
+            return getKthElement(nums1, nums2, totalSize / 2 + 1).toDouble()
+        } else {
+            val mid1 = totalSize / 2 - 1
+            val mid2 = totalSize / 2
+            return (getKthElement(nums1, nums2, mid1 + 1) + getKthElement(nums1, nums2, mid2 + 1)) / 2.0
+        }
+    }
+
+    private fun getKthElement(nums1: IntArray, nums2: IntArray, K: Int): Int {
+        /* 主要思路：要找到第 k (k>1) 小的元素，那么就取 pivot1 = nums1[k/2-1] 和 pivot2 = nums2[k/2-1] 进行比较
+        * 这里的 "/" 表示整除
+        * nums1 中小于等于 pivot1 的元素有 nums1[0 .. k/2-2] 共计 k/2-1 个
+        * nums2 中小于等于 pivot2 的元素有 nums2[0 .. k/2-2] 共计 k/2-1 个
+        * 取 pivot = min(pivot1, pivot2)，两个数组中小于等于 pivot 的元素共计不会超过 (k/2-1) + (k/2-1) <= k-2 个
+        * 这样 pivot 本身最大也只能是第 k-1 小的元素
+        * 如果 pivot = pivot1，那么 nums1[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums1 数组
+        * 如果 pivot = pivot2，那么 nums2[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums2 数组
+        * 由于我们 "删除" 了一些元素（这些元素都比第 k 小的元素要小），因此需要修改 k 的值，减去删除的数的个数
+        */
+
+        val size1 = nums1.size
+        val size2 = nums2.size
+        var i1 = 0
+        var i2 = 0
+        var kth = 0
+        var k = K
+        while (true) {
+            if (i1 == size1) {
+                return nums2[i2 + k - 1]
+            }
+            if (i2 == size2) {
+                return nums1[i1 + k - 1]
+            }
+            if (k == 1) {
+                return Math.min(nums1[i1], nums2[i2])
+            }
+            val half = k / 2
+            val newI1 = Math.min(i1 + half, size1) - 1
+            val newI2 = Math.min(i2 + half, size2) - 1
+            if (nums1[newI1] <= nums2[newI2]) {
+                k -= (newI1 - i1 + 1)
+                i1 = newI1 + 1
+            } else {
+                k -= (newI2 - i2 + 1)
+                i2 = newI2 + 1
+            }
+        }
+        return 0
+    }
+
+    fun validWordAbbreviation(word: String, abbr: String): Boolean {//408
+        if (word == abbr) {
+            return true
+        }
+        if (word.length < abbr.length || abbr.startsWith('0')) {
+            return false
+        }
+        var i = 0
+        var j = 0
+        while (i < word.length && j < abbr.length) {
+            if (abbr[j].isLetter()) {
+                if (word[i] != abbr[j]) {
+                    return false
+                } else {
+                    i++
+                    j++
+                }
+            } else {
+                var k = j + 1
+                while (k < abbr.length && abbr[k].isDigit()) {
+                    k++
+                }
+                val sub = abbr.substring(j, k)
+                val count = sub.toInt()
+                if (sub.length != count.toString().length) {
+                    return false
+                }
+                i += count
+                j = k
+            }
+        }
+        return i == word.length && j == abbr.length
+    }
+
+    fun detectCapitalUse(word: String): Boolean {//520
+        var upper = 0
+        var lower = 0
+        for (ch in word) {
+            if (ch.isLowerCase()) {
+                lower++
+            } else {
+                upper++
+            }
+        }
+        if (upper == 0 || lower == 0) {
+            return true
+        } else {
+            if (upper == word.length) {
+                return true
+            } else if (upper >= 2) {
+                return lower == 0
+            } else if (upper == 1) {
+                return word[0].isUpperCase()
+            } else {
+                return true
+            }
+        }
+    }
+
 }
