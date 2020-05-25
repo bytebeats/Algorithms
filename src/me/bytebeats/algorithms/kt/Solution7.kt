@@ -61,13 +61,13 @@ class Solution7 {
             }
         }
         return ans.entries
-                .sortedBy { it.key }//ordered by x
-                .map { x ->
-                    x.value
-                            .entries
-                            .sortedBy { it.key }//ordered by y
-                            .flatMap { it.value.sorted() }//ordered by value
-                }
+            .sortedBy { it.key }//ordered by x
+            .map { x ->
+                x.value
+                    .entries
+                    .sortedBy { it.key }//ordered by y
+                    .flatMap { it.value.sorted() }//ordered by value
+            }
     }
 
     var btnLeafVal = 0
@@ -88,4 +88,39 @@ class Solution7 {
         dfs(root.left, level + 1, set)
         dfs(root.right, level + 1, set)
     }
+
+    fun pathInZigZagTree(label: Int): List<Int> {//1104
+        val path = mutableListOf<Int>()
+        var newLbl = label
+        var level = (Math.log(newLbl.toDouble()) / Math.log(2.0)).toInt()
+        while (newLbl > 1) {
+            path.add(newLbl)
+            newLbl = (3 * Math.pow(2.0, (--level).toDouble()) - newLbl / 2 - 1).toInt()
+        }
+        path.add(1)
+        return path.reversed()
+    }
+
+    fun missingNumber(arr: IntArray): Int {//1228
+        var pre = 0
+        var post = 0
+        for (i in 1 until arr.size - 1) {
+            pre = arr[i] - arr[i - 1]
+            post = arr[i + 1] - arr[i]
+            if (pre != post) {
+                if (pre / post == 2) {
+                    return arr[i] - (arr[i + 1] - arr[i])
+                } else {
+                    return arr[i] + (arr[i] - arr[i - 1])
+                }
+            }
+        }
+        return arr[0]//in case of [1,1,1]
+    }
+
+    fun longestSubsequence(arr: IntArray, difference: Int): Int {//1218
+        var ans = 0
+        return 0
+    }
+
 }
