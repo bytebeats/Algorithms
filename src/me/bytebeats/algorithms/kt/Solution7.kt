@@ -123,4 +123,129 @@ class Solution7 {
         return 0
     }
 
+    fun findErrorNums(nums: IntArray): IntArray {//645
+        val ans = IntArray(2)
+        var xorVal = 0
+        for (i in nums.indices) {
+            xorVal = xorVal xor (i + 1)
+            xorVal = xorVal xor nums[i]
+        }
+        val rightMost = xorVal and (xorVal - 1).inv()
+        var x0 = 0
+        var x1 = 0
+        for (i in nums.indices) {
+            if ((i + 1) and rightMost != 0) {
+                x1 = x1 xor (i + 1)
+            } else {
+                x0 = x0 xor (i + 1)
+            }
+            if (nums[i] and rightMost != 0) {
+                x1 = x1 xor nums[i]
+            } else {
+                x0 = x0 xor nums[i]
+            }
+        }
+        for (i in nums.indices) {
+            if (nums[i] == x0) {
+                ans[0] = x0
+                ans[1] = x1
+                return ans
+            }
+        }
+        ans[0] = x1
+        ans[1] = x0
+        return ans
+    }
+
+    fun waysToStep(n: Int): Int {//面试题08.01
+        val mod = 1000000007
+        if (n < 2) {
+            return 1
+        } else if (n < 3) {
+            return 2
+        } else if (n < 4) {
+            return 4
+        } else {
+            var nn = n
+            var f1 = 1
+            var f2 = 2
+            var f3 = 4
+            var tmp1 = 0
+            var tmp2 = 0
+            while (nn-- > 3) {
+                tmp1 = f1
+                tmp2 = f2
+                f1 = f2
+                f2 = f3
+                f3 = ((f3 + tmp1) % mod + tmp2) % mod
+            }
+            return f3
+        }
+    }
+
+    fun findString(words: Array<String>, s: String): Int {//面试题10.05
+        var i = 0
+        var j = words.lastIndex
+
+        var mid = 0
+        while (i <= j) {
+            while (i < j && words[i].isEmpty()) {
+                i++
+            }
+            while (i < j && words[j].isEmpty()) {
+                j--
+            }
+            mid = i + (j - i) / 2
+            while (mid > i && words[mid].isEmpty()) {
+                mid--
+            }
+            if (words[mid] < s) {
+                i = mid + 1
+            } else if (words[mid] > s) {
+                j = mid - 1
+            } else {
+                return mid
+            }
+        }
+        return -1
+    }
+
+    fun findMagicIndex(nums: IntArray): Int {//面试题08.03
+        var ans = -1
+        for (i in nums.indices) {
+            if (i == nums[i]) {
+                ans = i
+                break
+            }
+        }
+        return ans
+    }
+
+    var firstIdx = -1
+    fun findMagicIndex1(nums: IntArray): Int {//面试题08.03
+        firstIdx = -1
+        search(nums, 0, nums.lastIndex)
+        return firstIdx
+    }
+
+    private fun search(nums: IntArray, left: Int, right: Int) {
+        if (left > right) {
+            return
+        }
+        val mid = left + (right - left) / 2
+        if (mid == nums[mid]) {
+            if (firstIdx == -1) {
+                firstIdx = mid
+            } else if (firstIdx > mid) {
+                firstIdx = mid
+            }
+            search(nums, left, mid - 1)
+        } else {
+            search(nums, left, mid - 1)
+            if (firstIdx == -1 || firstIdx > mid) {
+                search(nums, mid + 1, right)
+            }
+        }
+    }
+
 }
