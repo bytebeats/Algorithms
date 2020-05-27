@@ -248,4 +248,227 @@ class Solution7 {
         }
     }
 
+    fun validMountainArray(A: IntArray): Boolean {//941
+        if (A.size >= 3) {
+            var hasPeak = false
+            for (i in 1 until A.size - 1) {
+                if (A[i - 1] < A[i] && A[i] > A[i + 1]) {
+                    if (hasPeak) {
+                        return false
+                    }
+                    hasPeak = true
+                } else if (A[i - 1] == A[i] || A[i] == A[i + 1]) {
+                    return false
+                } else if (A[i - 1] > A[i] && A[i] < A[i + 1]) {
+                    return false
+                }
+            }
+            return hasPeak
+        }
+        return false
+    }
+
+    fun validMountainArray1(A: IntArray): Boolean {//941
+        if (A.size >= 3) {
+            var i = 0
+            while (i < A.size - 1 && A[i] < A[i + 1]) {
+                i++
+            }
+            if (i == 0 || i == A.size - 1) {
+                return false
+            }
+            while (i < A.size - 1 && A[i] > A[i + 1]) {
+                i++
+            }
+            return i == A.size - 1
+        }
+        return false
+    }
+
+    fun longestSubarray(nums: IntArray, limit: Int): Int {//1438
+        var ans = 0
+        var i = 0
+        var min = nums[i]
+        var max = nums[i]
+        for (j in nums.indices) {
+            min = Math.min(min, nums[j])
+            max = Math.max(max, nums[j])
+            if (max - min <= limit) {
+                ans = Math.max(ans, j - i + 1)
+            } else {
+                i++
+                min = nums[i]
+                max = nums[i]
+                for (k in i + 1..j) {
+                    min = Math.min(min, nums[k])
+                    max = Math.max(max, nums[k])
+                }
+            }
+        }
+        return ans
+    }
+
+    fun possibleBipartition(N: Int, dislikes: Array<IntArray>): Boolean {//886
+        val graph = Array<MutableList<Int>>(N + 1) { mutableListOf() }
+        for (dislike in dislikes) {
+            graph[dislike[0]].add(dislike[1])
+            graph[dislike[1]].add(dislike[0])
+        }
+        val color = mutableMapOf<Int, Int>()
+        for (i in 1..N) {
+            if (!color.containsKey(i) && !dfs(i, 0, graph, color)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun dfs(n: Int, c: Int, graph: Array<MutableList<Int>>, color: MutableMap<Int, Int>): Boolean {
+        if (color.containsKey(n)) {
+            return color[n] == c
+        }
+        color[n] = c
+        for (neighbour in graph[n]) {
+            if (!dfs(neighbour, c xor 1, graph, color)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, newColor: Int): Array<IntArray> {//面试题08.01
+        if (image.isNotEmpty() && image[0].isNotEmpty()) {
+            if (image[sr][sc] != newColor) {
+                floodFill(image, sr, sc, newColor, image[sr][sc])
+            }
+        }
+        return image
+    }
+
+    private fun floodFill(image: Array<IntArray>, sr: Int, sc: Int, newColor: Int, color: Int) {//面试题08.01
+        if (sr < 0 || sc < 0 || sr >= image.size - 1 || sc >= image[0].size - 1 || image[sr][sc] != color) {
+            return
+        }
+        image[sr][sc] = newColor
+        floodFill(image, sr - 1, sc, newColor, color)
+        floodFill(image, sr, sc - 1, newColor, color)
+        floodFill(image, sr + 1, sc, newColor, color)
+        floodFill(image, sr, sc + 1, newColor, color)
+    }
+
+    fun pathSum(root: TreeNode?, sum: Int): List<List<Int>> {//面试题34
+        val ans = mutableListOf<MutableList<Int>>()
+        pathSum(root, sum, 0, mutableListOf(), ans)
+        return ans
+    }
+
+    fun pathSum(root: TreeNode?, sum: Int, subSum: Int, path: MutableList<Int>, ans: MutableList<MutableList<Int>>) {
+        if (root == null) {
+            return
+        }
+        if (root.left == null && root.right == null) {
+            if (root.`val` + subSum == sum) {
+                val list = mutableListOf<Int>()
+                list.addAll(path)
+                list.add(root.`val`)
+                ans.add(list)
+            }
+        } else {
+            if (root.left != null) {
+                val list = mutableListOf<Int>()
+                list.addAll(path)
+                list.add(root.`val`)
+                pathSum(root.left, sum, root.`val` + subSum, list, ans)
+            }
+            if (root.right != null) {
+                val list = mutableListOf<Int>()
+                list.addAll(path)
+                list.add(root.`val`)
+                pathSum(root.right, sum, root.`val` + subSum, list, ans)
+            }
+        }
+    }
+
+    /**
+     * Forsaken by me.
+     */
+    fun minTime(n: Int, edges: Array<IntArray>, hasApple: List<Boolean>): Int {//1443
+        val graph = Array(n) { mutableListOf<Int>() }
+        for (edge in edges) {
+            graph[edge[0]].add(edge[1])
+            graph[edge[1]].add(edge[0])
+        }
+        val ans = collect(n, graph, 0, hasApple, mutableSetOf())
+        if (ans > 0) {
+            return (ans - 1) shr 1
+        } else {
+            return 0
+        }
+    }
+
+    private fun collect(
+        n: Int,
+        graph: Array<MutableList<Int>>,
+        i: Int,
+        hasApple: List<Boolean>,
+        visited: MutableSet<Int>
+    ): Int {
+        if (i >= n) {
+            return 0
+        }
+        var sum = 0
+        visited.add(i)
+        for (nb in graph[i]) {
+            if (!visited.contains(nb)) {
+                sum += collect(n, graph, nb, hasApple, visited)
+            }
+        }
+        if (sum > 0 || hasApple[i]) {
+            sum += 1
+        }
+        return sum
+    }
+
+
+    fun deleteNode(root: TreeNode?, key: Int): TreeNode? {//450
+        if (root != null) {
+            if (root.`val` > key) {
+                root.left = deleteNode(root.left, key)
+            } else if (root.`val` < key) {
+                root.right = deleteNode(root.right, key)
+            } else {
+                if (root.left == null) {
+                    return root.right
+                } else if (root.right == null) {
+                    return root.left
+                } else {
+                    var node = root.right
+                    while (node.left != null) {
+                        node = node.left
+                    }
+                    node.left = root.left
+                    return root.right
+                }
+            }
+        }
+        return root
+    }
+
+    fun splitBST(root: TreeNode?, V: Int): Array<TreeNode?> {//776
+        if (root == null) {
+            return Array(2) { null }
+        } else if (root.`val` <= V) {
+            val bns = splitBST(root.right, V)
+            root.right = bns[0]
+            bns[0] = root
+            return bns
+        } else {
+            val bns = splitBST(root.left, V)
+            root.left = bns[1]
+            bns[1] = root
+            return bns
+        }
+    }
+
+
 }
