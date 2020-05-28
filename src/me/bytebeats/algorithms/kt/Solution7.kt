@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.TreeNode
+import me.bytebeats.algorithms.meta.ListNode
 
 class Solution7 {
 
@@ -468,6 +469,167 @@ class Solution7 {
             bns[1] = root
             return bns
         }
+    }
+
+    fun partition(head: ListNode?, x: Int): ListNode? {//86
+        val dummyBefore = ListNode(-1)
+        var before = dummyBefore
+        val dummyAfter = ListNode(-1)
+        var after = dummyAfter
+        var p = head
+        while (p != null) {
+            if (p.`val` < x) {
+                before.next = p
+                before = before.next
+            } else {
+                after.next = p
+                after = after.next
+            }
+            p = p.next
+        }
+        before.next = dummyAfter.next
+        after.next = null
+        return dummyBefore.next
+    }
+
+    var ptr = 0
+    fun decodeString(s: String): String {//394
+        ptr = 0
+        val stack = mutableListOf<String>()
+        while (ptr < s.length) {
+            var ch = s[ptr]
+            if (ch.isDigit()) {
+                stack.add(getDigits(s))
+            } else if (ch.isLetter() || ch == '[') {
+                stack.add(ch.toString())
+                ptr++
+            } else {
+                ptr++
+                val sub = mutableListOf<String>()
+                while (stack.last() != "[") {
+                    sub.add(stack.last())
+                    stack.removeAt(stack.lastIndex)
+                }
+                sub.reverse()
+                stack.removeAt(stack.lastIndex)
+                var count = stack.last().toInt()
+                stack.removeAt(stack.lastIndex)
+                val tmp = StringBuilder()
+                val subStr = getString(sub)
+                while (count-- > 0) {
+                    tmp.append(subStr)
+                }
+                stack.add(tmp.toString())
+            }
+        }
+
+        return getString(stack)
+    }
+
+    private fun getString(list: MutableList<String>): String {
+        val str = StringBuilder()
+        list.forEach { str.append(it) }
+        return str.toString()
+    }
+
+    private fun getDigits(s: String): String {
+        val digits = StringBuilder()
+        while (s[ptr].isDigit()) {
+            digits.append(s[ptr++])
+        }
+        return digits.toString()
+    }
+
+    fun tribonacci(n: Int): Int {//1137
+        if (n <= 0) {
+            return 0
+        } else if (n == 1) {
+            return 1
+        } else if (n == 2) {
+            return 1
+        } else {
+            var t0 = 0
+            var t1 = 1
+            var t2 = 1
+            var nn = n
+            var tmp1 = 0
+            var tmp2 = 0
+            while (nn-- > 2) {
+                tmp1 = t0
+                tmp2 = t1
+                t0 = t1
+                t1 = t2
+                t2 += (tmp1 + tmp2)
+            }
+            return t2
+        }
+    }
+
+    fun minimumAbsDifference(arr: IntArray): List<List<Int>> {//1200
+        arr.sort()
+        var minAbs = Int.MAX_VALUE
+        for (i in 1 until arr.size) {
+            minAbs = Math.min(minAbs, arr[i] - arr[i - 1])
+        }
+        val ans = mutableListOf<List<Int>>()
+        for (i in 1 until arr.size) {
+            if (arr[i] - arr[i - 1] == minAbs) {
+                ans.add(listOf(arr[i - 1], arr[i]))
+            }
+        }
+        return ans
+    }
+
+    fun nextGreaterElement(nums1: IntArray, nums2: IntArray): IntArray {//496
+        for (k in nums1.indices) {
+            val num = nums1[k]
+            var i = 0
+            while (nums2[i] != num) {
+                i++
+            }
+            var idx = -1
+            for (j in i + 1 until nums2.size) {
+                if (nums2[j] > num) {
+                    idx = j
+                    break
+                }
+            }
+            if (idx != -1) {
+                nums1[k] = nums2[idx]
+            } else {
+                nums1[k] = -1
+            }
+        }
+        return nums1
+    }
+
+    fun nextGreaterElement1(nums1: IntArray, nums2: IntArray): IntArray {//496, monotone stack
+        val stack = mutableListOf<Int>()
+        val map = mutableMapOf<Int, Int>()
+        for (i in nums2.indices) {
+            while (stack.isNotEmpty() && nums2[i] > stack.last()) {
+                map[stack.removeAt(stack.lastIndex)] = nums2[i]
+            }
+            stack.add(nums2[i])
+        }
+        while (stack.isNotEmpty()) {
+            map[stack.removeAt(stack.lastIndex)] = -1
+        }
+        for (i in nums1.indices) {
+            nums1[i] = map[nums1[i]] ?: -1
+        }
+        return nums1
+    }
+
+    fun dailyTemperatures(T: IntArray): IntArray {//739
+        val ans = IntArray(T.size)
+        val stack = mutableListOf<Int>()
+        for (i in T.lastIndex downTo 0) {
+            while (stack.isNotEmpty() && T[i] >= T[stack.last()]) stack.removeAt(stack.lastIndex)
+            ans[i] = if (stack.isEmpty()) 0 else stack.last() - i
+            stack.add(i)
+        }
+        return ans
     }
 
 
