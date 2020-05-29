@@ -632,5 +632,62 @@ class Solution7 {
         return ans
     }
 
+    fun countDigitOne(n: Int): Int {//面试题43
+        var ans = 0
+        var digit = 1
+        var high = n / 10
+        var cur = n % 10
+        var low = 0
+        while (high != 0 || cur != 0) {
+            if (cur == 0) {
+                ans += digit * high
+            } else if (cur == 1) {
+                ans += (digit * high + low + 1)
+            } else {
+                ans += (high + 1) * digit
+            }
+            low += cur * digit
+            cur = high % 10
+            high /= 10
+            digit *= 10
+        }
+        return ans
+    }
+
+    fun countDigitOne1(n: Int): Int {//233
+        var ans = 0
+        if (n > 0) {
+            var digit = 1
+            var high = n / 10
+            var cur = n % 10
+            var low = 0
+            while (high != 0 || cur != 0) {
+                if (cur == 0) {
+                    ans += digit * high
+                } else if (cur == 1) {
+                    ans += (digit * high + low + 1)
+                } else {
+                    ans += (high + 1) * digit
+                }
+                low += cur * digit
+                cur = high % 10
+                high /= 10
+                digit *= 10
+            }
+        }
+        return ans
+    }
+
+    fun minCostClimbingStairs(cost: IntArray): Int {//746
+        var dp1 = 0
+        var dp2 = 0
+        var tmp = 0
+        for (i in cost.lastIndex downTo 0) {
+            tmp = Math.min(dp1, dp2) + cost[i]
+            dp2 = dp1
+            dp1 = tmp
+        }
+        return Math.min(dp1, dp2)
+    }
 
 }
