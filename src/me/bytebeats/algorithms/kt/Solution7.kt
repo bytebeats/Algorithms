@@ -796,4 +796,22 @@ class Solution7 {
         return points.take(K).toTypedArray()
     }
 
+    fun isUnivalTree(root: TreeNode?): Boolean {//965
+        if (root == null) {
+            return true
+        }
+        return isEqual(root.left, root.`val`) && isEqual(root.right, root.`val`)
+    }
+
+    private fun isEqual(node: TreeNode?, `val`: Int): Boolean {
+        if (node == null) {
+            return true
+        }
+        if (node.`val` != `val`) {
+            return false
+        } else {
+            return isEqual(node.left, `val`) && isEqual(node.right, `val`)
+        }
+    }
+
 }
