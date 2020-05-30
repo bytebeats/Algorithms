@@ -690,4 +690,110 @@ class Solution7 {
         return Math.min(dp1, dp2)
     }
 
+    fun largestRectangleArea(heights: IntArray): Int {//84
+        val size = heights.size
+        val left = IntArray(size)
+        val right = IntArray(size)
+        val stack = mutableListOf<Int>()// store index of heights
+        for (i in heights.indices) {
+            while (stack.isNotEmpty() && heights[stack.last()] >= heights[i]) {
+                stack.removeAt(stack.lastIndex)
+            }
+            left[i] = if (stack.isEmpty()) -1 else stack.last()
+            stack.add(i)
+        }
+        stack.clear()
+        for (i in heights.lastIndex downTo 0) {
+            while (stack.isNotEmpty() && heights[stack.last()] >= heights[i]) {
+                stack.removeAt(stack.lastIndex)
+            }
+            right[i] = if (stack.isEmpty()) size else stack.last()
+            stack.add(i)
+        }
+        var ans = 0
+        for (i in heights.indices) {
+            ans = Math.max(ans, (right[i] - left[i] - 1) * heights[i])
+        }
+        return ans
+    }
+
+    fun maximalRectangle(matrix: Array<CharArray>): Int {//85
+        var ans = 0
+        if (matrix.isNotEmpty()) {
+            val m = matrix.size
+            val n = matrix[0].size
+            val left = IntArray(n)
+            val right = IntArray(n) { n }
+            val height = IntArray(n)
+            for (i in 0 until m) {
+                var curLeft = 0
+                var curRight = n
+                //update height
+                for (j in 0 until n) {
+                    if (matrix[i][j] == '1') {
+                        height[j]++
+                    } else {
+                        height[j] = 0
+                    }
+                }
+                //update left
+                for (j in 0 until n) {
+                    if (matrix[i][j] == '1') {
+                        left[j] = Math.max(left[j], curLeft)
+                    } else {
+                        left[j] = 0
+                        curLeft = j + 1
+                    }
+                }
+                //update right
+                for (j in n - 1 downTo 0) {
+                    if (matrix[i][j] == '1') {
+                        right[j] = Math.min(right[j], curRight)
+                    } else {
+                        right[j] = n
+                        curRight = j
+                    }
+                }
+                //update area
+                for (j in 0 until n) {
+                    ans = Math.max(ans, (right[j] - left[j]) * height[j])
+                }
+            }
+        }
+        return ans
+    }
+
+    fun findRestaurant(list1: Array<String>, list2: Array<String>): Array<String> {//599
+        val intersection = list1.intersect(list2.asIterable())
+        val min = intersection.map { list1.indexOf(it) + list2.indexOf(it) }.min()
+        return intersection.filter { list1.indexOf(it) + list2.indexOf(it) == min }.toTypedArray()
+    }
+
+    fun maxScore(s: String): Int {//1422
+        var ans = 0
+        var ones = 0
+        for (ch in s) {
+            if (ch == '1') {
+                ones++
+            }
+        }
+        var zeros = 0
+        for (i in 0 until s.lastIndex) {
+            if (s[i] == '0') {
+                zeros++
+            } else {
+                ones--
+            }
+            if (zeros + ones > ans) {
+                ans = zeros + ones
+            }
+        }
+        return ans
+    }
+
+    fun kClosest(points: Array<IntArray>, K: Int): Array<IntArray> {//973
+        points.sortBy { it[0] * it[0] + it[1] * it[1] }
+        return points.take(K).toTypedArray()
+    }
+
 }
