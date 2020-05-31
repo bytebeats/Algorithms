@@ -814,4 +814,199 @@ class Solution7 {
         }
     }
 
+    fun canBeEqual(target: IntArray, arr: IntArray): Boolean {//5408, 1460
+        var xorVal = 0
+        for (i in target.indices) {//元素各类及相应数目相同即可
+            xorVal = xorVal xor target[i]
+            xorVal = xorVal xor arr[i]
+        }
+        return xorVal == 0
+    }
+
+    fun hasAllCodes(s: String, k: Int): Boolean {//5409, 1461
+        if (s.length <= k) {
+            return false
+        }
+        val visited = BooleanArray(1 shl k) { false }
+        var cur = 0
+        for (i in 0 until k - 1) {//sliding window to compute digit to verify is in 0[k-2]0 ~ 1[k-2]1
+            cur = cur * 2 + (s[i] - '0')
+        }
+        for (i in k - 1 until s.length) {
+            cur = cur * 2 + (s[i] - '0')
+            visited[cur] = true
+            cur = cur and (1 shl (k - 1)).dec()
+        }
+        for (i in visited.indices) {
+            if (!visited[i]) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun checkIfPrerequisite(n: Int, prerequisites: Array<IntArray>, queries: Array<IntArray>): BooleanArray {//5410
+        val ans = BooleanArray(queries.size) { false }
+        val arr = Array(n) { BooleanArray(n) { false } }
+        for (pre in prerequisites) {
+            for (i in arr.indices) {
+                if (i == pre[0] || arr[i][pre[0]]) {
+                    arr[i][pre[1]] = true
+                    for (j in 0 until n) {
+                        if (arr[pre[1]][j]) {
+                            arr[i][j] = true
+                        }
+                    }
+                }
+            }
+        }
+        for (i in queries.indices) {
+            ans[i] = arr[queries[i][0]][queries[i][1]]
+        }
+        return ans
+    }
+
+    fun maxProfit(prices: IntArray): Int {//面试题63
+        var max = 0
+        if (prices.isNotEmpty()) {
+            var min = prices[0]
+            for (i in prices.indices) {
+                if (prices[i] - min > max) {
+                    max = prices[i] - min
+                }
+                if (prices[i] < min) {
+                    min = prices[i]
+                }
+            }
+        }
+        return max
+    }
+
+    fun maxProduct(nums: IntArray): Int {//5424, 1464
+        nums.sort()
+        return (nums.last() - 1) * (nums[nums.lastIndex - 1] - 1)
+    }
+
+    /**
+     * x 轴的最大间隔 * y 轴的最大间隔
+     */
+    fun maxArea(h: Int, w: Int, horizontalCuts: IntArray, verticalCuts: IntArray): Int {//5425, 1465
+        horizontalCuts.sort()
+        verticalCuts.sort()
+        var maxHSpan = 1L
+        for (i in 1 until horizontalCuts.size) {
+            maxHSpan = maxHSpan.coerceAtLeast((horizontalCuts[i] - horizontalCuts[i - 1]).toLong())
+        }
+        maxHSpan = maxHSpan.coerceAtLeast(horizontalCuts[0].toLong())
+        maxHSpan = maxHSpan.coerceAtLeast((h - horizontalCuts.last()).toLong())
+        var maxVSpan = 1L
+        for (j in 1 until verticalCuts.size) {
+            maxVSpan = maxVSpan.coerceAtLeast((verticalCuts[j] - verticalCuts[j - 1]).toLong())
+        }
+        maxVSpan = maxVSpan.coerceAtLeast((verticalCuts[0] - 0).toLong())
+        maxVSpan = maxVSpan.coerceAtLeast((w - verticalCuts.last()).toLong())
+        return (maxHSpan * maxVSpan % 1000000007).toInt()
+    }
+
+    /**
+     * 不使用除法的除去本索引元素的数组乘积
+     */
+    fun constructArr(a: IntArray): IntArray {// 面试题66
+        val ans = IntArray(a.size)
+        if (a.isNotEmpty()) {
+            ans[0] = 1
+            for (i in 1 until a.size) {
+                ans[i] = ans[i - 1] * a[i - 1]
+            }
+            var tmp = 1
+            for (i in a.size - 2 downTo 0) {
+                tmp *= a[i + 1]
+                ans[i] *= tmp
+            }
+        }
+        return ans
+    }
+
+    /**
+     * a: 当所有绳段长度相等时，乘积最大。
+     * b: 最优的绳段长度为 33
+     */
+    fun cuttingRope(n: Int): Int {//343, 面试题14-I
+        if (n <= 3) {
+            return n - 1
+        }
+        val a = n / 3
+        val b = n % 3
+        return if (b == 0) Math.pow(3.0, a.toDouble()).toInt()
+        else if (b == 1) (Math.pow(3.0, (a - 1).toDouble()) * 4).toInt()
+        else (Math.pow(3.0, a.toDouble()) * 2).toInt()
+    }
+
+    /**
+     * 动态规划解法, 拆分数组
+     */
+    fun integerBreak(n: Int): Int {//343, 面试题14-I
+        val dp = IntArray(n + 1)
+        dp[2] = 1
+        for (i in 3..n) {
+            for (j in 1 until i) {
+                dp[i] = Math.max(dp[i], Math.max(j * dp[i - j], j * (i - j)))
+            }
+        }
+        return dp[n]
+    }
+
+    /**
+     * 编辑距离
+     */
+    fun minDistance(word1: String, word2: String): Int {//72, edit distance
+        val s1 = word1.length
+        val s2 = word2.length
+        val dp = Array(s1 + 1) { IntArray(s2 + 1) }
+        for (i in 0..s1) {
+            for (j in 0..s2) {
+                if (i == 0) {
+                    dp[i][j] = j
+                } else if (j == 0) {
+                    dp[i][j] = i
+                } else {
+                    if (word1[i - 1] == word2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1]
+                    } else {
+                        dp[i][j] = 1 + Math.min(dp[i][j - 1], Math.min(dp[i - 1][j], dp[i - 1][j - 1]))
+                    }
+                }
+            }
+        }
+        return dp[s1][s2]
+    }
+
+    fun minReorder(n: Int, connections: Array<IntArray>): Int {//5426, 1466
+        val connIdx = Array(n) { mutableListOf<Int>() }
+        for (i in connections.indices) {
+            connIdx[connections[i][0]].add(i)
+            connIdx[connections[i][1]].add(i)
+        }
+        val visited = BooleanArray(connections.size) { false }
+        var ans = 0
+        val queue = mutableListOf<Int>()
+        queue.add(0)
+        var p = 0
+        while (queue.isNotEmpty()) {
+            p = queue.removeAt(0)
+            for (i in connIdx[p]) {
+                if (visited[i]) continue
+                visited[i] = true
+                var a = connections[i][0]
+                var b = connections[i][1]
+                if (a == p) {
+                    ans++
+                    a = b
+                }
+                queue.add(a)
+            }
+        }
+        return ans
+    }
+
 }
