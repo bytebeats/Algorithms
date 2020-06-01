@@ -1786,7 +1786,7 @@ class Solution {
         return maxAns
     }
 
-    fun luckyNumbers(matrix: Array<IntArray>): List<Int> {
+    fun luckyNumbers(matrix: Array<IntArray>): List<Int> {//1380
         val res = ArrayList<Int>()
         outer@ for (i in matrix.indices) {
             var minVal = Int.MAX_VALUE

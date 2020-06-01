@@ -1009,4 +1009,95 @@ class Solution7 {
         return ans
     }
 
+    fun kidsWithCandies(candies: IntArray, extraCandies: Int): BooleanArray {//1431
+        val max = candies.max() ?: 0
+        val ans = BooleanArray(candies.size) { false }
+        for (i in candies.indices) {
+            ans[i] = candies[i] >= max - extraCandies
+        }
+        return ans
+    }
+
+    fun splitArray(nums: IntArray): Boolean {//548
+        if (nums.size < 7) {
+            return false
+        }
+        val sum = nums.sum()
+        var sum1 = 0
+        for (i in 1..nums.size - 6) {
+            sum1 += nums[i - 1]
+            var sum2 = 0
+            for (j in i + 2..nums.size - 4) {
+                sum2 += nums[j - 1]
+                var sum3 = 0
+                for (k in j + 2..nums.size - 2) {
+                    sum3 += nums[k - 1]
+                    if (sum1 == sum2 && sum2 == sum3 && sum3 == sum - sum1 - sum2 - sum3 - nums[i] - nums[j] - nums[k]) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    fun numSubarrayBoundedMax(A: IntArray, L: Int, R: Int): Int {//795
+        return count(A, R) - count(A, L - 1)
+    }
+
+    private fun count(A: IntArray, maxVal: Int): Int {
+        var ans = 0
+        var cur = 0
+        for (a in A) {
+            cur = if (a <= maxVal) cur + 1 else 0
+            ans += cur
+        }
+        return ans
+    }
+
+    fun hasGroupsSizeX(deck: IntArray): Boolean {//914
+        val count = IntArray(1000)
+        for (card in deck) {
+            count[card]++
+        }
+        var gcd = -1
+        for (c in count) {
+            if (c > 0) {
+                if (gcd == -1) {
+                    gcd = c
+                } else {
+                    gcd = gcd(gcd, c)
+                }
+            }
+        }
+        return gcd >= 2
+    }
+
+    private fun gcd(x: Int, y: Int): Int {
+        return if (x == 0) y else gcd(y % x, x)
+    }
+
+    fun arrayRankTransform(arr: IntArray): IntArray {//1331
+        val ans = IntArray(arr.size)
+        var min = Int.MAX_VALUE
+        var max = Int.MIN_VALUE
+        for (n in arr) {
+            min = min.coerceAtMost(n)
+            max = max.coerceAtLeast(n)
+        }
+        val count = IntArray(max - min + 1)
+        for (n in arr) {
+            count[n - min] = 1
+        }
+        val preSum = IntArray(count.size + 1)
+        for (i in 1..count.size) {
+            preSum[i] = preSum[i - 1] + count[i - 1]
+        }
+        var index = 0
+        for (n in arr) {
+            ans[index++] = preSum[n - min] + 1
+        }
+        return ans
+    }
+
 }
