@@ -1100,4 +1100,71 @@ class Solution7 {
         return ans
     }
 
+    var product = 0
+    fun sumNums(n: Int): Int {//面试题64
+        n > 1 && sumNums(n - 1) > 0 //短路特性, 如果前面为0, 则后面不再计算
+        product += n
+        return product
+    }
+
+    fun numberOfLines(widths: IntArray, S: String): IntArray {//806
+        val ans = IntArray(2)
+        var lineWidth = 0
+        var curLine = 0
+        for (c in S) {
+            if (lineWidth + widths[c - 'a'] <= 100) {
+                lineWidth += widths[c - 'a']
+            } else {
+                lineWidth = widths[c - 'a']
+                curLine++
+            }
+        }
+        ans[0] = curLine + 1
+        ans[1] = lineWidth
+        return ans
+    }
+
+    fun checkPossibility(nums: IntArray): Boolean {//665
+        var n = 0
+        for (i in 0..nums.size - 2) {
+            if (nums[i] > nums[i + 1]) {
+                if (n > 0) {
+                    return false
+                }
+                n++
+                if (i == 0) {
+                    nums[i] = nums[i + 1]
+                } else {
+                    if (nums[i + 1] > nums[i - 1]) {
+                        nums[i] = nums[i - 1]
+                    } else {
+                        nums[i + 1] = nums[i]
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    fun subtractProductAndSum(n: Int): Int {//1281
+        var product = 1
+        var sum = 0
+        var nn = n
+        while (nn > 0) {
+            val d = nn % 10
+            product *= d
+            sum += d
+            nn /= 10
+        }
+        return product - sum
+    }
+
+    fun uniqueOccurrences(arr: IntArray): Boolean {//1207
+        val map = mutableMapOf<Int, Int>()
+        for (n in arr) {
+            map.compute(n) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        val list = map.values.distinct()
+        return map.size == list.size
+    }
 }
