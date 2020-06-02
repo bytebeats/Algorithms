@@ -27,13 +27,13 @@ class Solution {
         return 0
     }
 
-    fun invertTree(root: TreeNode?): TreeNode? {
+    fun invertTree(root: TreeNode?): TreeNode? {//226
         root?.apply {
             val tmp = left
             left = right
             right = tmp
-            left?.apply { invertTree(this@apply.left) }
-            right?.apply { invertTree(this@apply.right) }
+            left?.apply { invertTree(root.left) }
+            right?.apply { invertTree(root.right) }
         }
         return root
     }
