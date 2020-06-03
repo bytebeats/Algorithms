@@ -1325,11 +1325,8 @@ class Solution2 {
         return ans
     }
 
-    fun lowestCommonAncestor(
-        root: TreeNode?,
-        p: TreeNode?,
-        q: TreeNode?
-    ): TreeNode? {//lowest common ancestor of a binary search tree
+    //lowest common ancestor of a binary search tree
+    fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
         if (root == null || p == null || q == null) {
             return null
         }
@@ -1344,17 +1341,6 @@ class Solution2 {
             }
         }
         return t
-    }
-
-    fun lowestCommonAncestor2(
-        root: TreeNode?,
-        p: TreeNode?,
-        q: TreeNode?
-    ): TreeNode? {//lowest common ancestor of a binary tree
-        if (root == null || p == null || q == null) {
-            return null
-        }
-        return null
     }
 
     fun countElements(arr: IntArray): Int {

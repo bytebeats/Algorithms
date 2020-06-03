@@ -1172,4 +1172,45 @@ public class TreesQuiz {
         }
         return ans;
     }
+
+    /**
+     * lowest common ancestor of a binary search tree
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {//面试题68-I
+        if (root == null || p == null || q == null) {
+            return null;
+        }
+        TreeNode t = root;
+        while (t != null && t != p && t != q) {
+            if (t.val < p.val && t.val < q.val) {
+                t = t.right;
+            } else if (t.val > p.val && t.val > q.val) {
+                t = t.left;
+            } else {
+                break;
+            }
+        }
+        return t;
+    }
+
+    /**
+     * lowest common ancestor of a binary tree
+     */
+    TreeNode lowestCmnAncestor = null;
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {//面试题68-II
+        lowestCmnAncestor = null;
+        dfs(root, p, q);
+        return lowestCmnAncestor;
+    }
+
+    private boolean dfs(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) return false;
+        boolean lson = dfs(root.left, p, q);
+        boolean rson = dfs(root.right, p, q);
+        if (lson && rson || (lson || rson) && (root.val == p.val || root.val == q.val)) {
+            lowestCmnAncestor = root;
+        }
+        return lson || rson || root.val == p.val || root.val == q.val;
+    }
 }
