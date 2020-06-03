@@ -1167,4 +1167,51 @@ class Solution7 {
         val list = map.values.distinct()
         return map.size == list.size
     }
+
+    fun new21Game(N: Int, K: Int, W: Int): Double {//837, DP + Math, hehe, forsaken
+        if (K == 0) return 1.toDouble()
+        if (K == 1) return N.coerceAtMost(W) / W.toDouble()
+        val dp = DoubleArray(N + 1)
+        val preSum = DoubleArray(N + 1)
+        dp[0] = 1.0
+        var left = 0
+        var right = 0
+        for (n in 1..N) {
+            left = 0.coerceAtLeast(n - W)
+            right = (n - 1).coerceAtMost(K - 1)
+            dp[n] = (preSum[right] - preSum[left] + dp[left]) / W.toDouble()
+            preSum[n] = preSum[n - 1] + dp[n]
+        }
+        return preSum[N] - preSum[K - 1]
+    }
+
+    fun isValidBST(root: TreeNode?): Boolean {//面试题 04.05
+        if (root == null) {
+            return true
+        }
+        return isValidBSTNode(root.left, true, root.`val`) && isValidBSTNode(
+            root.right,
+            false,
+            root.`val`
+        ) && isValidBST(root.left) && isValidBST(root.right)
+    }
+
+    private fun isValidBSTNode(node: TreeNode?, isLeft: Boolean, `val`: Int): Boolean {
+        if (node == null) {
+            return true
+        }
+        if (isLeft) {
+            return node.`val` < `val` && isValidBSTNode(node.left, isLeft, `val`) && isValidBSTNode(
+                node.right,
+                isLeft,
+                `val`
+            )
+        } else {
+            return node.`val` > `val` && isValidBSTNode(node.left, isLeft, `val`) && isValidBSTNode(
+                node.right,
+                isLeft,
+                `val`
+            )
+        }
+    }
 }
