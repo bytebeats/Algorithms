@@ -25,5 +25,18 @@ class Solution8 {
         return count
     }
 
+    fun twoCitySchedCost(costs: Array<IntArray>): Int {//1029
+        var ans = 0
+        val half = costs.size / 2
+        costs.sortBy { it[0] - it[1] }
+        for (i in costs.indices) {
+            if (i < half) {
+                ans += costs[i][0]
+            } else {
+                ans += costs[i][1]
+            }
+        }
+        return ans
+    }
 
 }
