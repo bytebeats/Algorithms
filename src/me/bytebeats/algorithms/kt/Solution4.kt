@@ -958,8 +958,8 @@ class Solution4 {
             return 1 + longestCommonSubsequence(text1, m - 1, text2, n - 1)
         } else {
             return Math.max(
-                    longestCommonSubsequence(text1, m, text2, n - 1),
-                    longestCommonSubsequence(text1, m - 1, text2, n)
+                longestCommonSubsequence(text1, m, text2, n - 1),
+                longestCommonSubsequence(text1, m - 1, text2, n)
             )
         }
     }
@@ -1093,6 +1093,37 @@ class Solution4 {
                 di = (di + 1) % 4
                 r += dr[di]
                 c += dc[di]
+            }
+        }
+        return ans
+    }
+
+    fun spiralOrder1(matrix: Array<IntArray>): List<Int> {//54
+        val ans = mutableListOf<Int>()
+        if (matrix.isNotEmpty() && matrix[0].isNotEmpty()) {
+            val row = matrix.size
+            val column = matrix[0].size
+            val seen = Array(row) { BooleanArray(column) { false } }
+            val dr = arrayOf(0, 1, 0, -1)
+            val dc = arrayOf(1, 0, -1, 0)
+            var di = 0
+            var r = 0
+            var c = 0
+            var cr = 0
+            var cc = 0
+            for (i in 0 until row * column) {
+                ans.add(matrix[r][c])
+                seen[r][c] = true
+                cr = r + dr[di]
+                cc = c + dc[di]
+                if (cr > -1 && cr < row && cc > -1 && cc < column && !seen[cr][cc]) {
+                    r = cr
+                    c = cc
+                } else {
+                    di = (di + 1) % 4
+                    r += dr[di]
+                    c += dc[di]
+                }
             }
         }
         return ans
