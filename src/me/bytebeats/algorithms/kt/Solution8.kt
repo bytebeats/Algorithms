@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.kt.design.CustomFunction
 import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution8 {
@@ -218,6 +219,26 @@ class Solution8 {
             list.add(q[1], q)
         }
         return list.toTypedArray()
+    }
+
+    fun findSolution(customfunction: CustomFunction, z: Int): List<List<Int>> {//1237
+        val ans = mutableListOf<List<Int>>()
+        var i = 1
+        var j = 1000
+        var res = 0
+        while (i <= z && j >= 1) {
+            res = customfunction.f(i, j)
+            if (res < z) {
+                i++
+            } else if (res > z) {
+                j--
+            } else {
+                ans.add(listOf(i, j))
+                i++
+                j++
+            }
+        }
+        return ans
     }
 
 }
