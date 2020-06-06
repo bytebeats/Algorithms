@@ -184,4 +184,40 @@ class Solution8 {
         return num
     }
 
+    fun longestConsecutive(nums: IntArray): Int {//128
+        val set = mutableSetOf<Int>()
+        for (num in nums) {
+            set.add(num)
+        }
+        var ans = 0
+        var curNum = 0
+        var curStreak = 0
+        for (num in set) {
+            if (!set.contains(num - 1)) {
+                curNum = num
+                curStreak = 1
+                while (set.contains(curNum + 1)) {
+                    curNum++
+                    curStreak++
+                }
+                ans = ans.coerceAtLeast(curStreak)
+            }
+        }
+        return ans
+    }
+
+    fun reconstructQueue(people: Array<IntArray>): Array<IntArray> {//406
+        val queue = people.sortedWith(Comparator { o1, o2 ->
+            if (o1[0] == o2[0])
+                o1[1] - o2[1]
+            else
+                o2[0] - o1[0]
+        })
+        val list = mutableListOf<IntArray>()
+        for (q in queue) {
+            list.add(q[1], q)
+        }
+        return list.toTypedArray()
+    }
+
 }
