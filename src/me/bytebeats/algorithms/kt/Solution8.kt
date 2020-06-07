@@ -241,4 +241,36 @@ class Solution8 {
         return ans
     }
 
+    fun shuffle(nums: IntArray, n: Int): IntArray {//5428
+        val list = mutableListOf<Int>()
+        for (i in 0 until n) {
+            list.add(nums[i])
+            list.add(nums[i + n])
+        }
+        return list.toIntArray()
+    }
+
+    fun getStrongest(arr: IntArray, k: Int): IntArray {//5429
+        val ans = IntArray(k)
+        arr.sort()
+        val median = arr[(arr.size - 1) / 2]
+        val sorted = arr.reversed().sortedByDescending { Math.abs(it - median) }
+        sorted.forEach { println("$it") }
+        for (i in 0 until k) {
+            ans[i] = sorted[i]
+        }
+        return ans
+    }
+
+    fun change(amount: Int, coins: IntArray): Int {//512
+        val dp = IntArray(amount + 1)
+        dp[0] = 1
+        for (coin in coins) {
+            for (i in coin..amount) {
+                dp[i] += dp[i - coin]
+            }
+        }
+        return dp[amount]
+    }
+
 }
