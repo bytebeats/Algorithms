@@ -273,4 +273,52 @@ class Solution8 {
         return dp[amount]
     }
 
+    fun equationsPossible(equations: Array<String>): Boolean {//990
+        val parent = IntArray(26) { it }
+        for (e in equations) {
+            if (e[1] == '=') {
+                union(parent, e[0] - 'a', e[3] - 'a')
+            }
+        }
+        for (e in equations) {
+            if (e[1] == '!') {
+                if (find(parent, e[0] - 'a') == find(parent, e[3] - 'a')) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    private fun union(parent: IntArray, index1: Int, index2: Int) {
+        parent[find(parent, index1)] = parent[find(parent, index2)]
+    }
+
+    private fun find(parent: IntArray, index: Int): Int {
+        var i = index
+        while (parent[i] != i) {
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        }
+        return i
+    }
+
+    fun isPowerOfTwo(n: Int): Boolean {//231
+        if (n < 1) {
+            return false
+        }
+        var num = n
+        var has1 = false
+        while (num > 1) {
+            if (has1) {
+                return false
+            }
+            if (num and 1 == 1) {
+                has1 = true
+            }
+            num = num shr 1
+        }
+        return true
+    }
+
 }
