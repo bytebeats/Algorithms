@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Algorithms.iml" filepath="$PROJECT_DIR$/Algorithms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scala-solution/scala-solution.iml" filepath="$PROJECT_DIR$/scala-solution/scala-solution.iml" />
     </modules>
   </component>
 </project>
