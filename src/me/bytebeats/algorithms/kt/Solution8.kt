@@ -321,4 +321,42 @@ class Solution8 {
         return true
     }
 
+    fun translateNum(num: Int): Int {//面试题46
+        var ans = 1
+        val src = num.toString()
+        var p = 0
+        var q = 0
+        var pre = ""
+        for (i in src.indices) {
+            p = q
+            q = ans
+            ans = 0
+            ans += q
+            if (i == 0) {
+                continue
+            }
+            pre = src.substring(i - 1, i + 1)
+            if (pre <= "25" && pre >= "10") {
+                ans += p
+            }
+        }
+        return ans
+    }
+
+    fun isSubsequence(s: String, t: String): Boolean {//392
+        var count = 0
+        var i = 0
+        var j = 0
+        while (i < s.length && j < t.length) {
+            if (s[i] == t[j]) {
+                count++
+                i++
+                j++
+            } else {
+                j++
+            }
+        }
+        return count == s.length
+    }
+
 }
