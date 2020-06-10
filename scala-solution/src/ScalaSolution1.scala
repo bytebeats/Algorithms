@@ -1,3 +1,5 @@
+
+
 case class ScalaSolution1() {
     def judgeCircle(moves: String): Boolean = { //657
         var x = 0
@@ -124,4 +126,41 @@ case class ScalaSolution1() {
         })
         ans.toString()
     }
+
+    def searchInsert(nums: Array[Int], target: Int): Int = {
+        if (nums.isEmpty) {
+            return 0
+        }
+        if (target < nums(0)) {
+            return 0
+        }
+        if (target > nums(nums.size - 1)) {
+            return nums.size - 1
+        }
+        for (i <- 0 until nums.size) {
+            if (target <= nums(i)) {
+                return i
+            }
+        }
+        0
+    }
+
+    def generatePossibleNextMoves(s: String): List[String] = { //293
+        var ans = Array[String]()
+        val chars = s.toCharArray
+        for (i <- 0 until s.length - 1) {
+            if (chars(i) == '+' && chars(i + 1) == '+') {
+                chars(i) = '-'
+                chars(i + 1) = '-'
+                ans = ans :+ chars.mkString("")
+                chars(i) = '+'
+                chars(i + 1) = '+'
+            }
+        }
+        ans.toList
+    }
+
+//    def canWin(s: String): Boolean = {//294
+//
+//    }
 }
