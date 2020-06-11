@@ -124,4 +124,112 @@ case class ScalaSolution1() {
         })
         ans.toString()
     }
+
+    def searchInsert(nums: Array[Int], target: Int): Int = {
+        if (nums.isEmpty) {
+            return 0
+        }
+        if (target < nums(0)) {
+            return 0
+        }
+        if (target > nums(nums.size - 1)) {
+            return nums.size - 1
+        }
+        for (i <- 0 until nums.size) {
+            if (target <= nums(i)) {
+                return i
+            }
+        }
+        0
+    }
+
+    def generatePossibleNextMoves(s: String): List[String] = { //293
+        var ans = Array[String]()
+        val chars = s.toCharArray
+        for (i <- 0 until s.length - 1) {
+            if (chars(i) == '+' && chars(i + 1) == '+') {
+                chars(i) = '-'
+                chars(i + 1) = '-'
+                ans = ans :+ chars.mkString("")
+                chars(i) = '+'
+                chars(i + 1) = '+'
+            }
+        }
+        ans.toList
+    }
+
+    //    def canWin(s: String): Boolean = {//294
+    //
+    //    }
+    def fixedPoint(A: Array[Int]): Int = { //1064
+        for (j <- A.indices) {
+            if (j == A(j)) {
+                return j
+            }
+        }
+        -1
+    }
+
+    def findLucky(arr: Array[Int]): Int = { //1394
+        val map = scala.collection.mutable.Map[Int, Int]()
+        arr.foreach(num => if (map.contains(num)) {
+            map(num) += 1
+        } else {
+            map += (num -> 1)
+        })
+        var ans = -1
+        for ((k, v) <- map) {
+            if (k == v && v > ans) {
+                ans = v
+            }
+        }
+        ans
+    }
+
+    def fairCandySwap(A: Array[Int], B: Array[Int]): Array[Int] = { //888
+        var ans = Array[Int]()
+        val aSum = A.sum
+        val bSum = B.sum
+        for (a <- A; b <- B) {
+            if (aSum - a + b == bSum + a - b) {
+                ans = ans :+ a
+                ans = ans :+ b
+                return ans
+            }
+        }
+        ans
+    }
+
+    def sortColors(nums: Array[Int]): Unit = { //75
+        //        nums.sortInPlace()//quick sort
+        var z = 0
+        var o = 0
+        var t = 0
+        for (n <- nums) {
+            if (n == 0) {
+                z += 1
+            } else if (n == 1) {
+                o += 1
+            } else {
+                t += 1
+            }
+        }
+        var i = 0
+        while (z > 0) {
+            nums(i) = 0
+            z -= 1
+            i += 1
+        }
+        while (o > 0) {
+            nums(i) = 1
+            o -= 1
+            i += 1
+        }
+        while (t > 0) {
+            nums(i) = 1
+            t -= 1
+            i += 1
+        }
+    }
+
 }

@@ -359,4 +359,26 @@ class Solution8 {
         return count == s.length
     }
 
+    fun getLonelyNodes(root: TreeNode?): List<Int> {//1469
+        val ans = mutableListOf<Int>()
+        dfs(root, ans)
+        return ans
+    }
+
+    fun dfs(node: TreeNode?, ans: MutableList<Int>) {
+        if (node == null || node.left == null && node.right == null) {
+            return
+        }
+        if (node.left != null && node.right == null) {
+            ans.add(node.left.`val`)
+            dfs(node.left, ans)
+        } else if (node.left == null && node.right != null) {
+            ans.add(node.right.`val`)
+            dfs(node.right, ans)
+        } else {
+            dfs(node.left, ans)
+            dfs(node.right, ans)
+        }
+    }
+
 }
