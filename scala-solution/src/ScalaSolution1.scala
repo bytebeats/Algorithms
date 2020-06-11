@@ -1,5 +1,3 @@
-
-
 case class ScalaSolution1() {
     def judgeCircle(moves: String): Boolean = { //657
         var x = 0
@@ -160,7 +158,45 @@ case class ScalaSolution1() {
         ans.toList
     }
 
-//    def canWin(s: String): Boolean = {//294
-//
-//    }
+    //    def canWin(s: String): Boolean = {//294
+    //
+    //    }
+    def fixedPoint(A: Array[Int]): Int = { //1064
+        for (j <- A.indices) {
+            if (j == A(j)) {
+                return j
+            }
+        }
+        -1
+    }
+
+    def findLucky(arr: Array[Int]): Int = { //1394
+        val map = scala.collection.mutable.Map[Int, Int]()
+        arr.foreach(num => if (map.contains(num)) {
+            map(num) += 1
+        } else {
+            map += (num -> 1)
+        })
+        var ans = -1
+        for ((k, v) <- map) {
+            if (k == v && v > ans) {
+                ans = v
+            }
+        }
+        ans
+    }
+
+    def fairCandySwap(A: Array[Int], B: Array[Int]): Array[Int] = { //888
+        var ans = Array[Int]()
+        val aSum = A.sum
+        val bSum = B.sum
+        for (a <- A; b <- B) {
+            if (aSum - a + b == bSum + a - b) {
+                ans = ans :+ a
+                ans = ans :+ b
+                return ans
+            }
+        }
+        ans
+    }
 }
