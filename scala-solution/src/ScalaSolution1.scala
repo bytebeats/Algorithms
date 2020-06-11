@@ -199,4 +199,37 @@ case class ScalaSolution1() {
         }
         ans
     }
+
+    def sortColors(nums: Array[Int]): Unit = { //75
+        //        nums.sortInPlace()//quick sort
+        var z = 0
+        var o = 0
+        var t = 0
+        for (n <- nums) {
+            if (n == 0) {
+                z += 1
+            } else if (n == 1) {
+                o += 1
+            } else {
+                t += 1
+            }
+        }
+        var i = 0
+        while (z > 0) {
+            nums(i) = 0
+            z -= 1
+            i += 1
+        }
+        while (o > 0) {
+            nums(i) = 1
+            o -= 1
+            i += 1
+        }
+        while (t > 0) {
+            nums(i) = 1
+            t -= 1
+            i += 1
+        }
+    }
+
 }
