@@ -381,4 +381,42 @@ class Solution8 {
         }
     }
 
+    fun threeSum(nums: IntArray): List<List<Int>> {//15
+        val ans = mutableListOf<MutableList<Int>>()
+        nums.sort()
+        var i = 0
+        while (i < nums.size - 2) {
+            var left = i + 1
+            var right = nums.size - 1
+            var sum = 0
+            while (left < right) {
+                sum = nums[i] + nums[left] + nums[right]
+                if (sum < 0) {
+                    left++
+                } else if (sum > 0) {
+                    right--
+                } else {
+                    val e = mutableListOf<Int>()
+                    e.add(nums[i])
+                    e.add(nums[left])
+                    e.add(nums[right])
+                    ans.add(e)
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--
+                    }
+                    left++
+                    right--
+                }
+            }
+            while (i < nums.size - 2 && nums[i] == nums[i + 1]) {
+                i++
+            }
+            i++
+        }
+        return ans
+    }
+
 }
