@@ -478,4 +478,22 @@ class Solution8 {
         }
         return map.size
     }
+
+    fun findBestValue(arr: IntArray, target: Int): Int {//1300
+        arr.sort()
+        var sum = 0
+        for (i in arr.indices) {
+            val x = (target - sum) / (arr.size - i)
+            if (x < arr[i]) {
+                val t = (target - sum).toDouble() / (arr.size - i)
+                return if (t - x > .5) {
+                    x + 1
+                } else {
+                    x
+                }
+            }
+            sum += arr[i]
+        }
+        return arr.last()
+    }
 }
