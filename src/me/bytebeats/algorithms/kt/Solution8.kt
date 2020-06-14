@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.kt.design.CustomFunction
+import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution8 {
@@ -381,4 +382,100 @@ class Solution8 {
         }
     }
 
+    fun threeSum(nums: IntArray): List<List<Int>> {//15
+        val ans = mutableListOf<MutableList<Int>>()
+        nums.sort()
+        var i = 0
+        while (i < nums.size - 2) {
+            var left = i + 1
+            var right = nums.size - 1
+            var sum = 0
+            while (left < right) {
+                sum = nums[i] + nums[left] + nums[right]
+                if (sum < 0) {
+                    left++
+                } else if (sum > 0) {
+                    right--
+                } else {
+                    val e = mutableListOf<Int>()
+                    e.add(nums[i])
+                    e.add(nums[left])
+                    e.add(nums[right])
+                    ans.add(e)
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--
+                    }
+                    left++
+                    right--
+                }
+            }
+            while (i < nums.size - 2 && nums[i] == nums[i + 1]) {
+                i++
+            }
+            i++
+        }
+        return ans
+    }
+
+    fun finalPrices(prices: IntArray): IntArray {
+        var j = -1
+        for (i in prices.indices) {
+            j = -1
+            for (k in i + 1 until prices.size) {
+                if (prices[k] <= prices[i]) {
+                    j = k
+                    break
+                }
+            }
+            if (j != -1) {
+                prices[i] -= prices[j]
+            }
+        }
+        return prices
+    }
+
+    fun deleteNodes(head: ListNode?, m: Int, n: Int): ListNode? {//1474
+        var p = head
+        var k = 0
+        while (p != null) {
+            k = m - 1
+            while (p?.next != null && k > 0) {
+                p = p?.next
+                k--
+            }
+            k = n
+            while (p?.next != null && k > 0) {
+                p.next = p.next.next
+                k--
+            }
+            p = p?.next
+        }
+        return head
+    }
+
+    fun runningSum(nums: IntArray): IntArray {
+        for (i in 1 until nums.size) {
+            nums[i] += nums[i - 1]
+        }
+        return nums
+    }
+
+    fun findLeastNumOfUniqueInts(arr: IntArray, k: Int): Int {
+        val map = mutableMapOf<Int, Int>()
+        arr.forEach { map.compute(it) { _, v -> if (v == null) 1 else v + 1 } }
+        val sorted = map.entries.sortedBy { it.value }
+        var kk = k
+        for (entry in sorted) {
+            if (kk >= entry.value) {
+                kk -= entry.value
+                map.remove(entry.key)
+            } else {
+                break
+            }
+        }
+        return map.size
+    }
 }
