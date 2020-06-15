@@ -231,5 +231,4 @@ case class ScalaSolution1() {
             i += 1
         }
     }
-
 }
