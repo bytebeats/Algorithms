@@ -518,4 +518,35 @@ class Solution8 {
     fun longestUnivaluePath(root: TreeNode?): Int {//687
 
     }
+
+    fun licenseKeyFormatting(S: String, K: Int): String {//482
+        val ans = StringBuilder()
+        var kk = K
+        for (i in S.lastIndex downTo 0) {
+            if (S[i] != '-') {
+                if (kk == 0) {
+                    kk = K
+                    ans.append('-')
+                }
+                if (S[i].isDigit()) {
+                    ans.append(S[i])
+                    kk--
+                } else if (S[i].isLetter()) {
+                    ans.append(S[i].toUpperCase())
+                    kk--
+                }
+            }
+        }
+        return ans.reversed().toString()
+    }
+
+    fun constructRectangle(area: Int): IntArray {//492
+        var l = Math.ceil(Math.sqrt(area.toDouble())).toInt()
+        for (i in l..area) {
+            if (area % i == 0) {
+                return intArrayOf(i, area / i)
+            }
+        }
+        return intArrayOf()
+    }
 }
