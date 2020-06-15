@@ -496,4 +496,26 @@ class Solution8 {
         }
         return arr.last()
     }
+
+    fun longestCommonPrefix(strs: Array<String>): String {//14
+        var prefix = ""
+        val min = strs.map { it.length }.min() ?: 0
+        for (i in 1..min) {
+            var flag = true
+            for (j in 1 until strs.size) {
+                if (strs[j].substring(0, i) != strs[j - 1].substring(0, i)) {
+                    flag = false
+                    break
+                }
+            }
+            if (flag) {
+                prefix = strs[0].substring(0, i)
+            }
+        }
+        return prefix
+    }
+
+    fun longestUnivaluePath(root: TreeNode?): Int {//687
+
+    }
 }
