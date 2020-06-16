@@ -515,8 +515,29 @@ class Solution8 {
         return prefix
     }
 
+    var longest = 0
     fun longestUnivaluePath(root: TreeNode?): Int {//687
+        longest = 0
+        pathLength(root)
+        return longest
+    }
 
+    private fun pathLength(root: TreeNode?): Int {
+        if (root == null) {
+            return 0
+        }
+        val left = pathLength(root.left)
+        val right = pathLength(root.right)
+        var pathLeft = 0
+        var pathRight = 0
+        if (root.left != null && root.left.`val` == root.`val`) {
+            pathLeft += (left + 1)
+        }
+        if (root.right != null && root.right.`val` == root.`val`) {
+            pathRight += (right + 1)
+        }
+        longest = longest.coerceAtLeast(pathLeft + pathRight)
+        return pathLeft.coerceAtLeast(pathRight)
     }
 
     fun licenseKeyFormatting(S: String, K: Int): String {//482
@@ -549,4 +570,75 @@ class Solution8 {
         }
         return intArrayOf()
     }
+
+    fun validIPAddress(IP: String): String {//468
+        if (IP.contains(".") && isValidIpV4(IP)) {
+            return "IPv4"
+        } else if (IP.contains(":") && isValidIpV6(IP)) {
+            return "IPv6"
+        } else {
+            return "Neither"
+        }
+    }
+
+    private fun isValidIpV4(ip: String): Boolean {
+        val segs = ip.split(".")
+        if (segs.size != 4) {
+            return false
+        }
+        for (seg in segs) {
+            if (!isValidIPv4Seg(seg)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isValidIPv4Seg(seg: String): Boolean {//468
+        if (seg.isEmpty() || seg.length > 3) {
+            return false
+        }
+        for (c in seg) {
+            if (!isValidIPv4Char(c)) {
+                return false
+            }
+        }
+        val num = seg.toInt()
+        if (num > 255) {
+            return false
+        }
+        if (seg.length == 2 && num < 10 || seg.length == 3 && num < 100) {
+            return false
+        }
+        return true
+    }
+
+    private fun isValidIPv4Char(ch: Char): Boolean = ch in '0'..'9'
+
+    private fun isValidIpV6(ip: String): Boolean {
+        val segs = ip.split(":")
+        if (segs.size != 8) {
+            return false
+        }
+        for (seg in segs) {
+            if (!isValidIPv6Seg(seg)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isValidIPv6Seg(seg: String): Boolean {
+        if (seg.isEmpty() || seg.length > 4) {
+            return false
+        }
+        for (c in seg) {
+            if (!isValidIPv6Char(c)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun isValidIPv6Char(ch: Char): Boolean = ch in '0'..'9' || ch in 'a'..'f' || ch in 'A'..'F'
 }
