@@ -641,4 +641,61 @@ class Solution8 {
     }
 
     private fun isValidIPv6Char(ch: Char): Boolean = ch in '0'..'9' || ch in 'a'..'f' || ch in 'A'..'F'
+
+    fun solve(board: Array<CharArray>): Unit {//130
+        if (board.isNotEmpty() && board[0].isNotEmpty()) {
+            val row = board.size
+            val column = board[0].size
+            val matrix = Array(row) { BooleanArray(column) { true } }
+            var i = 0
+            for (j in 0 until column) {
+                if (board[i][j] == 'O' && matrix[i][j]) {
+                    color(board, matrix, i, j)
+                }
+            }
+            for (j in 0 until row) {
+                if (board[j][i] == 'O' && matrix[j][i]) {
+                    color(board, matrix, j, i)
+                }
+            }
+            i = board.lastIndex
+            for (j in 0 until column) {
+                if (board[i][j] == 'O' && matrix[i][j]) {
+                    color(board, matrix, i, j)
+                }
+            }
+            i = board[0].lastIndex
+            for (j in 0 until row) {
+                if (board[j][i] == 'O' && matrix[j][i]) {
+                    color(board, matrix, j, i)
+                }
+            }
+            for (i in 0 until row) {
+                for (j in 0 until column) {
+                    if (board[i][j] == 'O' && matrix[i][j]) {
+                        board[i][j] = 'X'
+                    }
+                }
+            }
+        }
+    }
+
+    private fun color(board: Array<CharArray>, matrix: Array<BooleanArray>, x: Int, y: Int) {
+        if (x < 0 || y < 0 || x >= board.size || y >= board[0].size) {
+            return
+        }
+        matrix[x][y] = false
+        if (x > 0 && board[x - 1][y] == 'O' && matrix[x - 1][y]) {
+            color(board, matrix, x - 1, y)
+        }
+        if (x < board.size - 1 && board[x + 1][y] == 'O' && matrix[x + 1][y]) {
+            color(board, matrix, x + 1, y)
+        }
+        if (y > 0 && board[x][y - 1] == 'O' && matrix[x][y - 1]) {
+            color(board, matrix, x, y - 1)
+        }
+        if (y < board[0].size - 1 && board[x][y + 1] == 'O' && matrix[x][y + 1]) {
+            color(board, matrix, x, y + 1)
+        }
+    }
 }
