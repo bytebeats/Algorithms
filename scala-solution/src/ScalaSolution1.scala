@@ -231,4 +231,43 @@ case class ScalaSolution1() {
             i += 1
         }
     }
+
+    def maxScoreSightseeingPair(A: Array[Int]): Int = { //1014
+        var ans = 0
+        for (i <- 0 until A.size - 1) {
+            for (j <- i + 1 until A.size) {
+                ans = Math.max(ans, A(i) + A(j) + i - j)
+            }
+        }
+        ans
+    }
+
+    def maxScoreSightseeingPair2(A: Array[Int]): Int = { //1014
+        var ans = 0
+        var mx = A(0) + 0
+        for (j <- 1 until A.size) {
+            ans = Math.max(ans, mx + A(j) - j)
+            mx = Math.max(mx, A(j) + j)
+        }
+        ans
+    }
+
+    def kLengthApart(nums: Array[Int], k: Int): Boolean = { //1437
+        var i = 0
+        var j = 0
+        while (i < nums.size) {
+            while (i < nums.size && nums(i) == 0) {
+                i += 1
+            }
+            j = i + 1
+            while (j < nums.size && nums(j) == 0) {
+                j += 1
+            }
+            if (j < nums.size && j - i - 1 < k) {
+                return false
+            }
+            i = j
+        }
+        true
+    }
 }
