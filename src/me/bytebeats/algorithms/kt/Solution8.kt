@@ -701,7 +701,37 @@ class Solution8 {
     }
 
     fun recoverFromPreorder(S: String): TreeNode? {//1028
-        return null
+        val path = mutableListOf<TreeNode>()
+        var pos = 0
+        while (pos < S.length) {
+            var level = 0
+            while (S[pos] == '-') {
+                level++
+                pos++
+            }
+            var value = 0
+            while (pos < S.length && S[pos].isDigit()) {
+                value *= 10
+                value += S[pos] - '0'
+                pos++
+            }
+            val node = TreeNode(value)
+            if (level == path.size) {
+                if (path.isNotEmpty()) {
+                    path.last()?.left = node
+                }
+            } else {
+                while (level != path.size) {
+                    path.removeAt(path.lastIndex)
+                }
+                path.last()?.right = node
+            }
+            path.add(node)
+        }
+        while (path.size > 1) {
+            path.removeAt(path.lastIndex)
+        }
+        return path.last()
     }
 
     fun hIndex(citations: IntArray): Int {//274
