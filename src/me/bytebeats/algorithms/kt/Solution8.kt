@@ -646,56 +646,147 @@ class Solution8 {
         if (board.isNotEmpty() && board[0].isNotEmpty()) {
             val row = board.size
             val column = board[0].size
-            val matrix = Array(row) { BooleanArray(column) { true } }
             var i = 0
             for (j in 0 until column) {
-                if (board[i][j] == 'O' && matrix[i][j]) {
-                    color(board, matrix, i, j)
+                if (board[i][j] == 'O') {
+                    color(board, i, j)
                 }
             }
             for (j in 0 until row) {
-                if (board[j][i] == 'O' && matrix[j][i]) {
-                    color(board, matrix, j, i)
+                if (board[j][i] == 'O') {
+                    color(board, j, i)
                 }
             }
             i = board.lastIndex
             for (j in 0 until column) {
-                if (board[i][j] == 'O' && matrix[i][j]) {
-                    color(board, matrix, i, j)
+                if (board[i][j] == 'O') {
+                    color(board, i, j)
                 }
             }
             i = board[0].lastIndex
             for (j in 0 until row) {
-                if (board[j][i] == 'O' && matrix[j][i]) {
-                    color(board, matrix, j, i)
+                if (board[j][i] == 'O') {
+                    color(board, j, i)
                 }
             }
             for (i in 0 until row) {
                 for (j in 0 until column) {
-                    if (board[i][j] == 'O' && matrix[i][j]) {
+                    if (board[i][j] == 'O') {
                         board[i][j] = 'X'
+                    } else if (board[i][j] == '#') {
+                        board[i][j] = 'O'
                     }
                 }
             }
         }
     }
 
-    private fun color(board: Array<CharArray>, matrix: Array<BooleanArray>, x: Int, y: Int) {
+    private fun color(board: Array<CharArray>, x: Int, y: Int) {
         if (x < 0 || y < 0 || x >= board.size || y >= board[0].size) {
             return
         }
-        matrix[x][y] = false
-        if (x > 0 && board[x - 1][y] == 'O' && matrix[x - 1][y]) {
-            color(board, matrix, x - 1, y)
+        board[x][y] = '#'
+        if (x > 0 && board[x - 1][y] == 'O') {
+            color(board, x - 1, y)
         }
-        if (x < board.size - 1 && board[x + 1][y] == 'O' && matrix[x + 1][y]) {
-            color(board, matrix, x + 1, y)
+        if (x < board.size - 1 && board[x + 1][y] == 'O') {
+            color(board, x + 1, y)
         }
-        if (y > 0 && board[x][y - 1] == 'O' && matrix[x][y - 1]) {
-            color(board, matrix, x, y - 1)
+        if (y > 0 && board[x][y - 1] == 'O') {
+            color(board, x, y - 1)
         }
-        if (y < board[0].size - 1 && board[x][y + 1] == 'O' && matrix[x][y + 1]) {
-            color(board, matrix, x, y + 1)
+        if (y < board[0].size - 1 && board[x][y + 1] == 'O') {
+            color(board, x, y + 1)
+        }
+    }
+
+    fun recoverFromPreorder(S: String): TreeNode? {//1028
+        return null
+    }
+
+    fun hIndex(citations: IntArray): Int {//274
+        citations.sort()
+//        var ans = 0
+//        for (i in citations.indices) {
+//            if (citations.size - i <= citations[i]) {
+//                ans = ans.coerceAtLeast((citations.size - i).coerceAtMost(citations[i]))
+//            }
+//        }
+//        return ans
+        val s = citations.size
+        if (s == 0) {
+            return 0
+        }
+        var l = 0
+        var h = s - 1
+        var mid = 0
+        while (l < h) {
+            mid = l + (h - l) / 2
+            if (s - mid > citations[mid]) {
+                l = mid + 1
+            } else if (s - mid <= citations[mid]) {
+                h = mid
+            }
+        }
+        return citations[l].coerceAtMost(s - l)
+    }
+
+    fun hIndex1(citations: IntArray): Int {//275
+        var ans = 0
+        for (i in citations.indices) {
+            if (citations.size - i <= citations[i]) {
+                ans = ans.coerceAtLeast((citations.size - i).coerceAtMost(citations[i]))
+            }
+        }
+        return ans
+    }
+
+    fun hIndex2(citations: IntArray): Int {//275
+        val s = citations.size
+        if (s == 0) {
+            return 0
+        }
+        var l = 0
+        var h = s - 1
+        var mid = 0
+        while (l < h) {
+            mid = l + (h - l) / 2
+            if (s - mid > citations[mid]) {
+                l = mid + 1
+            } else if (s - mid <= citations[mid]) {
+                h = mid
+            }
+        }
+        return citations[l].coerceAtMost(s - l)
+    }
+
+    private val EMPTY = Int.MAX_VALUE
+    private val GATE = 0
+    private val directions = arrayOf(arrayOf(1, 0), arrayOf(-1, 0), arrayOf(0, 1), arrayOf(0, -1))
+    fun wallsAndGates(rooms: Array<IntArray>): Unit {//286
+        if (rooms.isNotEmpty() && rooms[0].isNotEmpty()) {
+            val row = rooms.size
+            val column = rooms[0].size
+            val q = mutableListOf<IntArray>()
+            for (i in 0 until row) {
+                for (j in 0 until column) {
+                    if (rooms[i][j] == GATE) {
+                        q.add(intArrayOf(i, j))
+                    }
+                }
+            }
+            while (q.isNotEmpty()) {
+                val point = q.removeAt(0)
+                for (d in directions) {
+                    val r = point[0] + d[0]
+                    val c = point[1] + d[1]
+                    if (r < 0 || c < 0 || r >= row || c >= column || rooms[r][c] != EMPTY) {
+                        continue
+                    }
+                    rooms[r][c] = rooms[point[0]][point[1]] + 1
+                    q.add(intArrayOf(r, c))
+                }
+            }
         }
     }
 }
