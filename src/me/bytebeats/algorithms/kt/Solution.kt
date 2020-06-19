@@ -1898,7 +1898,7 @@ class Solution {
         return true
     }
 
-    fun isPalindrome(s: String): Boolean {
+    fun isPalindrome(s: String): Boolean {//125
         var start = 0
         var end = s.lastIndex
         while (start < end) {
