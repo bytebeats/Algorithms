@@ -834,4 +834,50 @@ class Solution8 {
         root.right = trimBST(root.right, L, R)
         return root
     }
+
+    fun longestDupSubstring(S: String): String {//1044
+        val size = S.length
+        val nums = IntArray(size)
+        for (i in S.indices) {
+            nums[i] = S[i] - 'a'
+        }
+        val modulus = Math.pow(2.0, 32.0).toLong()
+        var left = 1
+        var right = size
+        var mid = 0
+        while (left < right) {
+            mid = left + (right - left) / 2
+            if (search(mid, modulus, nums) > -1) {
+                left = mid + 1
+            } else {
+                right = mid
+            }
+        }
+        val start = search(left - 1, modulus, nums)
+        if (start > -1) {
+            return S.substring(start, start + left - 1)
+        } else {
+            return ""
+        }
+    }
+
+    private fun search(length: Int, modulus: Long, nums: IntArray): Int {
+        var hash = 0L
+        for (i in 0 until length) {
+            hash = (hash * 26 + nums[i]) % modulus
+        }
+        val seen = mutableSetOf<Long>()
+        seen.add(hash)
+        var aL = 1L
+        for (i in 1..length) {
+            aL = (aL * 26L) % modulus
+        }
+        for (start in 1..nums.size - length) {
+            hash = (hash * 26 - nums[start - 1] * aL % modulus + modulus) % modulus
+            hash = (hash + nums[start + length - 1]) % modulus
+            if (seen.contains(hash)) return start
+            seen.add(hash)
+        }
+        return -1
+    }
 }
