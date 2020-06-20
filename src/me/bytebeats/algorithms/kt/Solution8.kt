@@ -646,57 +646,239 @@ class Solution8 {
         if (board.isNotEmpty() && board[0].isNotEmpty()) {
             val row = board.size
             val column = board[0].size
-            val matrix = Array(row) { BooleanArray(column) { true } }
             var i = 0
             for (j in 0 until column) {
-                if (board[i][j] == 'O' && matrix[i][j]) {
-                    color(board, matrix, i, j)
+                if (board[i][j] == 'O') {
+                    color(board, i, j)
                 }
             }
             for (j in 0 until row) {
-                if (board[j][i] == 'O' && matrix[j][i]) {
-                    color(board, matrix, j, i)
+                if (board[j][i] == 'O') {
+                    color(board, j, i)
                 }
             }
             i = board.lastIndex
             for (j in 0 until column) {
-                if (board[i][j] == 'O' && matrix[i][j]) {
-                    color(board, matrix, i, j)
+                if (board[i][j] == 'O') {
+                    color(board, i, j)
                 }
             }
             i = board[0].lastIndex
             for (j in 0 until row) {
-                if (board[j][i] == 'O' && matrix[j][i]) {
-                    color(board, matrix, j, i)
+                if (board[j][i] == 'O') {
+                    color(board, j, i)
                 }
             }
             for (i in 0 until row) {
                 for (j in 0 until column) {
-                    if (board[i][j] == 'O' && matrix[i][j]) {
+                    if (board[i][j] == 'O') {
                         board[i][j] = 'X'
+                    } else if (board[i][j] == '#') {
+                        board[i][j] = 'O'
                     }
                 }
             }
         }
     }
 
-    private fun color(board: Array<CharArray>, matrix: Array<BooleanArray>, x: Int, y: Int) {
+    private fun color(board: Array<CharArray>, x: Int, y: Int) {
         if (x < 0 || y < 0 || x >= board.size || y >= board[0].size) {
             return
         }
-        matrix[x][y] = false
-        if (x > 0 && board[x - 1][y] == 'O' && matrix[x - 1][y]) {
-            color(board, matrix, x - 1, y)
+        board[x][y] = '#'
+        if (x > 0 && board[x - 1][y] == 'O') {
+            color(board, x - 1, y)
         }
-        if (x < board.size - 1 && board[x + 1][y] == 'O' && matrix[x + 1][y]) {
-            color(board, matrix, x + 1, y)
+        if (x < board.size - 1 && board[x + 1][y] == 'O') {
+            color(board, x + 1, y)
         }
-        if (y > 0 && board[x][y - 1] == 'O' && matrix[x][y - 1]) {
-            color(board, matrix, x, y - 1)
+        if (y > 0 && board[x][y - 1] == 'O') {
+            color(board, x, y - 1)
         }
-        if (y < board[0].size - 1 && board[x][y + 1] == 'O' && matrix[x][y + 1]) {
-            color(board, matrix, x, y + 1)
+        if (y < board[0].size - 1 && board[x][y + 1] == 'O') {
+            color(board, x, y + 1)
         }
+    }
+
+    fun recoverFromPreorder(S: String): TreeNode? {//1028
+        val path = mutableListOf<TreeNode>()
+        var pos = 0
+        while (pos < S.length) {
+            var level = 0
+            while (S[pos] == '-') {
+                level++
+                pos++
+            }
+            var value = 0
+            while (pos < S.length && S[pos].isDigit()) {
+                value *= 10
+                value += S[pos] - '0'
+                pos++
+            }
+            val node = TreeNode(value)
+            if (level == path.size) {
+                if (path.isNotEmpty()) {
+                    path.last()?.left = node
+                }
+            } else {
+                while (level != path.size) {
+                    path.removeAt(path.lastIndex)
+                }
+                path.last()?.right = node
+            }
+            path.add(node)
+        }
+        while (path.size > 1) {
+            path.removeAt(path.lastIndex)
+        }
+        return path.last()
+    }
+
+    fun hIndex(citations: IntArray): Int {//274
+        citations.sort()
+//        var ans = 0
+//        for (i in citations.indices) {
+//            if (citations.size - i <= citations[i]) {
+//                ans = ans.coerceAtLeast((citations.size - i).coerceAtMost(citations[i]))
+//            }
+//        }
+//        return ans
+        val s = citations.size
+        if (s == 0) {
+            return 0
+        }
+        var l = 0
+        var h = s - 1
+        var mid = 0
+        while (l < h) {
+            mid = l + (h - l) / 2
+            if (s - mid > citations[mid]) {
+                l = mid + 1
+            } else if (s - mid <= citations[mid]) {
+                h = mid
+            }
+        }
+        return citations[l].coerceAtMost(s - l)
+    }
+
+    fun hIndex1(citations: IntArray): Int {//275
+        var ans = 0
+        for (i in citations.indices) {
+            if (citations.size - i <= citations[i]) {
+                ans = ans.coerceAtLeast((citations.size - i).coerceAtMost(citations[i]))
+            }
+        }
+        return ans
+    }
+
+    fun hIndex2(citations: IntArray): Int {//275
+        val s = citations.size
+        if (s == 0) {
+            return 0
+        }
+        var l = 0
+        var h = s - 1
+        var mid = 0
+        while (l < h) {
+            mid = l + (h - l) / 2
+            if (s - mid > citations[mid]) {
+                l = mid + 1
+            } else if (s - mid <= citations[mid]) {
+                h = mid
+            }
+        }
+        return citations[l].coerceAtMost(s - l)
+    }
+
+    private val EMPTY = Int.MAX_VALUE
+    private val GATE = 0
+    private val directions = arrayOf(arrayOf(1, 0), arrayOf(-1, 0), arrayOf(0, 1), arrayOf(0, -1))
+    fun wallsAndGates(rooms: Array<IntArray>): Unit {//286
+        if (rooms.isNotEmpty() && rooms[0].isNotEmpty()) {
+            val row = rooms.size
+            val column = rooms[0].size
+            val q = mutableListOf<IntArray>()
+            for (i in 0 until row) {
+                for (j in 0 until column) {
+                    if (rooms[i][j] == GATE) {
+                        q.add(intArrayOf(i, j))
+                    }
+                }
+            }
+            while (q.isNotEmpty()) {
+                val point = q.removeAt(0)
+                for (d in directions) {
+                    val r = point[0] + d[0]
+                    val c = point[1] + d[1]
+                    if (r < 0 || c < 0 || r >= row || c >= column || rooms[r][c] != EMPTY) {
+                        continue
+                    }
+                    rooms[r][c] = rooms[point[0]][point[1]] + 1
+                    q.add(intArrayOf(r, c))
+                }
+            }
+        }
+    }
+
+    fun trimBST(root: TreeNode?, L: Int, R: Int): TreeNode? {//669
+        if (root == null) {
+            return null
+        }
+        if (root.`val` > R) {
+            return trimBST(root.left, L, R)
+        }
+        if (root.`val` < L) {
+            return trimBST(root.right, L, R)
+        }
+        root.left = trimBST(root.left, L, R)
+        root.right = trimBST(root.right, L, R)
+        return root
+    }
+
+    fun longestDupSubstring(S: String): String {//1044
+        val size = S.length
+        val nums = IntArray(size)
+        for (i in S.indices) {
+            nums[i] = S[i] - 'a'
+        }
+        val modulus = Math.pow(2.0, 32.0).toLong()
+        var left = 1
+        var right = size
+        var mid = 0
+        while (left < right) {
+            mid = left + (right - left) / 2
+            if (search(mid, modulus, nums) > -1) {
+                left = mid + 1
+            } else {
+                right = mid
+            }
+        }
+        val start = search(left - 1, modulus, nums)
+        if (start > -1) {
+            return S.substring(start, start + left - 1)
+        } else {
+            return ""
+        }
+    }
+
+    private fun search(length: Int, modulus: Long, nums: IntArray): Int {
+        var hash = 0L
+        for (i in 0 until length) {
+            hash = (hash * 26 + nums[i]) % modulus
+        }
+        val seen = mutableSetOf<Long>()
+        seen.add(hash)
+        var aL = 1L
+        for (i in 1..length) {
+            aL = (aL * 26L) % modulus
+        }
+        for (start in 1..nums.size - length) {
+            hash = (hash * 26 - nums[start - 1] * aL % modulus + modulus) % modulus
+            hash = (hash + nums[start + length - 1]) % modulus
+            if (seen.contains(hash)) return start
+            seen.add(hash)
+        }
+        return -1
     }
 
     fun isMatch(s: String, p: String): Boolean {//10
