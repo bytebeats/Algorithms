@@ -880,4 +880,97 @@ class Solution8 {
         }
         return -1
     }
+
+    fun isMatch(s: String, p: String): Boolean {//10
+        val m = s.length
+        val n = p.length
+        val f = Array(m + 1) { BooleanArray(n + 1) { false } }
+        f[0][0] = true
+        for (i in 0..m) {
+            for (j in 1..n) {
+                if (p[j - 1] == '*') {
+                    f[i][j] = f[i][j - 2]
+                    if (matches(s, p, i, j - 1)) {
+                        f[i][j] = f[i][j] || f[i - 1][j]
+                    }
+                } else {
+                    if (matches(s, p, i, j)) {
+                        f[i][j] = f[i - 1][j - 1]
+                    }
+                }
+            }
+        }
+        return f[m][n]
+    }
+
+    private fun matches(s: String, p: String, i: Int, j: Int): Boolean {
+        if (i == 0) return false
+        if (p[j - 1] == '.') return true
+        return s[i - 1] == p[j - 1]
+    }
+
+    fun isMatch1(s: String, p: String): Boolean {//44
+        val m = s.length
+        val n = p.length
+        var sIdx = 0
+        var pIdx = 0
+        var startIdx = -1
+        var sTmpIdx = -1
+        while (sIdx < m) {
+            // If the pattern caracter = string character
+            // or pattern character = '?'
+            if (pIdx < n && (p[pIdx] == '?' || s[sIdx] == p[pIdx])) {
+                ++sIdx
+                ++pIdx
+            }// If pattern character = '*'
+            else if (pIdx < n && p[pIdx] == '*') {
+                // Check the situation
+                // when '*' matches no characters
+                startIdx = pIdx
+                sTmpIdx = sIdx
+                ++pIdx
+            } // If pattern character != string character
+            // or pattern is used up
+            // and there was no '*' character in pattern
+            else if (startIdx == -1) {
+                return false
+            }
+            // If pattern character != string character
+            // or pattern is used up
+            // and there was '*' character in pattern before
+            else {
+                // Backtrack: check the situation
+                // when '*' matches one more character
+                pIdx = startIdx + 1
+                sIdx = sTmpIdx + 1
+                sTmpIdx = sIdx
+            }
+        }
+        // The remaining characters in the pattern should all be '*' characters
+        for (i in pIdx until n) {
+            if (p[i] != '*') return false
+        }
+        return true
+    }
+
+    fun getPermutation(n: Int, k: Int): String {//60
+        val factorials = IntArray(n)
+        val nums = mutableListOf<Int>()
+        factorials[0] = 1
+        nums.add(1)
+        for (i in 1 until n) {
+            factorials[i] = i * factorials[i - 1]
+            nums.add(i + 1)
+        }
+        var kk = k - 1
+        val ans = StringBuilder()
+        var idx = 0
+        for (i in n - 1 downTo 0) {
+            idx = kk / factorials[i]
+            kk -= idx * factorials[i]
+            ans.append(nums[idx])
+            nums.removeAt(idx)
+        }
+        return ans.toString()
+    }
 }
