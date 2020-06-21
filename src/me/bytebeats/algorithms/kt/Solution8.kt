@@ -973,4 +973,33 @@ class Solution8 {
         }
         return ans.toString()
     }
+
+    fun calculateMinimumHP(dungeon: Array<IntArray>): Int {//174
+        if (dungeon.isNotEmpty() && dungeon[0].isNotEmpty()) {
+            val row = dungeon.size
+            val column = dungeon[0].size
+            val dp = Array(row) { IntArray(column) }
+            dp[row - 1][column - 1] = 0.coerceAtLeast(-dungeon[row - 1][column - 1])
+            for (i in row - 2 downTo 0) {
+                val needMin = dp[i + 1][column - 1] - dungeon[i][column - 1]
+                dp[i][column - 1] = 0.coerceAtLeast(needMin)
+            }
+            for (j in column - 2 downTo 0) {
+                val needMin = dp[row - 1][j + 1] - dungeon[row - 1][j]
+                dp[row - 1][j] = 0.coerceAtLeast(needMin)
+            }
+            for (i in row - 2 downTo 0) {
+                for (j in column - 2 downTo 0) {
+                    val needMin = dp[i + 1][j].coerceAtMost(dp[i][j + 1]) - dungeon[i][j]
+                    dp[i][j] = 0.coerceAtLeast(needMin)
+                }
+            }
+            for (rows in dp) {
+                println()
+                rows.forEach { print("$it,") }
+            }
+            return dp[0][0] + 1
+        }
+        return 0
+    }
 }
