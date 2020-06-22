@@ -1002,4 +1002,70 @@ class Solution8 {
         }
         return 0
     }
+
+    fun patternMatching(pattern: String, value: String): Boolean {//面试题16.18
+        var countA = 0
+        var countB = 0
+        for (ch in pattern) {
+            if (ch == 'a') {
+                ++countA
+            } else {
+                ++countB
+            }
+        }
+        var ptn = pattern
+        if (countA < countB) {
+            val tmp = countA
+            countA = countB
+            countB = tmp
+            val chArr = pattern.toCharArray()
+            for (i in chArr.indices) {
+                chArr[i] = if (chArr[i] == 'a') 'b' else 'a'
+            }
+            ptn = String(chArr)
+        }
+        if (value.isEmpty()) {
+            return countA == 0
+        }
+        if (ptn.isEmpty()) {
+            return false
+        }
+        var lenA = 0
+        while (lenA * countA <= value.length) {
+            val left = value.length - lenA * countA
+            if (countB == 0 && left == 0 || countB != 0 && left % countB == 0) {
+                val len_b = if (countB == 0) 0 else left / countB
+                var pos = 0
+                var correct = true
+                var valA = ""
+                var valB = ""
+                for (ch in ptn) {
+                    if (ch == 'a') {
+                        val sub = value.substring(pos, pos + lenA)
+                        if (valA.isEmpty()) {
+                            valA = sub
+                        } else if (valA != sub) {
+                            correct = false
+                            break
+                        }
+                        pos += lenA
+                    } else {
+                        val sub = value.substring(pos, pos + len_b)
+                        if (valB.isEmpty()) {
+                            valB = sub
+                        } else if (valB != sub) {
+                            correct = false
+                            break
+                        }
+                        pos += len_b
+                    }
+                }
+                if (correct && valA != valB) {
+                    return true
+                }
+            }
+            ++lenA
+        }
+        return false
+    }
 }
