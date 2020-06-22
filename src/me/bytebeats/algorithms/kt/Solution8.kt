@@ -1068,4 +1068,56 @@ class Solution8 {
         }
         return false
     }
+
+    fun singleNumber(nums: IntArray): Int {//137
+        var seen1 = 0
+        var seen2 = 0
+        for (n in nums) {
+            seen1 = seen2.inv() and (seen1 xor n)
+            seen2 = seen1.inv() and (seen2 xor n)
+        }
+        return seen1
+    }
+
+    fun findContentChildren(g: IntArray, s: IntArray): Int {//455
+        g.sort()
+        s.sort()
+        var i = 0
+        var j = 0
+        var ans = 0
+        while (i < g.size && j < s.size) {
+            if (g[i] > s[j]) {
+                while (j < s.size && g[i] > s[j]) {
+                    ++j
+                }
+                if (j < s.size) {
+                    ++i
+                    ++j
+                    ++ans
+                }
+            } else {
+                ++i
+                ++j
+                ++ans
+            }
+        }
+        return ans
+    }
+
+    fun findRadius(houses: IntArray, heaters: IntArray): Int {//475
+        houses.sort()
+        heaters.sort()
+        var ans = 0
+        var k = 0
+        for (i in houses.indices) {
+            var radius = Int.MAX_VALUE
+            for (j in k until heaters.size) {
+                k = if (houses[i] >= heaters[j]) j else k
+                radius = radius.coerceAtMost(Math.abs(houses[i] - heaters[j]))
+                if (houses[i] < heaters[j]) break
+            }
+            ans = ans.coerceAtLeast(radius)
+        }
+        return ans
+    }
 }
