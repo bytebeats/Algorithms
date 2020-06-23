@@ -956,7 +956,7 @@ class Solution {
         }
     }
 
-    fun addBinary(a: String, b: String): String {
+    fun addBinary(a: String, b: String): String {//67
         val res = StringBuilder()
         var i = a.lastIndex
         var j = b.lastIndex

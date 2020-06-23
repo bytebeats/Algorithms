@@ -121,7 +121,8 @@ case class ScalaSolution1() {
             ans.append(']')
         } else {
             ans.append(ch)
-        })
+        }
+        )
         ans.toString()
     }
 
@@ -176,7 +177,8 @@ case class ScalaSolution1() {
             map(num) += 1
         } else {
             map += (num -> 1)
-        })
+        }
+        )
         var ans = -1
         for ((k, v) <- map) {
             if (k == v && v > ans) {
@@ -269,5 +271,33 @@ case class ScalaSolution1() {
             i = j
         }
         true
+    }
+
+    def isAlienSorted(words: Array[String], order: String): Boolean = { //953
+        val map = scala.collection.mutable.Map[Char, Int]()
+        for (i <- order.indices) {
+            map += (order(i) -> i)
+        }
+        println()
+        for ((k, v) <- map) print(s"$k=$v,")
+        for (i <- 1 until words.length) {
+            println(s"${words(i - 1)}, ${words(i - 1)}, ${isLess(words(i - 1), words(i), map)}")
+            if (!isLess(words(i - 1), words(i), map)) {
+                return false
+            }
+        }
+        true
+    }
+
+    private def isLess(word1: String, word2: String, map: scala.collection.mutable.Map[Char, Int]): Boolean = {
+        val size = Math.min(word1.length, word2.length)
+        for (i <- 0 until size) {
+            if (map(word1(i)) < map(word2(i))) {
+                return true
+            } else if (map(word1(i)) > map(word2(i))) {
+                return false
+            }
+        }
+        word1.length <= word2.length
     }
 }
