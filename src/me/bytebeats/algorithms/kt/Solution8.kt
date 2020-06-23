@@ -1120,4 +1120,47 @@ class Solution8 {
         }
         return ans
     }
+
+    fun countNodes(root: TreeNode?): Int {//222
+        if (root == null) return 0
+        val depth = depthOfCompleteBT(root)
+        if (depth == 0) return 1
+        var left = 1
+        var right = Math.pow(2.0, depth.toDouble()).toInt() - 1
+        var pivot = 0
+        while (left <= right) {
+            pivot = left + (right - left) / 2
+            if (exists(pivot, depth, root)) left = pivot + 1
+            else right = pivot - 1
+        }
+        return Math.pow(2.0, depth.toDouble()).toInt() - 1 + left
+    }
+
+    private fun depthOfCompleteBT(root: TreeNode?): Int {
+        var depth = 0
+        var p = root?.left
+        while (p != null) {
+            ++depth
+            p = p.left
+        }
+        return depth
+    }
+
+    private fun exists(idx: Int, depth: Int, node: TreeNode?): Boolean {
+        var left = 0
+        var right = Math.pow(2.0, depth.toDouble()).toInt() - 1
+        var pivot = 0
+        var p = node
+        for (i in 0 until depth) {
+            pivot = left + (right - left) / 2
+            if (idx <= pivot) {
+                p = p?.left
+                right = pivot
+            } else {
+                p = p?.right
+                left = pivot + 1
+            }
+        }
+        return p != null
+    }
 }

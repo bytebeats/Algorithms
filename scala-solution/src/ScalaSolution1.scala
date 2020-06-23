@@ -1,3 +1,5 @@
+
+
 case class ScalaSolution1() {
     def judgeCircle(moves: String): Boolean = { //657
         var x = 0
@@ -299,5 +301,14 @@ case class ScalaSolution1() {
             }
         }
         word1.length <= word2.length
+    }
+
+    def kWeakestRows(mat: Array[Array[Int]], k: Int): Array[Int] = { //1337
+        val twoD = Array.ofDim[Int](mat.length, 2)
+        for (i <- mat.indices) {
+            twoD(i)(0) = i
+            twoD(i)(1) = mat(i).sum
+        }
+        twoD.sortBy(arr => arr(1)).map(arr => arr(0)).take(k)
     }
 }
