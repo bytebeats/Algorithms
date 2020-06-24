@@ -311,4 +311,34 @@ case class ScalaSolution1() {
         }
         twoD.sortBy(arr => arr(1)).map(arr => arr(0)).take(k)
     }
+
+    def threeSumClosest(nums: Array[Int], target: Int): Int = { //16
+        var ans = 0
+        if (!nums.isEmpty) {
+            nums.sortInPlace()
+            var left = 0
+            var right = 0
+            var abs = Int.MaxValue
+            var sum = 0
+            for (i <- 0 until nums.length - 2) {
+                left = i + 1
+                right = nums.length - 1
+                while (left < right) {
+                    sum = nums(i) + nums(left) + nums(right)
+                    if (Math.abs(sum - target) < abs) {
+                        abs = Math.abs(sum - target)
+                        ans = sum
+                    }
+                    if (sum < target) {
+                        left += 1
+                    } else if (sum > target) {
+                        right -= 1
+                    } else {
+                        return ans
+                    }
+                }
+            }
+        }
+        ans
+    }
 }
