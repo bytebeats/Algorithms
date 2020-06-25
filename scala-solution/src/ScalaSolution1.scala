@@ -1,6 +1,7 @@
+import scala.util.control.Breaks.breakable
+import scala.util.control.Breaks.break
 
-
-case class ScalaSolution1() {
+object ScalaSolution1 {
     def judgeCircle(moves: String): Boolean = { //657
         var x = 0
         var y = 0
@@ -340,5 +341,87 @@ case class ScalaSolution1() {
             }
         }
         ans
+    }
+
+    def wordBreak(s: String, wordDict: List[String]): Boolean = {//139, dp
+        if (s.isEmpty) return true
+        var flag = false
+        wordDict.foreach(pre => if (s.startsWith(pre)) {
+            flag |= wordBreak(s.substring(pre.length), wordDict)
+        })
+        flag
+    }
+
+    def wordBreak1(s: String, wordDict: List[String]): Boolean = { //139, dp
+        val set = scala.collection.mutable.Set[String]()
+        set.addAll(wordDict)
+        val size = s.length
+        val dp = Array.ofDim[Boolean](size + 1)
+        dp(0) = true//means "" is true
+        for (i <- 1 to size) {
+            breakable {
+                for (j <- 0 until i) {
+                    if (dp(j) && set.contains(s.substring(j, i))) {
+                        dp(i) = true
+                        break()
+                    }
+                }
+            }
+        }
+        dp(size)
+    }
+
+    def findDuplicate(nums: Array[Int]): Int = {
+        var fast = 0
+        var slow = 0
+        while (true) {
+            fast = nums(nums(fast))
+            slow = nums(slow)
+            if (slow == fast) {
+                fast = 0
+                while (nums(slow) != nums(fast)) {
+                    fast = nums(fast)
+                    slow = nums(slow)
+                }
+                return nums(slow)
+            }
+        }
+        0
+    }
+
+    def maxNumberOfBalloons(text: String): Int = { //1189
+        val bln = "balloon"
+        val balloon = Array.ofDim[Int](26)
+        bln.foreach(ch => balloon(ch - 'a') += 1)
+        val counts = Array.ofDim[Int](26)
+        text.foreach(ch => counts(ch - 'a') += 1)
+        var count = Int.MaxValue
+        for (i <- 0 until 26) {
+            if (balloon(i) > 0) {
+                if (counts(i) > 0) {
+                    count = Math.min(count, counts(i) / balloon(i))
+                } else {
+                    return 0
+                }
+            }
+        }
+        count
+    }
+
+    def findSpecialInteger(arr: Array[Int]): Int = { //1287
+        var cnt = 0
+        var tgt = arr.head
+        for (i <- 0 until arr.size) {
+            if (tgt == arr(i)) {
+                cnt += 1
+                if (cnt * 4 > arr.size) {
+                    return tgt
+                }
+            } else {
+                tgt = arr(i)
+                cnt = 1
+            }
+        }
+        -1
     }
 }
