@@ -1163,4 +1163,32 @@ class Solution8 {
         }
         return p != null
     }
+
+
+    fun xorOperation(n: Int, start: Int): Int {
+        var xorval = 0
+        for (i in 0 until n) {
+            xorval = xorval xor (start + 2 * i)
+        }
+        return xorval
+    }
+
+    fun getFolderNames(names: Array<String>): Array<String> {
+        val map = mutableMapOf<String, Int>()
+        for (i in names.indices) {
+            if (map.containsKey(names[i])) {
+                map.compute(names[i]) { _, v -> if (v == null) 1 else v + 1 }
+                var j = map[names[i]]!! - 1
+                var tmp = "${names[i]}($j)"
+                while (map.containsKey(tmp)) {
+                    ++j
+                    tmp = "${names[i]}($j)"
+                }
+                names[i] = tmp
+            } else {
+                map[names[i]] = 1
+            }
+        }
+        return names
+    }
 }
