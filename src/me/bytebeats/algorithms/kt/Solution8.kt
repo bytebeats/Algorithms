@@ -974,6 +974,196 @@ class Solution8 {
         return ans.toString()
     }
 
+    fun calculateMinimumHP(dungeon: Array<IntArray>): Int {//174
+        if (dungeon.isNotEmpty() && dungeon[0].isNotEmpty()) {
+            val row = dungeon.size
+            val column = dungeon[0].size
+            val dp = Array(row) { IntArray(column) }
+            dp[row - 1][column - 1] = 0.coerceAtLeast(-dungeon[row - 1][column - 1])
+            for (i in row - 2 downTo 0) {
+                val needMin = dp[i + 1][column - 1] - dungeon[i][column - 1]
+                dp[i][column - 1] = 0.coerceAtLeast(needMin)
+            }
+            for (j in column - 2 downTo 0) {
+                val needMin = dp[row - 1][j + 1] - dungeon[row - 1][j]
+                dp[row - 1][j] = 0.coerceAtLeast(needMin)
+            }
+            for (i in row - 2 downTo 0) {
+                for (j in column - 2 downTo 0) {
+                    val needMin = dp[i + 1][j].coerceAtMost(dp[i][j + 1]) - dungeon[i][j]
+                    dp[i][j] = 0.coerceAtLeast(needMin)
+                }
+            }
+            for (rows in dp) {
+                println()
+                rows.forEach { print("$it,") }
+            }
+            return dp[0][0] + 1
+        }
+        return 0
+    }
+
+    fun patternMatching(pattern: String, value: String): Boolean {//面试题16.18
+        var countA = 0
+        var countB = 0
+        for (ch in pattern) {
+            if (ch == 'a') {
+                ++countA
+            } else {
+                ++countB
+            }
+        }
+        var ptn = pattern
+        if (countA < countB) {
+            val tmp = countA
+            countA = countB
+            countB = tmp
+            val chArr = pattern.toCharArray()
+            for (i in chArr.indices) {
+                chArr[i] = if (chArr[i] == 'a') 'b' else 'a'
+            }
+            ptn = String(chArr)
+        }
+        if (value.isEmpty()) {
+            return countA == 0
+        }
+        if (ptn.isEmpty()) {
+            return false
+        }
+        var lenA = 0
+        while (lenA * countA <= value.length) {
+            val left = value.length - lenA * countA
+            if (countB == 0 && left == 0 || countB != 0 && left % countB == 0) {
+                val len_b = if (countB == 0) 0 else left / countB
+                var pos = 0
+                var correct = true
+                var valA = ""
+                var valB = ""
+                for (ch in ptn) {
+                    if (ch == 'a') {
+                        val sub = value.substring(pos, pos + lenA)
+                        if (valA.isEmpty()) {
+                            valA = sub
+                        } else if (valA != sub) {
+                            correct = false
+                            break
+                        }
+                        pos += lenA
+                    } else {
+                        val sub = value.substring(pos, pos + len_b)
+                        if (valB.isEmpty()) {
+                            valB = sub
+                        } else if (valB != sub) {
+                            correct = false
+                            break
+                        }
+                        pos += len_b
+                    }
+                }
+                if (correct && valA != valB) {
+                    return true
+                }
+            }
+            ++lenA
+        }
+        return false
+    }
+
+    fun singleNumber(nums: IntArray): Int {//137
+        var seen1 = 0
+        var seen2 = 0
+        for (n in nums) {
+            seen1 = seen2.inv() and (seen1 xor n)
+            seen2 = seen1.inv() and (seen2 xor n)
+        }
+        return seen1
+    }
+
+    fun findContentChildren(g: IntArray, s: IntArray): Int {//455
+        g.sort()
+        s.sort()
+        var i = 0
+        var j = 0
+        var ans = 0
+        while (i < g.size && j < s.size) {
+            if (g[i] > s[j]) {
+                while (j < s.size && g[i] > s[j]) {
+                    ++j
+                }
+                if (j < s.size) {
+                    ++i
+                    ++j
+                    ++ans
+                }
+            } else {
+                ++i
+                ++j
+                ++ans
+            }
+        }
+        return ans
+    }
+
+    fun findRadius(houses: IntArray, heaters: IntArray): Int {//475
+        houses.sort()
+        heaters.sort()
+        var ans = 0
+        var k = 0
+        for (i in houses.indices) {
+            var radius = Int.MAX_VALUE
+            for (j in k until heaters.size) {
+                k = if (houses[i] >= heaters[j]) j else k
+                radius = radius.coerceAtMost(Math.abs(houses[i] - heaters[j]))
+                if (houses[i] < heaters[j]) break
+            }
+            ans = ans.coerceAtLeast(radius)
+        }
+        return ans
+    }
+
+    fun countNodes(root: TreeNode?): Int {//222
+        if (root == null) return 0
+        val depth = depthOfCompleteBT(root)
+        if (depth == 0) return 1
+        var left = 1
+        var right = Math.pow(2.0, depth.toDouble()).toInt() - 1
+        var pivot = 0
+        while (left <= right) {
+            pivot = left + (right - left) / 2
+            if (exists(pivot, depth, root)) left = pivot + 1
+            else right = pivot - 1
+        }
+        return Math.pow(2.0, depth.toDouble()).toInt() - 1 + left
+    }
+
+    private fun depthOfCompleteBT(root: TreeNode?): Int {
+        var depth = 0
+        var p = root?.left
+        while (p != null) {
+            ++depth
+            p = p.left
+        }
+        return depth
+    }
+
+    private fun exists(idx: Int, depth: Int, node: TreeNode?): Boolean {
+        var left = 0
+        var right = Math.pow(2.0, depth.toDouble()).toInt() - 1
+        var pivot = 0
+        var p = node
+        for (i in 0 until depth) {
+            pivot = left + (right - left) / 2
+            if (idx <= pivot) {
+                p = p?.left
+                right = pivot
+            } else {
+                p = p?.right
+                left = pivot + 1
+            }
+        }
+        return p != null
+    }
+
 
     fun xorOperation(n: Int, start: Int): Int {
         var xorval = 0

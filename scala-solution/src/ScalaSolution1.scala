@@ -1,3 +1,5 @@
+
+
 case class ScalaSolution1() {
     def judgeCircle(moves: String): Boolean = { //657
         var x = 0
@@ -121,7 +123,8 @@ case class ScalaSolution1() {
             ans.append(']')
         } else {
             ans.append(ch)
-        })
+        }
+        )
         ans.toString()
     }
 
@@ -176,7 +179,8 @@ case class ScalaSolution1() {
             map(num) += 1
         } else {
             map += (num -> 1)
-        })
+        }
+        )
         var ans = -1
         for ((k, v) <- map) {
             if (k == v && v > ans) {
@@ -269,5 +273,72 @@ case class ScalaSolution1() {
             i = j
         }
         true
+    }
+
+    def isAlienSorted(words: Array[String], order: String): Boolean = { //953
+        val map = scala.collection.mutable.Map[Char, Int]()
+        for (i <- order.indices) {
+            map += (order(i) -> i)
+        }
+        println()
+        for ((k, v) <- map) print(s"$k=$v,")
+        for (i <- 1 until words.length) {
+            println(s"${words(i - 1)}, ${words(i - 1)}, ${isLess(words(i - 1), words(i), map)}")
+            if (!isLess(words(i - 1), words(i), map)) {
+                return false
+            }
+        }
+        true
+    }
+
+    private def isLess(word1: String, word2: String, map: scala.collection.mutable.Map[Char, Int]): Boolean = {
+        val size = Math.min(word1.length, word2.length)
+        for (i <- 0 until size) {
+            if (map(word1(i)) < map(word2(i))) {
+                return true
+            } else if (map(word1(i)) > map(word2(i))) {
+                return false
+            }
+        }
+        word1.length <= word2.length
+    }
+
+    def kWeakestRows(mat: Array[Array[Int]], k: Int): Array[Int] = { //1337
+        val twoD = Array.ofDim[Int](mat.length, 2)
+        for (i <- mat.indices) {
+            twoD(i)(0) = i
+            twoD(i)(1) = mat(i).sum
+        }
+        twoD.sortBy(arr => arr(1)).map(arr => arr(0)).take(k)
+    }
+
+    def threeSumClosest(nums: Array[Int], target: Int): Int = { //16
+        var ans = 0
+        if (!nums.isEmpty) {
+            nums.sortInPlace()
+            var left = 0
+            var right = 0
+            var abs = Int.MaxValue
+            var sum = 0
+            for (i <- 0 until nums.length - 2) {
+                left = i + 1
+                right = nums.length - 1
+                while (left < right) {
+                    sum = nums(i) + nums(left) + nums(right)
+                    if (Math.abs(sum - target) < abs) {
+                        abs = Math.abs(sum - target)
+                        ans = sum
+                    }
+                    if (sum < target) {
+                        left += 1
+                    } else if (sum > target) {
+                        right -= 1
+                    } else {
+                        return ans
+                    }
+                }
+            }
+        }
+        ans
     }
 }

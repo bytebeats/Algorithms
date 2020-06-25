@@ -563,18 +563,16 @@ class Solution {
         }
     }
 
-    fun canReorderDoubled(A: IntArray): Boolean {
-        val map = HashMap<Int, Int>(A.size / 2)
-        A.forEach {
-            if (map.containsKey(it * 2)) {
-                map[it * 2] = map[it * 2]!!.minus(1)
-            } else if (it % 2 == 0 && map.containsKey(it / 2)) {
-                map[it / 2] = map[it / 2]!!.minus(1)
-            } else {
-                map.compute(it) { _, v -> if (v == null) 1 else v + 1 }
-            }
+    fun canReorderDoubled(A: IntArray): Boolean {//954
+        val map = mutableMapOf<Int, Int>()
+        A.forEach { map.compute(it) { _, v -> if (v == null) 1 else v + 1 } }
+        for (num in A.sortedBy { Math.abs(it) }) {
+            if (map[num]!! == 0) continue
+            if (map[num * 2] ?: 0 <= 0) return false
+            map[num] = map[num]!! - 1
+            map[num * 2] = map[num * 2]!! - 1
         }
-        return map.values.filter { it != 0 }.count() > 0
+        return true
     }
 
     fun countAndSay(n: Int): String {
@@ -956,7 +954,7 @@ class Solution {
         }
     }
 
-    fun addBinary(a: String, b: String): String {
+    fun addBinary(a: String, b: String): String {//67
         val res = StringBuilder()
         var i = a.lastIndex
         var j = b.lastIndex
