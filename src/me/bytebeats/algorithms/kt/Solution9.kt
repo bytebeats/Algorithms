@@ -1,5 +1,6 @@
 package me.bytebeats.algorithms.kt
 
+import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
 
 class Solution9 {
@@ -110,6 +111,60 @@ class Solution9 {
             }
         }
         return allTrees
+    }
+
+    fun removeDuplicateNodes(head: ListNode?): ListNode? {//面试题 02.01
+        if (head != null) {
+            val set = mutableSetOf<Int>()
+            var p = head
+            set.add(head.`val`)
+            while (p?.next != null) {
+                if (set.contains(p.next.`val`)) {
+                    p.next = p.next.next
+                } else {
+                    p = p.next
+                    set.add(p.`val`)
+                }
+            }
+        }
+        return head
+    }
+
+    fun sumNumbers(root: TreeNode?): Int {//129
+        val ans = mutableListOf<String>()
+        dfs(root, "", ans)
+        return ans.map { it.toInt() }.sum()
+    }
+
+    private fun dfs(root: TreeNode?, str: String, list: MutableList<String>) {
+        if (root == null) return
+        val newStr = "$str${root.`val`}"
+        if (root.left == null && root.right == null) {
+            list.add(newStr)
+        } else {
+            if (root.left != null) {
+                dfs(root.left, newStr, list)
+            }
+            if (root.right != null) {
+                dfs(root.right, newStr, list)
+            }
+        }
+    }
+
+    fun largestTriangleArea(points: Array<IntArray>): Double {//812
+        var ans = 0.0
+        for (i in 0..points.size - 3) {
+            for (j in i + 1..points.size - 2) {
+                for (k in j + 1 until points.size) {
+                    ans = ans.coerceAtLeast(areaOfTriangle(points[i], points[j], points[k]))
+                }
+            }
+        }
+        return ans
+    }
+
+    private fun areaOfTriangle(a: IntArray, b: IntArray, c: IntArray): Double {
+        return 0.5 * Math.abs(a[0] * b[1] + b[0] * c[1] + c[0] * a[1] - a[1] * b[0] - b[1] * c[0] - c[1] * a[0])
     }
 
 }

@@ -348,7 +348,8 @@ object ScalaSolution1 {
         var flag = false
         wordDict.foreach(pre => if (s.startsWith(pre)) {
             flag |= wordBreak(s.substring(pre.length), wordDict)
-        })
+        }
+        )
         flag
     }
 
@@ -423,5 +424,32 @@ object ScalaSolution1 {
             }
         }
         -1
+    }
+
+    def largestPerimeter(A: Array[Int]): Int = {//976
+        A.sortInPlace()
+        for (i <- A.size - 1 to 2 by -1) {
+            if (A(i - 2) + A(i - 1) > A(i)) {
+                return A(i - 2) + A(i - 1) + A(i)
+            }
+        }
+        0
+    }
+
+    def convertToBase7(num: Int): String = { //504
+        if (num == 0) return "0"
+        var ans = ""
+        var positive = true
+        var n = num
+        if (num < 0) {
+            n = -num
+            positive = false
+        }
+        while (n != 0) {
+            ans = s"${n % 7}$ans"
+            n /= 7
+        }
+        if (positive) ans
+        else s"-$ans"
     }
 }
