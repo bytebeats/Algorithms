@@ -251,12 +251,11 @@ class Solution8 {
         return list.toIntArray()
     }
 
-    fun getStrongest(arr: IntArray, k: Int): IntArray {//5429
+    fun getStrongest(arr: IntArray, k: Int): IntArray {//5429, 1471
         val ans = IntArray(k)
         arr.sort()
         val median = arr[(arr.size - 1) / 2]
         val sorted = arr.reversed().sortedByDescending { Math.abs(it - median) }
-        sorted.forEach { println("$it") }
         for (i in 0 until k) {
             ans[i] = sorted[i]
         }
