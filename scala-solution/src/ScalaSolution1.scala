@@ -452,4 +452,17 @@ object ScalaSolution1 {
         if (positive) ans
         else s"-$ans"
     }
+
+    def numSquares(n: Int): Int = { //279
+        val dp = Array.ofDim[Int](n + 1)
+        for (i <- 1 to n) {
+            dp(i) = i
+            var j = 1
+            while (j * j <= i) {
+                dp(i) = Math.min(dp(i), dp(i - j * j) + 1)
+                j += 1
+            }
+        }
+        dp(n)
+    }
 }
