@@ -167,4 +167,98 @@ class Solution9 {
         return 0.5 * Math.abs(a[0] * b[1] + b[0] * c[1] + c[0] * a[1] - a[1] * b[0] - b[1] * c[0] - c[1] * a[0])
     }
 
+    fun average(salary: IntArray): Double {
+        var min = Int.MAX_VALUE
+        var max = Int.MIN_VALUE
+        var sum = 0
+        for (s in salary) {
+            min = min.coerceAtMost(s)
+            max = max.coerceAtLeast(s)
+            sum += s
+        }
+        return (sum - min - max) / (salary.size - 2).toDouble()
+    }
+
+    fun kthFactor(n: Int, k: Int): Int {
+        val sqrt = Math.sqrt(n.toDouble()).toInt()
+        val list = mutableListOf<Int>()
+        for (i in 1..sqrt) {
+            if (n % i == 0) {
+                if (i * i == n) {
+                    list.add(i)
+                } else {
+                    list.add(i)
+                    list.add(n / i)
+                }
+            }
+        }
+        if (list.size < k) {
+            return -1
+        } else {
+            return list.sorted().drop(k - 1).first() ?: 0
+        }
+    }
+
+    fun longestSubarray(nums: IntArray): Int {
+        val idx = mutableListOf<Int>()
+        idx.add(-1)
+        for (n in nums.indices) {
+            if (nums[n] == 0) {
+                idx.add(n)
+            }
+        }
+        idx.add(nums.size)
+        if (idx.size == nums.size + 2) {
+            return 0
+        } else if (idx.size == 2) {
+            return nums.size - 1
+        } else {
+            var max = 0
+            for (i in 2..idx.lastIndex) {
+                max = max.coerceAtLeast(idx[i] - idx[i - 2] - 2)
+            }
+            return max
+        }
+    }
+
+    fun minNumberOfSemesters(n: Int, dependencies: Array<IntArray>, k: Int): Int {
+        val inDegrees = IntArray(n + 1)
+        inDegrees[0] = -1
+        val graph = mutableMapOf<Int, MutableList<Int>>()
+        for (d in dependencies) {
+            inDegrees[d[1]]++
+            if (graph.containsKey(d[0])) {
+                graph[d[0]]?.add(d[1])
+            } else {
+                val dependencies = mutableListOf<Int>()
+                dependencies.add(d[1])
+                graph[d[0]] = dependencies
+            }
+        }
+        val q = mutableListOf<Int>()
+        for (i in 1..n) {
+            if (inDegrees[i] == 0) q.add(i)
+        }
+        val replace = mutableListOf<Int>()
+        var ans = 0
+        while (q.isNotEmpty()) {
+            var kk = k
+            while (kk-- > 0 && q.isNotEmpty()) {
+                val cur = q.removeAt(0)
+                graph[cur]?.apply {
+                    for (i in 0 until size) {
+                        inDegrees[this[i]]--
+                        if (inDegrees[this[i]] == 0) {
+                            replace.add(this[i])
+                        }
+                    }
+                }
+            }
+            q.addAll(replace)
+            replace.clear()
+            ans += 1
+        }
+        return ans
+    }
+
 }
