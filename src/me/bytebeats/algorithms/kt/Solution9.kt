@@ -261,4 +261,50 @@ class Solution9 {
         return ans
     }
 
+    fun isPathCrossing(path: String): Boolean {
+        var x = 0
+        var y = 0
+        val set = mutableSetOf<IntArray>()
+        for (ch in path) {
+            if (ch == 'N') {
+                y++
+            } else if (ch == 'S') {
+                y--
+            } else if (ch == 'E') {
+                x++
+            } else {
+                x--
+            }
+            for (arr in set) {
+                if (arr[0] == x && arr[1] == y) {
+                    return true
+                }
+            }
+            set.add(intArrayOf(x, y))
+        }
+        return false
+    }
+
+    fun canArrange(arr: IntArray, k: Int): Boolean {//
+        for (i in arr.indices) {
+            arr[i] %= k
+        }
+        arr.sort()
+        var i = 0
+        var j = arr.lastIndex
+        while (i < j) {
+            if (arr[i] + arr[j] % k != 0) {
+                return false
+            }
+            i++
+            j--
+        }
+        return true
+    }
+
+    fun numSubseq(nums: IntArray, target: Int): Int {
+        nums.sort()
+        return 0
+    }
+
 }
