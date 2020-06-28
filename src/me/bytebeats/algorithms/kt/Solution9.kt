@@ -2,6 +2,7 @@ package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.ListNode
 import me.bytebeats.algorithms.meta.TreeNode
+import java.util.*
 
 class Solution9 {
     fun avoidFlood(rains: IntArray): IntArray {//1488
@@ -305,6 +306,33 @@ class Solution9 {
     fun numSubseq(nums: IntArray, target: Int): Int {
         nums.sort()
         return 0
+    }
+
+    fun findItinerary(tickets: List<List<String>>): List<String> {//332
+        val ans = mutableListOf<String>()
+        if (tickets.isNotEmpty()) {
+            val graph = mutableMapOf<String, PriorityQueue<String>>()
+            for (ticket in tickets) {
+                val queue = graph.computeIfAbsent(ticket[0]) {
+                    PriorityQueue()//邻接顶点按字典顺序排序, 如果是使用 LinkedList 的话, 不要显式的进行排序
+                }
+                queue.add(ticket[1])
+            }
+            visit(graph, "JFK", ans)
+        }
+        return ans
+    }
+
+    /**
+     * DFS遍历图, 当不能再走时, 再将节点加入 ans
+     */
+    private fun visit(graph: Map<String, PriorityQueue<String>>, src: String, ans: MutableList<String>) {
+        val neibour = graph[src]
+        while (neibour?.isNotEmpty() == true) {
+            val dst = neibour.poll()
+            visit(graph, dst, ans)
+        }
+        ans.add(0, src)
     }
 
 }
