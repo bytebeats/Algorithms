@@ -262,10 +262,11 @@ class Solution9 {
         return ans
     }
 
-    fun isPathCrossing(path: String): Boolean {
+    fun isPathCrossing(path: String): Boolean {//1496
         var x = 0
         var y = 0
-        val set = mutableSetOf<IntArray>()
+        val set = mutableSetOf<String>()
+        set.add("$x,$y")
         for (ch in path) {
             if (ch == 'N') {
                 y++
@@ -276,31 +277,27 @@ class Solution9 {
             } else {
                 x--
             }
-            for (arr in set) {
-                if (arr[0] == x && arr[1] == y) {
-                    return true
-                }
+            val point = "$x,$y"
+            if (set.contains(point)) {
+                return true
+            } else {
+                set.add(point)
             }
-            set.add(intArrayOf(x, y))
         }
         return false
     }
 
-    fun canArrange(arr: IntArray, k: Int): Boolean {//
-        for (i in arr.indices) {
-            arr[i] %= k
+    fun canArrange(arr: IntArray, k: Int): Boolean {//1497
+        val mod = IntArray(k)
+        for (i in arr) {
+            mod[(i % k + k) % k] += 1//(i % k + k) % k, 使余数为负的转为正
         }
-        arr.sort()
-        var i = 0
-        var j = arr.lastIndex
-        while (i < j) {
-            if (arr[i] + arr[j] % k != 0) {
+        for (i in 1 until k) {
+            if (mod[i] != mod[k - i]) {
                 return false
             }
-            i++
-            j--
         }
-        return true
+        return mod[0] % 2 == 0
     }
 
     fun numSubseq(nums: IntArray, target: Int): Int {
