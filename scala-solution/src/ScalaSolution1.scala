@@ -485,4 +485,19 @@ object ScalaSolution1 {
         }
         if (ans == Int.MaxValue) 0 else ans
     }
+
+    def firstMissingPositive(nums: Array[Int]): Int = { //41
+        val s = nums.size
+        for (i <- 0 until s) {
+            while (nums(i) > 0 && nums(i) <= s && nums(i) != nums(nums(i) - 1)) {
+                val tmp = nums(nums(i) - 1)
+                nums(nums(i) - 1) = nums(i)
+                nums(i) = tmp
+            }
+        }
+        for (i <- 0 until s) {
+            if (nums(i) != i + 1) return i + 1
+        }
+        s + 1
+    }
 }
