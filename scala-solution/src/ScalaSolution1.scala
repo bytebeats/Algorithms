@@ -465,4 +465,24 @@ object ScalaSolution1 {
         }
         dp(n)
     }
+
+    def minSubArrayLen(s: Int, nums: Array[Int]): Int = { //209
+        if (nums.isEmpty) {
+            return 0
+        }
+        var ans = Int.MaxValue
+        var i = 0
+        var j = 0
+        var sum = 0
+        while (j < nums.size) {
+            sum += nums(j)
+            while (i < nums.size && sum >= s) {
+                ans = Math.min(ans, j - i + 1)
+                sum -= nums(i)
+                i += 1
+            }
+            j += 1
+        }
+        if (ans == Int.MaxValue) 0 else ans
+    }
 }
