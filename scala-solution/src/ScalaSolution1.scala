@@ -500,4 +500,69 @@ object ScalaSolution1 {
         }
         s + 1
     }
+
+    def findKthLargest(nums: Array[Int], k: Int): Int = {//215
+        nums.sortInPlace()
+        nums(nums.size - k)
+    }
+
+    def uniquePaths(m: Int, n: Int): Int = { //62
+        val dp = Array.ofDim[Int](m + 1, n + 1)
+        for (i <- 1 to m) {
+            for (j <- 1 to n) {
+                if (i == 1 || j == 1) {
+                    dp(i)(j) = 1
+                } else {
+                    dp(i)(j) = dp(i - 1)(j) + dp(i)(j - 1)
+                }
+            }
+        }
+        dp(m)(n)
+    }
+
+    def uniquePathsWithObstacles(obstacleGrid: Array[Array[Int]]): Int = {//63
+        if (obstacleGrid.isEmpty || obstacleGrid(0).isEmpty) return 0
+        if (obstacleGrid(0)(0) == 1) return 0
+        val m = obstacleGrid.size
+        val n = obstacleGrid(0).size
+        for (i <- 0 until m) {
+            for (j <- 0 until n) {
+                if (obstacleGrid(i)(j) == 1) {
+                    obstacleGrid(i)(j) = 0
+                } else if (i == 0 && j == 0) {
+                    obstacleGrid(i)(j) = 1
+                } else if (i == 0) {
+                    obstacleGrid(i)(j) = obstacleGrid(i)(j - 1)
+                } else if (j == 0) {
+                    obstacleGrid(i)(j) = obstacleGrid(i - 1)(j)
+                } else {
+                    obstacleGrid(i)(j) = obstacleGrid(i - 1)(j) + obstacleGrid(i)(j - 1)
+                }
+            }
+        }
+        obstacleGrid(m - 1)(n - 1)
+    }
+
+    def oddCells(n: Int, m: Int, indices: Array[Array[Int]]): Int = { //1252
+        val matrix = Array.ofDim[Int](n, m)
+        for (elem <- indices) {
+            val r = elem(0)
+            for (j <- 0 until m) {
+                matrix(r)(j) += 1
+            }
+            val c = elem(1)
+            for (i <- 0 until n) {
+                matrix(i)(c) += 1
+            }
+        }
+        var ans = 0
+        for (i <- 0 until n) {
+            for (j <- 0 until m) {
+                if (matrix(i)(j) % 2 == 1) {
+                    ans += 1
+                }
+            }
+        }
+        ans
+    }
 }
