@@ -586,4 +586,123 @@ object ScalaSolution1 {
         ans
     }
 
+    def arrangeCoins(n: Int): Int = {
+        var k = 1
+        var nn = n
+        while (nn >= k) {
+            nn -= k
+            k += 1
+        }
+        k - 1
+    }
+
+    def numTeams(rating: Array[Int]): Int = { //1395
+        var ans = 0
+        val size = rating.length
+        for (i <- 0 until size - 2) {
+            for (j <- i + 1 until size - 1) {
+                for (k <- j + 1 until size) {
+                    if (rating(i) < rating(j) && rating(j) < rating(k) || rating(i) > rating(j) && rating(j) > rating(k)) {
+                        ans += 1
+                    }
+                }
+            }
+        }
+        ans
+    }
+
+    def numTeams2(rating: Array[Int]): Int = { //1395
+        var ans = 0
+        val size = rating.length
+        for (i <- 1 to size - 2) {
+            var iLess = 0
+            var iMore = 0
+            for (j <- 0 until i) {
+                if (rating(j) < rating(i)) {
+                    iLess += 1
+                } else if (rating(j) > rating(i)) {
+                    iMore += 1
+                }
+            }
+            var kLess = 0
+            var kMore = 0
+            for (j <- i + 1 until size) {
+                if (rating(j) < rating(i)) {
+                    kLess += 1
+                } else if (rating(j) > rating(i)) {
+                    kMore += 1
+                }
+            }
+            ans += iLess * kMore + iMore * kLess
+        }
+        ans
+    }
+
+    def minimumTotal(triangle: List[List[Int]]): Int = { //120
+        val n = triangle.length
+        for (i <- n - 1 to 1 by -1) {
+            val s = triangle(i - 1).size
+            for (j <- 0 until s) {
+                triangle(i - 1)(j) += Math.min(triangle(i)(j), triangle(i)(j + 1))
+            }
+        }
+        triangle(0)(0)
+    }
+
+    def imageSmoother(M: Array[Array[Int]]): Array[Array[Int]] = { //661
+        val m = M.size
+        val n = M(0).size
+        val matrix = Array.ofDim[Int](m, n)
+        for (i <- 0 until m) {
+            for (j <- 0 until n) {
+                var sum = M(i)(j)
+                var count = 1
+                if (i > 0) {
+                    sum += M(i - 1)(j)
+                    count += 1
+                    if (j > 0) {
+                        sum += M(i - 1)(j - 1)
+                        count += 1
+                    }
+                    if (j < n - 1) {
+                        sum += M(i - 1)(j + 1)
+                        count += 1
+                    }
+                }
+                if (i < m - 1) {
+                    sum += M(i + 1)(j)
+                    count += 1
+                    if (j > 0) {
+                        sum += M(i + 1)(j - 1)
+                        count += 1
+                    }
+                    if (j < n - 1) {
+                        sum += M(i + 1)(j + 1)
+                        count += 1
+                    }
+                }
+                if (j > 0) {
+                    sum += M(i)(j - 1)
+                    count += 1
+                }
+                if (j < n - 1) {
+                    sum += M(i)(j + 1)
+                    count += 1
+                }
+                matrix(i)(j) = sum / count
+            }
+        }
+        matrix
+    }
+
+    def wiggleSort(nums: Array[Int]): Unit = {//280
+        nums.sortInPlace()
+        var tmp = 0
+        for (i <- 2 until nums.size by 2) {
+            tmp = nums(i)
+            nums(i) = nums(i - 1)
+            nums(i - 1) = tmp
+        }
+    }
+
 }

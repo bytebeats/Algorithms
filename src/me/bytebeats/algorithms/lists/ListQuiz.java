@@ -2,6 +2,7 @@ package me.bytebeats.algorithms.lists;
 
 import me.bytebeats.algorithms.meta.ListNode;
 
+import java.util.List;
 import java.util.Stack;
 
 public class ListQuiz {
@@ -365,5 +366,16 @@ public class ListQuiz {
         }
         odd.next = evenHead;
         return head;
+    }
+
+    public int minimumTotal(List<List<Integer>> triangle) {//120
+        int n = triangle.size();
+        for (int i = n - 1; i > 0; i--) {
+            int s = triangle.get(i - 1).size();
+            for (int j = 0; j < s; j++) {
+                triangle.get(i - 1).set(j, triangle.get(i - 1).get(j) + Math.min(triangle.get(i).get(j), triangle.get(i).get(j + 1)));
+            }
+        }
+        return triangle.get(0).get(0);
     }
 }
