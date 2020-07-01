@@ -565,4 +565,25 @@ object ScalaSolution1 {
         }
         ans
     }
+
+    def findLength(A: Array[Int], B: Array[Int]): Int = { //718
+        val row = A.size
+        val column = B.size
+        val dp = Array.ofDim[Int](row + 1, column + 1)
+        var ans = 0
+        for (i <- row - 1 to 0 by -1) {
+            for (j <- column - 1 to 0 by -1) {
+                if (A(i) == B(j)) {
+                    dp(i)(j) = 1 + dp(i + 1)(j + 1)
+                } else {
+                    dp(i)(j) = 0
+                }
+                if (dp(i)(j) > ans) {
+                    ans = dp(i)(j)
+                }
+            }
+        }
+        ans
+    }
+
 }
