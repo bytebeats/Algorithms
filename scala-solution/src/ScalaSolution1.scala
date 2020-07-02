@@ -705,4 +705,32 @@ object ScalaSolution1 {
         }
     }
 
+    def kthSmallest(matrix: Array[Array[Int]], k: Int): Int = { //378
+        val n = matrix.size
+        var left = matrix(0)(0)
+        var right = matrix(n - 1)(n - 1)
+        var mid = 0
+        while (left < right) {
+            mid = left + ((right - left) >> 1)
+            if (count(matrix, mid, k, n)) right = mid
+            else left = mid + 1
+        }
+        left
+    }
+
+    private def count(matrix: Array[Array[Int]], mid: Int, k: Int, n: Int): Boolean = {
+        var i = n - 1
+        var j = 0
+        var count = 0
+        while (i >= 0 && j < n) {
+            if (matrix(i)(j) <= mid) {
+                count += i + 1
+                j += 1
+            } else {
+                i -= 1
+            }
+        }
+        count >= k
+    }
+
 }
