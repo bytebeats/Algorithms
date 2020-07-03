@@ -68,7 +68,7 @@ class Solution2 {
         }
     }
 
-    fun sortedArrayToBST(nums: IntArray): TreeNode? {
+    fun sortedArrayToBST(nums: IntArray): TreeNode? {//108
         return createBST(nums, 0, nums.lastIndex)
     }
 
@@ -78,7 +78,7 @@ class Solution2 {
         }
         val mid = s + (e - s) / 2
         val root = TreeNode(nums[mid])
-        root.left = createBST(nums, 0, mid - 1)
+        root.left = createBST(nums, s, mid - 1)
         root.right = createBST(nums, mid + 1, e)
         return root
     }

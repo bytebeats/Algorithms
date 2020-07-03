@@ -733,4 +733,32 @@ object ScalaSolution1 {
         count >= k
     }
 
+    def prisonAfterNDays(cells: Array[Int], N: Int): Array[Int] = { //957
+        var pre = 0
+        var next = 0
+        var tmp = 0
+        for (i <- 0 until N) {
+            pre = -1
+            for (j <- 1 until cells.size - 1) {
+                if (pre == -1) {
+                    pre = cells(j - 1)
+                }
+                next = cells(j + 1)
+                tmp = cells(j)
+                if (pre == next) {
+                    cells(j) = 1
+                } else {
+                    cells(j) = 0
+                }
+                pre = tmp
+            }
+            if (cells(0) != 0) {
+                cells(0) = 0
+            } else if (cells.last != 0) {
+                cells(cells.size - 1) = 0
+            }
+        }
+        cells
+    }
+
 }
