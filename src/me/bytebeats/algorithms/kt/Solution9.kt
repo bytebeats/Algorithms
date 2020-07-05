@@ -331,4 +331,90 @@ class Solution9 {
         }
         ans.add(0, src)
     }
+
+    fun canMakeArithmeticProgression(arr: IntArray): Boolean {
+        arr.sort()
+        val diff = arr[1] - arr[0]
+        for (i in 2 until arr.size) {
+            if (arr[i] - arr[i - 1] != diff) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun hasAlternatingBits(n: Int): Boolean {//693
+        var pre = n and 1
+        var nn = n shr 1
+        var cur = 0
+        while (nn > 0) {
+            cur = nn and 1
+            if (cur xor pre == 0) {
+                return false
+            }
+            nn = nn shr 1
+            pre = cur
+        }
+        return true
+    }
+
+    fun maxCount(m: Int, n: Int, ops: Array<IntArray>): Int {//598
+        var r = m
+        var c = n
+        for (op in ops) {
+            r = r.coerceAtMost(op[0])
+            c = c.coerceAtMost(op[1])
+        }
+        return r * c
+    }
+
+    fun findLUSlength(a: String, b: String): Int {//521
+        if (a == b) {
+            return -1
+        }
+        return a.length.coerceAtLeast(b.length)
+    }
+
+    fun findWords(words: Array<String>): Array<String> {//500
+        val fst = setOf('q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p')
+        val scnd = setOf('a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l')
+        val trd = setOf('z', 'x', 'c', 'v', 'b', 'n', 'm')
+        val ans = mutableListOf<String>()
+        for (word in words) {
+            if (word.isEmpty()) {
+                continue
+            }
+            val fstChar = word.first().toLowerCase()
+            val set = if (fst.contains(fstChar)) {
+                fst
+            } else if (scnd.contains(fstChar)) {
+                scnd
+            } else {
+                trd
+            }
+            var flag = true
+            for (i in 1 until word.length) {
+                if (!set.contains(word[i].toLowerCase())) {
+                    flag = false
+                    break
+                }
+            }
+            if (flag) {
+                ans.add(word)
+            }
+        }
+        return ans.toTypedArray()
+    }
+
+    fun findTilt(root: TreeNode?): Int {//563
+        if (root == null) {
+            return 0
+        }
+        return Math.abs(sumTree(root.left) - sumTree(root.right)) + findTilt(root.left) + findTilt(root.right)
+    }
+
+    fun sumTree(root: TreeNode?): Int {
+        if (root == null) return 0
+        else return root.`val` + sumTree(root.left) + sumTree(root.right)
+    }
 }
