@@ -417,4 +417,16 @@ class Solution9 {
         if (root == null) return 0
         else return root.`val` + sumTree(root.left) + sumTree(root.right)
     }
+
+    fun numSpecialEquivGroups(A: Array<String>): Int {//893
+        val seen = mutableSetOf<String>()
+        for (s in A) {
+            val count = IntArray(52)
+            for (i in s.indices) {
+                count[s[i] - 'a' + 26 * (i and 1)] += 1
+            }
+            seen.add(count.contentToString())
+        }
+        return seen.size
+    }
 }

@@ -761,4 +761,46 @@ object ScalaSolution1 {
         cells
     }
 
+    def uniquePathsWithObstacles1(obstacleGrid: Array[Array[Int]]): Int = { //63
+        val row = obstacleGrid.size
+        val column = obstacleGrid(0).size
+        if (obstacleGrid(0)(0) == 1) return 0
+        for (i <- 0 until row) {
+            for (j <- 0 until column) {
+                if (obstacleGrid(i)(j) == 1) {
+                    obstacleGrid(i)(j) = 0
+                } else if (i == 0 && j == 0) {
+                    obstacleGrid(0)(0) = 1
+                } else if (i == 0) {
+                    obstacleGrid(i)(j) = obstacleGrid(i)(j - 1)
+                } else if (j == 0) {
+                    obstacleGrid(i)(j) = obstacleGrid(i - 1)(j)
+                } else {
+                    obstacleGrid(i)(j) = obstacleGrid(i - 1)(j) + obstacleGrid(i)(j - 1)
+                }
+            }
+        }
+        obstacleGrid(row - 1)(column - 1)
+    }
+
+    def distanceBetweenBusStops(distance: Array[Int], start: Int, destination: Int): Int = {//1184
+        if (start == destination) return 0
+        val n = distance.size
+        var s = start.min(destination)
+        var d = destination.max(start)
+        var forward = 0
+        while (s != d) {//clockwise
+            forward += distance(s)
+            s = (s + 1) % n
+        }
+        s = start.min(destination)
+        d = destination.max(start)
+        var backward = 0
+        while (s != d) {//counterclockwise
+            s = ((s - 1) % n + n) % n
+            backward += distance(s)
+        }
+        forward.min(backward)
+    }
+
 }
