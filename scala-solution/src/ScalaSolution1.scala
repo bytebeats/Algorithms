@@ -803,7 +803,7 @@ object ScalaSolution1 {
         forward.min(backward)
     }
 
-    def plusOne(digits: Array[Int]): Array[Int] = {//68
+    def plusOne(digits: Array[Int]): Array[Int] = { //68
         val size = digits.size
         var reminder = 1
         for (i <- size - 1 to 0 by -1) {
@@ -820,6 +820,73 @@ object ScalaSolution1 {
             return ans
         }
         digits
+    }
+
+    def binaryGap(N: Int): Int = { //868
+        val list = scala.collection.mutable.ListBuffer[Int]()
+        var n = N
+        var i = 0
+        while (n > 0) {
+            if (n % 2 == 1) {
+                list += i
+            }
+            i += 1
+            n >>= 1
+        }
+        if (list.size <= 1) {
+            return 0
+        }
+        var span = 0
+        for (i <- 1 until list.size) {
+            span = span.max(list(i) - list(i - 1))
+        }
+        span
+    }
+
+    def prefixesDivBy5(A: Array[Int]): Array[Boolean] = { //1018
+        val size = A.size
+        val ans = Array.ofDim[Boolean](size)
+        var sum = 0
+        for (i <- 0 until size) {
+            sum = sum * 2 + A(i)
+            sum %= 5//in case of StackOverFlow
+            ans(i) = sum == 0
+        }
+        ans
+    }
+
+    def projectionArea(grid: Array[Array[Int]]): Int = { //883
+        val x = grid.size
+        val y = grid(0).size
+        var xy = 0
+        var yz = 0
+        var xz = 0
+        for (i <- 0 until x) {
+            for (j <- 0 until y) {
+                if (grid(i)(j) != 0) {
+                    xy += 1
+                }
+            }
+        }
+        for (i <- 0 until x) {
+            var tmpxz = 0
+            for (j <- 0 until y) {
+                if (grid(i)(j) > tmpxz) {
+                    tmpxz = grid(i)(j)
+                }
+            }
+            xz += tmpxz
+        }
+        for (j <- 0 until y) {
+            var tmpyz = 0
+            for (i <- 0 until x) {
+                if (grid(i)(j) > tmpyz) {
+                    tmpyz = grid(i)(j)
+                }
+            }
+            yz += tmpyz
+        }
+        xy + yz + xz
     }
 
 }
