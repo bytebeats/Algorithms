@@ -1001,7 +1001,7 @@ class Solution5 {
         }
     }
 
-    fun islandPerimeter(grid: Array<IntArray>): Int {//463
+    fun islandPerimeter(grid: Array<IntArray>): Int {//463,
         var perimeter = 0
         for (i in grid.indices) {
             for (j in grid[0].indices) {

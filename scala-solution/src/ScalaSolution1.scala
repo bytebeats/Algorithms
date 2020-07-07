@@ -889,4 +889,49 @@ object ScalaSolution1 {
         xy + yz + xz
     }
 
+    def removePalindromeSub(s: String): Int = {//1332
+        if (s.isEmpty) return 0
+        var i = 0
+        var j = s.size - 1
+        while (i < j) {
+            if (s(i) != s(j)) {
+                return 2
+            }
+            i += 1
+            j -= 1
+        }
+        1
+    }
+
+    def islandPerimeter(grid: Array[Array[Int]]): Int = {//463, BFS
+        if (grid.isEmpty || grid(0).isEmpty) return 0
+        val row = grid.size
+        val column = grid(0).size
+        var ans = 0
+        val pairs = scala.collection.mutable.ListBuffer[List[Int]]()
+        for (i <- 0 until row) {
+            for (j <- 0 until column) {
+                if (grid(i)(j) == 1) {
+                    pairs += List(i, j)
+                }
+            }
+        }
+        var x = 0
+        var y = 0
+        pairs.foreach(pair => {
+            x = pair(0)
+            y = pair(1)
+            if (x == 0) ans += 1
+            if (y == 0) ans += 1
+            if (x == row - 1) ans += 1
+            if (y == column - 1) ans += 1
+            if (x > 0 && grid(x - 1)(y) == 0) ans += 1
+            if (y > 0 && grid(x)(y - 1) == 0) ans += 1
+            if (x < row - 1 && grid(x + 1)(y) == 0) ans += 1
+            if (y < column - 1 && grid(x)(y + 1) == 0) ans += 1
+        }
+        )
+        ans
+    }
+
 }
