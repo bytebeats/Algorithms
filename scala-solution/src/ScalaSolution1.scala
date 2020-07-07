@@ -803,4 +803,23 @@ object ScalaSolution1 {
         forward.min(backward)
     }
 
+    def plusOne(digits: Array[Int]): Array[Int] = {//68
+        val size = digits.size
+        var reminder = 1
+        for (i <- size - 1 to 0 by -1) {
+            digits(i) += reminder
+            reminder = digits(i) / 10
+            digits(i) %= 10
+        }
+        if (reminder > 0) {
+            val ans = Array.ofDim[Int](size + 1)
+            ans(0) = reminder
+            for (i <- 0 until size) {
+                ans(i + 1) = digits(i)
+            }
+            return ans
+        }
+        digits
+    }
+
 }
