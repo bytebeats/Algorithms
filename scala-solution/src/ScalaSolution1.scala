@@ -934,4 +934,22 @@ object ScalaSolution1 {
         ans
     }
 
+    def relativeSortArray(arr1: Array[Int], arr2: Array[Int]): Array[Int] = { //1122
+        arr1.sortInPlaceWith((a, b) => {
+            val ia = arr2.indexOf(a)
+            val ib = arr2.indexOf(b)
+            if (ia == -1 && ib == -1) {
+                a < b
+            } else if (ia == -1) {
+                false
+            } else if (ia != -1 && ib != -1) {
+                ia < ib
+            } else {
+                true
+            }
+        }
+        )
+        arr1
+    }
+
 }
