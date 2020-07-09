@@ -952,4 +952,14 @@ object ScalaSolution1 {
         arr1
     }
 
+    def divingBoard(shorter: Int, longer: Int, k: Int): Array[Int] = {//面试题 16.11
+        if (k == 0) return Array()
+        if (shorter == longer) return Array(shorter * k)
+        val ans = scala.collection.mutable.Set[Int]()
+        for (i <- 0 to k) {
+            ans += shorter * i + longer * (k - i)
+        }
+        ans.toArray.sorted
+    }
+
 }
