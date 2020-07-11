@@ -429,4 +429,46 @@ class Solution9 {
         }
         return seen.size
     }
+
+    fun widthOfBinaryTree(root: TreeNode?): Int {//662, wrong solution
+        if (root == null) return 0
+        val nodeQueue = mutableListOf<TreeNode>()
+        val idxQueue = mutableListOf<Int>()
+        nodeQueue.add(root)
+        idxQueue.add(0)
+        var countDown = 1
+        var count = 0
+        var minIdx = Int.MAX_VALUE
+        var maxIdx = Int.MIN_VALUE
+        var node: TreeNode? = null
+        var idx = 0
+        var ans = 0
+        var depth = 1
+        while (nodeQueue.isNotEmpty()) {
+            node = nodeQueue.removeAt(0)
+            idx = idxQueue.removeAt(0)
+            countDown--
+            minIdx = minIdx.coerceAtMost(idx)
+            maxIdx = maxIdx.coerceAtLeast(idx)
+            if (node?.left != null) {
+                nodeQueue.add(node?.left)
+                idxQueue.add(idx - 1)
+                count++
+            }
+            if (node?.right != null) {
+                nodeQueue.add(node?.right)
+                idxQueue.add(idx + 1)
+                count++
+            }
+            if (countDown == 0) {
+                depth++
+                ans = ans.coerceAtLeast(maxIdx - minIdx)
+                countDown = count
+                count = 0
+                minIdx = Int.MAX_VALUE
+                maxIdx = Int.MIN_VALUE
+            }
+        }
+        return ans
+    }
 }
