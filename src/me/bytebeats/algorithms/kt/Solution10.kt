@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.TreeNode
+import kotlin.math.absoluteValue
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -138,6 +139,147 @@ class Solution10 {
                 nn /= 2
             }
             ans.add(list)
+        }
+        return ans
+    }
+
+    fun reformatDate(date: String): String {
+        val months = mapOf("Jan" to 1, "Feb" to 2, "Mar" to 3, "Apr" to 4, "May" to 5, "Jun" to 6, "Jul" to 7, "Aug" to 8, "Sep" to 9, "Oct" to 10, "Nov" to 11, "Dec" to 12)
+        val strs = date.split(" ")
+        var d = strs[0].substring(0, strs[0].length - 2)
+        if (d.length < 2) {
+            d = "0$d"
+        }
+        var m = months[strs[1]].toString()
+        if (m.length < 2) {
+            m = "0$m"
+        }
+        return "${strs[2]}-${m}-${d}"
+    }
+
+    fun rangeSum(nums: IntArray, n: Int, left: Int, right: Int): Int {
+        val mod = Math.pow(10.0, 9.0).toInt() + 7
+        val arr = IntArray(n * (n + 1) / 2)
+        var i = 0
+        for (j in nums.indices) {
+            var sum = 0
+            for (k in j until nums.size) {
+                sum += nums[k]
+                arr[i++] = sum
+            }
+        }
+        arr.sort()
+        var sum = 0
+        for (i in left - 1 until right) {
+            sum += arr[i]
+            sum %= mod
+        }
+        return sum
+    }
+
+    fun minDifference(nums: IntArray): Int {
+        val s = nums.size
+        if (s <= 4) return 0
+        nums.sort()
+        return (nums[s - 4] - nums[0]).coerceAtMost(nums[s - 1] - nums[3])
+    }
+
+    fun winnerSquareGame(n: Int): Boolean {
+        var nn = n
+        var isAlice = true
+        var sqrt = Math.sqrt(nn.toDouble()).toInt()
+        var sn = sqrt * sqrt
+        while (sn <= nn) {
+            nn -= sn
+            if (nn == 0) {
+                return isAlice
+            }
+            sqrt = Math.sqrt(nn.toDouble()).toInt()
+            sn = sqrt * sqrt
+            isAlice = !isAlice
+        }
+        return false
+    }
+
+    fun numIdenticalPairs(nums: IntArray): Int {
+        var ans = 0
+        for (i in 0 until nums.size - 1) {
+            for (j in i + 1 until nums.size) {
+                if (nums[i] == nums[j]) {
+                    ans += 1
+                }
+            }
+        }
+        return ans
+    }
+
+    fun numSub(s: String): Int {
+        var ans = 0L
+        var i = 0
+        while (i < s.length) {
+            while (i < s.length && s[i] != '1') {
+                i += 1
+            }
+            var j = i
+            while (j < s.length && s[j] != '0') {
+                j += 1
+            }
+            val count = j - i
+            ans = (ans % 1000000007 + (count * (count + 1) / 2L) % 1000000007) % 1000000007
+            i = j
+        }
+        return ans.toInt()
+    }
+
+    fun getMinDistSum(positions: Array<IntArray>): Double {
+        if (positions.size <= 1) return 0.0
+        var p1 = positions[0]
+        var p2 = positions[1]
+        var cx = (p1[0] + p2[0]) / 2.0
+        var cy = (p1[1] + p2[1]) / 2.0
+        var a = p1[0] - cx
+        var b = p1[1] - cy
+        var square = a * a + b * b
+        println("x=$cx, y=$cy, squre=$square")
+        for (i in 2 until positions.size) {
+            val p = positions[i]
+            val aa = cx - p[0]
+            val bb = cy - p[1]
+            if (aa * aa + bb * bb <= square) {
+                continue
+            } else {
+                for (j in 0 until i) {
+                    var x = (positions[j][0] + p[0]) / 2.0
+                    var y = (positions[j][1] + p[1]) / 2.0
+                    var flag = true
+                    for (k in 0 until i) {
+                        val xx = positions[k][0] - x
+                        val yy = positions[k][1] - y
+                        var flag = true
+                        if (xx * xx + yy * yy > square) {
+                            cx = (p[0] + positions[k][0]) / 2.0
+                            cy = (p[1] + positions[k][1]) / 2.0
+                            val xxx = cx - p[0]
+                            val yyy = cy - p[1]
+                            square = xxx * xxx + yyy * yyy
+                            flag = false
+                            break
+                        }
+                        if (!flag) {
+                            continue
+                        }
+                    }
+                }
+            }
+        }
+        var ans = 0.0
+        for (i in positions.indices) {
+            val p = positions[i]
+            val x = p[0]
+            val y = p[1]
+            val a = cx - x
+            val b = cy - y
+            ans += Math.sqrt(a * a + b * b)
         }
         return ans
     }
