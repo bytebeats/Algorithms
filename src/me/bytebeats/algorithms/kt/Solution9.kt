@@ -471,4 +471,35 @@ class Solution9 {
         }
         return ans
     }
+
+    fun checkRecord(s: String): Boolean {//551
+        var countA = 0
+        var countL = 0
+        for (c in s) {
+            if (c == 'L') {
+                countL += 1
+                if (countL > 2) {
+                    return false
+                }
+            } else {
+                if (countL != 0) {
+                    countL = 0
+                }
+                if (c == 'A') {
+                    countA += 1
+                }
+                if (countA > 1) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {//100
+        if (p == null) return q == null
+        else if (p != null && q != null) {
+            return p.`val` == q.`val` && isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+        } else return false
+    }
 }

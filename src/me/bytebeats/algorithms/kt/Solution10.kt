@@ -213,21 +213,19 @@ class Solution10 {
         return ans
     }
 
-    fun numSub(s: String): Int {
+    fun numSub(s: String): Int {//1513
         var ans = 0L
-        var i = 0
-        while (i < s.length) {
-            while (i < s.length && s[i] != '1') {
-                i += 1
+        var count = 0L
+        var mod = 1000000007L
+        for (i in s.indices) {
+            if (s[i] == '1') {
+                count += 1L
+            } else {
+                ans = (ans + count * (count + 1) / 2L) % mod
+                count = 0L
             }
-            var j = i
-            while (j < s.length && s[j] != '0') {
-                j += 1
-            }
-            val count = j - i
-            ans = (ans % 1000000007 + (count * (count + 1) / 2L) % 1000000007) % 1000000007
-            i = j
         }
+        ans = (ans + count * (count + 1) / 2L) % mod
         return ans.toInt()
     }
 
@@ -280,6 +278,37 @@ class Solution10 {
             val a = cx - x
             val b = cy - y
             ans += Math.sqrt(a * a + b * b)
+        }
+        return ans
+    }
+
+    fun reverseBits(n: Int): Int {//190
+        var ans = 0
+        var l = 32
+        var nn = n
+        while (l-- > 0) {
+            ans = ans shl 1
+            ans = ans or (nn and 1)
+            nn = nn shr 1
+        }
+        return ans
+    }
+
+    fun findRelativeRanks(nums: IntArray): Array<String> {//506
+        val map = mutableMapOf<Int, Int>()
+        nums.sortedDescending().forEachIndexed { index, i -> map[i] = index }
+        val ans = Array(nums.size) { "" }
+        for (i in nums.indices) {
+            val rank = map[nums[i]] ?: 0
+            if (rank == 0) {
+                ans[i] = "Gold Medal"
+            } else if (rank == 1) {
+                ans[i] = "Silver Medal"
+            } else if (rank == 2) {
+                ans[i] = "Bronze Medal"
+            } else {
+                ans[i] = "${rank + 1}"
+            }
         }
         return ans
     }

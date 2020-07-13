@@ -993,10 +993,6 @@ class Solution8 {
                     dp[i][j] = 0.coerceAtLeast(needMin)
                 }
             }
-            for (rows in dp) {
-                println()
-                rows.forEach { print("$it,") }
-            }
             return dp[0][0] + 1
         }
         return 0
