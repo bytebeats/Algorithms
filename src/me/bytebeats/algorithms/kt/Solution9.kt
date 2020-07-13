@@ -495,4 +495,11 @@ class Solution9 {
         }
         return true
     }
+
+    fun isSameTree(p: TreeNode?, q: TreeNode?): Boolean {//100
+        if (p == null) return q == null
+        else if (p != null && q != null) {
+            return p.`val` == q.`val` && isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+        } else return false
+    }
 }
