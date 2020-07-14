@@ -538,4 +538,17 @@ class Solution9 {
         }
         return ans
     }
+
+    fun numberOfDays(Y: Int, M: Int): Int {//1184
+        val map = mapOf(1 to 31, 2 to 28, 3 to 31, 4 to 30, 5 to 31, 6 to 30, 7 to 31, 8 to 31, 9 to 30, 10 to 31, 11 to 30, 12 to 31)
+        if (M != 2) {
+            return map[M]!!
+        } else {
+            var days = map[2]!!
+            if (Y % 400 == 0 || Y % 4 == 0 && Y % 100 != 0) {
+                days += 1
+            }
+            return days
+        }
+    }
 }
