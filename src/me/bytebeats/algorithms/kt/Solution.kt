@@ -1545,7 +1545,7 @@ class Solution {
         return false
     }
 
-    fun dayOfTheWeek(day: Int, month: Int, year: Int): String {
+    fun dayOfTheWeek(day: Int, month: Int, year: Int): String { //1185, Zeller's Formula
         var myDay = day
         var myMonth = month
         var myYear = year

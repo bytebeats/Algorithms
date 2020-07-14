@@ -962,4 +962,14 @@ object ScalaSolution1 {
         ans.toArray.sorted
     }
 
+    def angleClock(hour: Int, minutes: Int): Double = { //1134
+        val hAngle = minutes / 60.0 + hour % 12
+        val mAngle = minutes / 60.0 * 12.0
+        var diff = mAngle - hAngle
+        if (diff.abs > 6) {
+            diff = 12 - diff.abs
+        }
+        diff.abs * 360.0 / 12.0
+    }
+
 }
