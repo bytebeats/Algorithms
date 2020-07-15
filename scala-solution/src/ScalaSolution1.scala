@@ -1,5 +1,4 @@
-import scala.util.control.Breaks.breakable
-import scala.util.control.Breaks.break
+import scala.util.control.Breaks.{break, breakable}
 
 object ScalaSolution1 {
     def judgeCircle(moves: String): Boolean = { //657
@@ -970,6 +969,48 @@ object ScalaSolution1 {
             diff = 12 - diff.abs
         }
         diff.abs * 360.0 / 12.0
+    }
+
+    def reverseWords(s: String): String = { //151
+        val sb = new StringBuilder()
+        val indices = scala.collection.mutable.ListBuffer[Int]()
+        indices += -1
+        var idx = -1
+        s.foreach(ch => {
+            if (ch == ' ') {
+                if (idx > -1 && sb(idx) != ' ') {
+                    sb.append(' ')
+                    idx += 1
+                    indices += idx
+                }
+            } else {
+                sb.append(ch)
+                idx += 1
+            }
+        }
+        )
+        if (sb.endsWith(" ")) {
+            sb.deleteCharAt(sb.size - 1)
+            indices.remove(indices.size - 1)
+        }
+        indices += sb.size
+        for (i <- 1 until indices.size) {
+            reverse(sb, indices(i - 1) + 1, indices(i) - 1)
+        }
+        reverse(sb, 0, sb.size - 1)
+        sb.toString
+    }
+
+    private def reverse(sb: StringBuilder, left: Int, right: Int): Unit = {
+        var i = left
+        var j = right
+        while (i < j) {
+            val tmp = sb(i)
+            sb(i) = sb(j)
+            sb(j) = tmp
+            i += 1
+            j -= 1
+        }
     }
 
 }
