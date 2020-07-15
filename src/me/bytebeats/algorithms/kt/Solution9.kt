@@ -168,7 +168,7 @@ class Solution9 {
         return 0.5 * Math.abs(a[0] * b[1] + b[0] * c[1] + c[0] * a[1] - a[1] * b[0] - b[1] * c[0] - c[1] * a[0])
     }
 
-    fun average(salary: IntArray): Double {
+    fun average(salary: IntArray): Double {//1491
         var min = Int.MAX_VALUE
         var max = Int.MIN_VALUE
         var sum = 0
@@ -501,5 +501,54 @@ class Solution9 {
         else if (p != null && q != null) {
             return p.`val` == q.`val` && isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
         } else return false
+    }
+
+    fun findLHS(nums: IntArray): Int {//594
+        val map = mutableMapOf<Int, Int>()
+        var ans = 0
+        for (num in nums) {
+            map.compute(num) { _, v -> if (v == null) 1 else v + 1 }
+            if (map.containsKey(num - 1)) {
+                ans = ans.coerceAtLeast(map[num]!! + map[num - 1]!!)
+            }
+            if (map.containsKey(num + 1)) {
+                ans = ans.coerceAtLeast(map[num]!! + map[num + 1]!!)
+            }
+        }
+        return ans
+    }
+
+    fun numIdenticalPairs(nums: IntArray): Int {//1512
+        var ans = 0
+        val map = mutableMapOf<Int, MutableList<Int>>()
+        for (i in nums.indices) {
+            if (map.containsKey(nums[i])) {
+                ans += map[nums[i]]!!.size
+            }
+            map.compute(nums[i]) { _, v ->
+                if (v == null) {
+                    val list = mutableListOf<Int>()
+                    list.add(i)
+                    list
+                } else {
+                    v.add(i)
+                    v
+                }
+            }
+        }
+        return ans
+    }
+
+    fun numberOfDays(Y: Int, M: Int): Int {//1184
+        val map = mapOf(1 to 31, 2 to 28, 3 to 31, 4 to 30, 5 to 31, 6 to 30, 7 to 31, 8 to 31, 9 to 30, 10 to 31, 11 to 30, 12 to 31)
+        if (M != 2) {
+            return map[M]!!
+        } else {
+            var days = map[2]!!
+            if (Y % 400 == 0 || Y % 4 == 0 && Y % 100 != 0) {
+                days += 1
+            }
+            return days
+        }
     }
 }

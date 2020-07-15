@@ -455,7 +455,7 @@ class Solution8 {
         return head
     }
 
-    fun runningSum(nums: IntArray): IntArray {
+    fun runningSum(nums: IntArray): IntArray {//1480
         for (i in 1 until nums.size) {
             nums[i] += nums[i - 1]
         }
@@ -1160,7 +1160,7 @@ class Solution8 {
     }
 
 
-    fun xorOperation(n: Int, start: Int): Int {
+    fun xorOperation(n: Int, start: Int): Int {//1486
         var xorval = 0
         for (i in 0 until n) {
             xorval = xorval xor (start + 2 * i)
