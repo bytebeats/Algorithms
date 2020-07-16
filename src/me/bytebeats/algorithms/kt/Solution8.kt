@@ -242,7 +242,7 @@ class Solution8 {
         return ans
     }
 
-    fun shuffle(nums: IntArray, n: Int): IntArray {//5428
+    fun shuffle(nums: IntArray, n: Int): IntArray {//5428, 1470
         val list = mutableListOf<Int>()
         for (i in 0 until n) {
             list.add(nums[i])
@@ -419,7 +419,7 @@ class Solution8 {
         return ans
     }
 
-    fun finalPrices(prices: IntArray): IntArray {
+    fun finalPrices(prices: IntArray): IntArray {//1475
         var j = -1
         for (i in prices.indices) {
             j = -1

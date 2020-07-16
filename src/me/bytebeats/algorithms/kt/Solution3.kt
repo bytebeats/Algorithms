@@ -273,7 +273,7 @@ class Solution3 {
         return ans
     }
 
-    fun stringMatching(words: Array<String>): List<String> {
+    fun stringMatching(words: Array<String>): List<String> {//1408
         val set = mutableSetOf<String>()
         val ans = mutableListOf<String>()
         set.addAll(words)
@@ -1053,7 +1053,7 @@ class Solution3 {
         return steps
     }
 
-    fun reformat(s: String): String {//5388
+    fun reformat(s: String): String {//5388, 1417
         if (s.length < 2) {
             return s
         }

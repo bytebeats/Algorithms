@@ -837,7 +837,7 @@ class Solution5 {
         return lson || rson || (root.`val` == p?.`val` || root.`val` == q?.`val`)
     }
 
-    fun buildArray(target: IntArray, n: Int): List<String> {
+    fun buildArray(target: IntArray, n: Int): List<String> {//1441
         val ans = mutableListOf<String>()
         var count = 1
         for (i in target.indices) {
@@ -845,10 +845,13 @@ class Solution5 {
                 if (target[i] > j) {
                     ans.add("Push")
                     ans.add("Pop")
+                    count++
                 } else if (target[i] == j) {
                     ans.add("Push")
+                    count++
+                } else {
+                    break
                 }
-                count++
             }
         }
         return ans
