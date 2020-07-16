@@ -63,7 +63,7 @@ class Solution4 {
         return count.toInt()
     }
 
-    fun minStartValue(nums: IntArray): Int {//5372
+    fun minStartValue(nums: IntArray): Int {//5372, 1413
         var min = Int.MAX_VALUE
         var sum = 0
         nums.forEach {

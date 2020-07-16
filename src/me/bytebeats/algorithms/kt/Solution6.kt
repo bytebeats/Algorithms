@@ -1208,11 +1208,11 @@ class Solution6 {
         return ans
     }
 
-    fun isPrefixOfWord(sentence: String, searchWord: String): Int {//5416
+    fun isPrefixOfWord(sentence: String, searchWord: String): Int {//5416, 1455
         val words = sentence.split(" ")
         for (i in words.indices) {
             if (words[i].startsWith(searchWord)) {
-                return i
+                return i + 1
             }
         }
         return -1

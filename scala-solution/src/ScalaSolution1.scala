@@ -1013,4 +1013,25 @@ object ScalaSolution1 {
         }
     }
 
+    def myPow(x: Double, n: Int): Double = {
+        var xx = x
+        if (n < 0) {
+            xx = 1 / xx
+        }
+        recursivePow(xx, n)
+    }
+
+    private def recursivePow(x: Double, n: Int): Double = {
+        if (n == 0) {
+            1
+        } else {
+            val half = recursivePow(x, n / 2)
+            if (n % 2 == 0) {
+                half * half
+            } else {
+                x * half * half
+            }
+        }
+    }
+
 }

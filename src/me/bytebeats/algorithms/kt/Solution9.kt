@@ -332,7 +332,7 @@ class Solution9 {
         ans.add(0, src)
     }
 
-    fun canMakeArithmeticProgression(arr: IntArray): Boolean {
+    fun canMakeArithmeticProgression(arr: IntArray): Boolean {//1502
         arr.sort()
         val diff = arr[1] - arr[0]
         for (i in 2 until arr.size) {
@@ -540,7 +540,20 @@ class Solution9 {
     }
 
     fun numberOfDays(Y: Int, M: Int): Int {//1184
-        val map = mapOf(1 to 31, 2 to 28, 3 to 31, 4 to 30, 5 to 31, 6 to 30, 7 to 31, 8 to 31, 9 to 30, 10 to 31, 11 to 30, 12 to 31)
+        val map = mapOf(
+            1 to 31,
+            2 to 28,
+            3 to 31,
+            4 to 30,
+            5 to 31,
+            6 to 30,
+            7 to 31,
+            8 to 31,
+            9 to 30,
+            10 to 31,
+            11 to 30,
+            12 to 31
+        )
         if (M != 2) {
             return map[M]!!
         } else {
@@ -550,5 +563,64 @@ class Solution9 {
             }
             return days
         }
+    }
+
+    val UNCOLORED = 0
+    val RED = 1
+    val GREEN = 2
+    var valid = false
+    fun isBipartite(graph: Array<IntArray>): Boolean {//785, dfs
+        val n = graph.size
+        val colors = IntArray(n) { UNCOLORED }
+        valid = true
+        var node = 0
+        while (node < n && valid) {
+            if (colors[node] == UNCOLORED) {
+                dfs(node, RED, graph, colors)
+            }
+            node += 1
+        }
+        return valid
+    }
+
+    private fun dfs(node: Int, color: Int, graph: Array<IntArray>, colors: IntArray) {
+        colors[node] = color
+        val colorOfNeighbor = if (color == RED) GREEN else RED
+        for (neighber in graph[node]) {
+            if (colors[neighber] == UNCOLORED) {
+                dfs(neighber, colorOfNeighbor, graph, colors)
+                if (!valid) {
+                    return
+                }
+            } else if (colors[neighber] != colorOfNeighbor) {
+                valid = false
+                return
+            }
+        }
+    }
+
+    fun isBipartite1(graph: Array<IntArray>): Boolean {//785, bfs
+        val n = graph.size
+        val colors = IntArray(n) { UNCOLORED }
+        for (i in 0 until n) {//node
+            if (colors[i] == UNCOLORED) {
+                val q = mutableListOf<Int>()
+                q.add(i)
+                colors[i] = RED
+                while (q.isNotEmpty()) {
+                    val node = q.removeAt(0)
+                    val colorOfNeighbor = if (colors[node] == RED) GREEN else RED
+                    for (neighber in graph[node]) {
+                        if (colors[neighber] == UNCOLORED) {
+                            q.add(neighber)
+                            colors[neighber] = colorOfNeighbor
+                        } else if (colors[neighber] != colorOfNeighbor) {
+                            return false
+                        }
+                    }
+                }
+            }
+        }
+        return true
     }
 }
