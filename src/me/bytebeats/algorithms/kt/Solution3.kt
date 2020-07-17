@@ -28,7 +28,7 @@ class Solution3 {
         return size
     }
 
-    fun countLargestGroup(n: Int): Int {
+    fun countLargestGroup(n: Int): Int {//1399
         val map = HashMap<Int, ArrayList<Int>>()
         for (i in 1..n) {
             map.compute(getSum(i)) { k, v ->
@@ -303,12 +303,12 @@ class Solution3 {
 
     fun entityParser(text: String): String {
         val map = mapOf(
-            "&quot;" to "\"",
-            "&apos;" to "'",
-            "&amp;" to "&",
-            "&gt;" to ">",
-            "&lt;" to "<",
-            "&frasl;" to "/"
+                "&quot;" to "\"",
+                "&apos;" to "'",
+                "&amp;" to "&",
+                "&gt;" to ">",
+                "&lt;" to "<",
+                "&frasl;" to "/"
         )
         var ans = text
         map.forEach { key, value -> ans = ans.replace(key, value) }
@@ -355,9 +355,9 @@ class Solution3 {
         } else {
             // 联立方程得到 t1 和 t2 的值
             val t1 =
-                (x3.toDouble() * (y4 - y3) + y1 * (x4 - x3) - y3 * (x4 - x3) - x1 * (y4 - y3)) / ((x2 - x1) * (y4 - y3) - (x4 - x3) * (y2 - y1));
+                    (x3.toDouble() * (y4 - y3) + y1 * (x4 - x3) - y3 * (x4 - x3) - x1 * (y4 - y3)) / ((x2 - x1) * (y4 - y3) - (x4 - x3) * (y2 - y1));
             val t2 =
-                (x1.toDouble() * (y2 - y1) + y3 * (x2 - x1) - y1 * (x2 - x1) - x3 * (y2 - y1)) / ((x4 - x3) * (y2 - y1) - (x2 - x1) * (y4 - y3));
+                    (x1.toDouble() * (y2 - y1) + y3 * (x2 - x1) - y1 * (x2 - x1) - x3 * (y2 - y1)) / ((x4 - x3) * (y2 - y1) - (x2 - x1) * (y4 - y3));
             // 判断 t1 和 t2 是否均在 [0, 1] 之间
             if (t1 in 0.0..1.0 && t2 in 0.0..1.0) {
                 ans.add(x1 + t1 * (x2 - x1))
@@ -971,7 +971,7 @@ class Solution3 {
             }
         } else {
             map.entries.filter { it.key == index }.map { it.value }.flatMap { it.asIterable() }
-                .forEach { ways(it, n, map, k - 1) }
+                    .forEach { ways(it, n, map, k - 1) }
         }
     }
 
