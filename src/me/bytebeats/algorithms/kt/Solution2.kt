@@ -525,7 +525,7 @@ class Solution2 {
         return count
     }
 
-    fun createTargetArray(nums: IntArray, index: IntArray): IntArray {
+    fun createTargetArray(nums: IntArray, index: IntArray): IntArray {//1389
         val ans = ArrayList<Int>()
         for (i in nums.indices) {
             ans.add(index[i], nums[i])
@@ -1455,7 +1455,7 @@ class Solution2 {
     fun isStrobogrammatic(num: String): Boolean {//246
         for (i in 0 until (num.length + 1) / 2) {
             if (isRotatable(num[i]) && isRotatable(num[num.length - 1 - i]) &&
-                isSameAfterRotated(num[num.length - 1 - i], num[i])
+                    isSameAfterRotated(num[num.length - 1 - i], num[i])
             ) {
                 continue
             } else {

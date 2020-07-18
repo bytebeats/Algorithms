@@ -541,18 +541,18 @@ class Solution9 {
 
     fun numberOfDays(Y: Int, M: Int): Int {//1184
         val map = mapOf(
-            1 to 31,
-            2 to 28,
-            3 to 31,
-            4 to 30,
-            5 to 31,
-            6 to 30,
-            7 to 31,
-            8 to 31,
-            9 to 30,
-            10 to 31,
-            11 to 30,
-            12 to 31
+                1 to 31,
+                2 to 28,
+                3 to 31,
+                4 to 30,
+                5 to 31,
+                6 to 30,
+                7 to 31,
+                8 to 31,
+                9 to 30,
+                10 to 31,
+                11 to 30,
+                12 to 31
         )
         if (M != 2) {
             return map[M]!!
@@ -622,5 +622,54 @@ class Solution9 {
             }
         }
         return true
+    }
+
+    fun destCity(paths: List<List<String>>): String {//1436, 计算每个点的出度
+        val graph = mutableMapOf<String, Int>()
+        for (path in paths) {
+            graph.compute(path[0]) { _, v -> if (v == null) 1 else v + 1 }
+            graph.compute(path[1]) { _, v -> v ?: 0 }
+        }
+        return graph.entries.filter { it.value == 0 }.map { it.key }.first()
+    }
+
+    fun minSubsequence(nums: IntArray): List<Int> {//1403
+        nums.sortDescending()
+        val ans = mutableListOf<Int>()
+        var sum = nums.sum()
+        var sub = 0
+        for (num in nums) {
+            sub += num
+            sum -= num
+            ans.add(num)
+            if (sub > sum) {
+                return ans
+            }
+        }
+        return ans
+    }
+
+    fun freqAlphabets(s: String): String {//1309
+        val map = mutableMapOf<String, Char>()
+        for (i in 1..26) {
+            if (i < 10) {
+                map[i.toString()] = 'a' + i - 1
+            } else {
+                map["$i#"] = 'a' + i - 1
+            }
+        }
+        val sb = StringBuilder()
+        val size = s.length
+        var i = size - 1
+        while (i >= 0) {
+            if (s[i] == '#') {
+                sb.append(map[s.substring(i - 2, i + 1)])
+                i -= 3
+            } else {
+                sb.append(map[s[i].toString()])
+                i--
+            }
+        }
+        return sb.reversed().toString()
     }
 }
