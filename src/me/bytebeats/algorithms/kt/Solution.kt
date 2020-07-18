@@ -648,9 +648,9 @@ class Solution {
         return res
     }
 
-    fun smallerNumbersThanCurrent(nums: IntArray): IntArray {
+    fun smallerNumbersThanCurrent(nums: IntArray): IntArray {//1365
         val copy = nums.copyOfRange(0, nums.size)
-        for (i in 0 until nums.size) {
+        for (i in nums.indices) {
             nums[i] = copy.filter { it < nums[i] }.count()
         }
         return nums
@@ -1254,7 +1254,7 @@ class Solution {
         return f[0][n - 1]
     }
 
-    fun generateTheString(n: Int): String {
+    fun generateTheString(n: Int): String {//1374
         val res = StringBuilder()
         var k = n
         if (k % 2 == 0) {
@@ -1569,7 +1569,7 @@ class Solution {
         }
     }
 
-    fun daysBetweenDates(date1: String, date2: String): Int {
+    fun daysBetweenDates(date1: String, date2: String): Int {//1360
         return Math.abs(daysOfDate(date1) - daysOfDate(date2))
     }
 

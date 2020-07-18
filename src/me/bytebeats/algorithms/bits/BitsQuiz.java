@@ -189,7 +189,7 @@ public class BitsQuiz {
         return flips;
     }
 
-    public int maximum69Number(int num) {
+    public int maximum69Number(int num) {//1323
         String s = Integer.toString(num);
         char[] chars = s.toCharArray();
         for (int i = 0; i < chars.length; i++) {

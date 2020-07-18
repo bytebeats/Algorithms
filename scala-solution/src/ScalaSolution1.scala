@@ -128,24 +128,6 @@ object ScalaSolution1 {
         ans.toString()
     }
 
-    def searchInsert(nums: Array[Int], target: Int): Int = {
-        if (nums.isEmpty) {
-            return 0
-        }
-        if (target < nums(0)) {
-            return 0
-        }
-        if (target > nums(nums.size - 1)) {
-            return nums.size - 1
-        }
-        for (i <- 0 until nums.size) {
-            if (target <= nums(i)) {
-                return i
-            }
-        }
-        0
-    }
-
     def generatePossibleNextMoves(s: String): List[String] = { //293
         var ans = Array[String]()
         val chars = s.toCharArray
@@ -1034,4 +1016,141 @@ object ScalaSolution1 {
         }
     }
 
+    def searchInsert(nums: Array[Int], target: Int): Int = {//35
+        if (nums.isEmpty) 0
+        else if (target <= nums(0)) 0
+        else if (target > nums(nums.size - 1)) nums.size
+        else {
+            for (i <- nums.indices) {
+                if (nums(i) >= target) {
+                    return i
+                }
+            }
+            0
+        }
+    }
+
+    def topKFrequent(nums: Array[Int], k: Int): Array[Int] = { //
+        val map = scala.collection.mutable.Map[Int, Int]()
+        for (elem <- nums) {
+            map(elem) = map.getOrElse(elem, 0) + 1
+        }
+        map.toSeq.sortBy(entry => -entry._2).map(entry => entry._1).take(k).toArray
+    }
+
+    def isInterleave(s1: String, s2: String, s3: String): Boolean = { //97
+        val m = s1.size
+        val n = s2.size
+        val t = s3.size
+        if (m + n != t) false
+        else if (s1.isEmpty) s2 == s3
+        else if (s2.isEmpty) s1 == s3
+        else {
+            val dp = Array.ofDim[Boolean](m + 1, n + 1)
+            dp(0)(0) = true
+            var idx = 0
+            for (i <- 0 to m) {
+                for (j <- 0 to n) {
+                    idx = i + j - 1
+                    if (i > 0) {
+                        dp(i)(j) = dp(i)(j) || dp(i - 1)(j) && s1(i - 1) == s3(idx)
+                    }
+                    if (j > 0) {
+                        dp(i)(j) = dp(i)(j) || dp(i)(j - 1) && s2(j - 1) == s3(idx)
+                    }
+                }
+            }
+            dp(m)(n)
+        }
+    }
+
+    def maximum69Number(num: Int): Int = { //1323
+        val str = num.toString.toCharArray
+        for (i <- str.indices) {
+            if (str(i) == '6') {
+                str(i) = '9'
+                return str.mkString("").toInt
+            }
+        }
+        str.mkString("").toInt
+    }
+
+    def numEquivDominoPairs(dominoes: Array[Array[Int]]): Int = { //1128
+        var ans = 0
+        val s = dominoes.size
+        for (i <- 0 until s - 1) {
+            for (j <- i + 1 until s) {
+                if (isEquiv(dominoes(i), dominoes(j))) {
+                    ans += 1
+                }
+            }
+        }
+        ans
+    }
+
+    private def isEquiv(d1: Array[Int], d2: Array[Int]): Boolean = {
+        d1(0) == d2(0) && d1(1) == d2(1) || d1(0) == d2(1) && d1(1) == d2(0)
+    }
+
+    def balancedStringSplit(s: String): Int = { //1221
+        var l = 0
+        var r = 0
+        var ans = 0
+        for (i <- s.indices) {
+            if (s(i) == 'L') {
+                l += 1
+            } else {
+                r += 1
+            }
+            if (l != 0 && l == r) {
+                ans += 1
+                l = 0
+                r = 0
+            }
+        }
+        ans
+    }
+
+    def minCostToMoveChips(chips: Array[Int]): Int = { //1217
+        var odd = 0
+        var even = 0
+        for (elem <- chips) {
+            if (elem % 2 == 0) {
+                odd += 1
+            } else {
+                even += 1
+            }
+        }
+        odd.min(even)
+    }
+
+    def numPrimeArrangements(n: Int): Int = {//1175
+        if (n <= 2) return 1
+        val mod = 1000000007L
+        var count = 0
+        for (i <- 3 to n) {
+            var isPrime = true
+            var j = 2
+            while (j * j <= i) {
+                if (isPrime && i % j == 0) {
+                    isPrime = false
+                }
+                j += 1
+            }
+            if (isPrime) {
+                count += 1
+            }
+        }
+        count += 1
+        (product(count) * product(n - count) % mod).toInt
+    }
+
+    private def product(n: Int): Long = {
+        var p = 1L
+        for (i <- 1 to n) {
+            p *= i
+            p %= 1000000007L
+        }
+        p
+    }
 }

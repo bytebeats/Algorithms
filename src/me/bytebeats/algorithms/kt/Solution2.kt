@@ -429,7 +429,7 @@ class Solution2 {
         return l == e && verifyPostorder(postorder, s, m - 1) && verifyPostorder(postorder, m, e - 1)
     }
 
-    fun findTheDistanceValue(arr1: IntArray, arr2: IntArray, d: Int): Int {
+    fun findTheDistanceValue(arr1: IntArray, arr2: IntArray, d: Int): Int {//1385
         var count = 0
         var flag = false
         for (i in arr1.indices) {
