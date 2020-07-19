@@ -1153,4 +1153,130 @@ object ScalaSolution1 {
         }
         p
     }
+
+    def maxCoins(nums: Array[Int]): Int = { //312
+        val n = nums.size
+        val dp = Array.ofDim[Int](n + 2, n + 2)
+        val values = Array.ofDim[Int](n + 2)
+        values(0) = 1
+        values(n + 1) = 1
+        for (i <- 1 to n) {
+            values(i) = nums(i - 1)
+        }
+        for (i <- n - 1 to 0 by -1) {
+            for (j <- i + 2 to n + 1) {
+                for (k <- i + 1 until j) {
+                    var sum = values(i) * values(k) * values(j)
+                    sum += dp(i)(k) + dp(k)(j)
+                    dp(i)(j) = dp(i)(j).max(sum)
+                }
+            }
+        }
+        dp(0)(n + 1)
+    }
+
+    def findOcurrences(text: String, first: String, second: String): Array[String] = { //1078
+        val words = text.trim.split(" ")
+        val n = words.size
+        var i = 0
+        val ans = scala.collection.mutable.ListBuffer[String]()
+        while (i < n - 2) {
+            if (words(i) == first && words(i + 1) == second) {
+                ans += words(i + 2)
+            }
+            i += 1
+        }
+        ans.toArray
+    }
+
+    def numMovesStones(a: Int, b: Int, c: Int): Array[Int] = { //1033
+        val axis = Array.ofDim[Int](3)
+        axis(0) = a
+        axis(1) = b
+        axis(2) = c
+        axis.sortInPlace()
+        val ans = Array.ofDim[Int](2)
+        if (axis(0) + 1 == axis(1) && axis(1) + 1 == axis(2)) {//3 点相连
+            ans(0) = 0
+            ans(1) = 0
+        } else if (axis(1) - axis(0) <= 2 || axis(2) - axis(1) <= 2) {//2 点相连
+            ans(0) = 1
+            ans(1) = axis(2) - axis(0) - 2
+        } else {//无点相连
+            ans(0) = 2
+            ans(1) = axis(2) - axis(0) - 2
+        }
+        ans
+    }
+
+    def addBinary(a: String, b: String): String = {
+        val ans = scala.collection.mutable.ListBuffer[Int]()
+        var i = a.length - 1
+        var j = b.length - 1
+        var r = 0
+        var tmp = 0
+        while (i >= 0 && j >= 0) {
+            tmp = a(i) - '0' + b(j) - '0' + r
+            ans.append(tmp % 2)
+            r = tmp >> 1
+            i -= 1
+            j -= 1
+        }
+        while (i >= 0) {
+            tmp = a(i) - '0' + r
+            ans.append(tmp % 2)
+            r = tmp >> 1
+            i -= 1
+        }
+        while (j >= 0) {
+            tmp = b(j) - '0' + r
+            ans.append(tmp % 2)
+            r = tmp >> 1
+            j -= 1
+        }
+        if (r > 0) {
+            ans.append(r)
+        }
+        ans.reverse.mkString("")
+    }
+
+    def largestSumAfterKNegations(A: Array[Int], K: Int): Int = {//1005
+        A.sortInPlace()
+        var count = 0
+        for (i <- A.indices) {
+            if (A(i) < 0) {
+                count += 1
+            }
+        }
+        var ans = 0
+        if (count >= K) {
+            var kk = K
+            for (i <- A.indices) {
+                if (kk > 0) {
+                    ans -= A(i)
+                    kk -= 1
+                } else {
+                    ans += A(i)
+                }
+            }
+        } else {
+            var kk = count
+            for (i <- A.indices) {
+                if (kk > 0) {
+                    ans -= A(i)
+                    kk -= 1
+                } else {
+                    ans += A(i)
+                }
+            }
+            if ((K - count) % 2 == 1) {
+                if (count - 1 >= 0) {
+                    ans -= 2 * A(count).min(-A(count - 1))
+                } else {
+                    ans -= 2 * A(count)
+                }
+            }
+        }
+        ans
+    }
 }
