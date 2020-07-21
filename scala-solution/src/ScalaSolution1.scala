@@ -1279,4 +1279,40 @@ object ScalaSolution1 {
         }
         ans
     }
+
+    def numWaterBottles(numBottles: Int, numExchange: Int): Int = { //1518
+        var ans = 0
+        var wines = numBottles
+        var empties = 0
+        while (wines > 0) {
+            ans += wines
+            empties += wines
+            wines = empties / numExchange
+            empties %= numExchange
+        }
+        ans
+    }
+
+    def reverseOnlyLetters(S: String): String = { //917
+        val size = S.size
+        val chars = S.toCharArray
+        var i = 0
+        var j = size - 1
+        while (i < j) {
+            while (i < j && !chars(i).isLetter) {
+                i += 1
+            }
+            while (j > i && !chars(j).isLetter) {
+                j -= 1
+            }
+            if (i < j) {
+                val tmp = chars(i)
+                chars(i) = chars(j)
+                chars(j) = tmp
+                i += 1
+                j -= 1
+            }
+        }
+        chars.mkString
+    }
 }
