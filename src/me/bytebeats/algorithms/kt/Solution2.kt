@@ -637,11 +637,11 @@ class Solution2 {
         return s.substring(0, next.last())
     }
 
-    fun removeElements(head: ListNode?, `val`: Int): ListNode? {
+    fun removeElements(head: ListNode?, `val`: Int): ListNode? {//203
         val dummy = ListNode(-1)
         dummy.next = head
         var p = dummy
-        while (p != null && p.next != null) {
+        while (p?.next != null) {
             if (p.next.`val` == `val`) {
                 p.next = p.next.next
             } else {
