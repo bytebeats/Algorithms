@@ -18,4 +18,21 @@ object ScalaSolution2 {
         ans
     }
 
+    def minArray(numbers: Array[Int]): Int = { //剑指 offer 11
+        val size = numbers.size
+        var left = 0
+        var right = size - 1
+        var mid = 0
+        while (left < right) {
+            mid = left + (right - left) / 2
+            if (numbers(mid) > numbers(right)) {
+                left = mid + 1
+            } else if (numbers(mid) < numbers(right)) {
+                right = mid
+            } else {
+                right -= 1
+            }
+        }
+        numbers(left)
+    }
 }
