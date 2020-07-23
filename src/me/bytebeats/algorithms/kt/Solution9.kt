@@ -672,4 +672,55 @@ class Solution9 {
         }
         return sb.reversed().toString()
     }
+
+    fun calPoints(ops: Array<String>): Int {//682
+        val stack = mutableListOf<Int>()
+        for (op in ops) {
+            if (op == "+") {
+                val top = stack.removeAt(stack.lastIndex)
+                val newTop = top + stack.last()
+                stack.add(top)
+                stack.add(newTop)
+            } else if (op == "C") {
+                stack.removeAt(stack.lastIndex)
+            } else if (op == "D") {
+                stack.add(2 * stack.last())
+            } else {
+                stack.add(op.toInt())
+            }
+        }
+        return stack.sum()
+    }
+
+    fun repeatedStringMatch(A: String, B: String): Int {//686
+        var a = ""
+        val aL = A.length
+        val bL = B.length
+        for (i in 1..(bL / aL + 2)) {//reduced loop
+            a = "$a$A"
+            if (a.length >= B.length && a.contains(B)) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    fun countBinarySubstrings(s: String): Int {//696
+        val size = s.length
+        val dp = IntArray(size)
+        dp[0] = 1
+        var t = 0
+        for (i in 1 until size) {
+            if (s[i - 1] != s[i]) {
+                dp[++t] = 1
+            } else {
+                dp[t] += 1
+            }
+        }
+        var ans = 0
+        for (i in 1..t) {
+            ans += dp[i - 1].coerceAtMost(dp[i])
+        }
+        return ans
+    }
 }
