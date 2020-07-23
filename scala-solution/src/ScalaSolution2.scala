@@ -35,4 +35,43 @@ object ScalaSolution2 {
         }
         numbers(left)
     }
+
+    def minPathSum(grid: Array[Array[Int]]): Int = {//64
+        if (grid.isEmpty || grid(0).isEmpty) return 0
+        val r = grid.size
+        val c = grid(0).size
+        val dp = Array.ofDim[Int](r, c)
+        for (i <- 0 until r) {
+            for (j <- 0 until c) {
+                if (i == 0 && j == 0) {
+                    dp(i)(j) = grid(i)(j)
+                } else if (i == 0) {
+                    dp(i)(j) = dp(i)(j - 1) + grid(i)(j)
+                } else if (j == 0) {
+                    dp(i)(j) = dp(i - 1)(j) + grid(i)(j)
+                } else {
+                    dp(i)(j) = grid(i)(j) + dp(i - 1)(j).min(dp(i)(j - 1))
+                }
+            }
+        }
+        dp(r - 1)(c - 1)
+    }
+
+    def singleNumber(nums: Array[Int]): Array[Int] = {
+        var xor = 0
+        for (elem <- nums) {
+            xor ^= elem
+        }
+        val diff = xor & -xor
+        var a = 0
+        for (elem <- nums) {
+            if ((diff & elem) != 0) {
+                a ^= elem
+            }
+        }
+        val ans = Array.ofDim[Int](2)
+        ans(0) = a
+        ans(1) = a ^ xor
+        ans
+    }
 }
