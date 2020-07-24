@@ -74,4 +74,8 @@ object ScalaSolution2 {
         ans(1) = a ^ xor
         ans
     }
+
+    def divisorGame(N: Int): Boolean = {//1025
+        N % 2 == 0
+    }
 }
