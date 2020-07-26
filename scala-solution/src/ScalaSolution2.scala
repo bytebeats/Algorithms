@@ -78,4 +78,58 @@ object ScalaSolution2 {
     def divisorGame(N: Int): Boolean = {//1025
         N % 2 == 0
     }
+
+    def restoreString(s: String, indices: Array[Int]): String = { //1528
+        val map = scala.collection.mutable.TreeMap[Int, Char]()
+        for (i <- s.indices) {
+            map += (indices(i) -> s(i))
+        }
+        map.toSeq.sortBy(_._1).map(_._2).mkString("")
+    }
+
+    def countOdds(low: Int, high: Int): Int = { //1523
+        var ans = 0L
+        if ((low & 1) == 0) {
+            ans += (high - low + 1L) / 2
+        } else {
+            ans += (high - low) / 2 + 1L
+        }
+        ans.toInt
+    }
+
+    def shortestCompletingWord(licensePlate: String, words: Array[String]): String = { //748
+        val chs = Array.ofDim[Int](26)
+        licensePlate.foreach(ch => {
+            if (ch.isLetter) {
+                chs(ch.toLower - 'a') += 1
+            }
+        })
+        var ans = ""
+        for (elem <- words) {
+            if (isGreaterOrEquals(countChars(elem), chs)) {
+                if (ans == "") ans = elem
+                else if (ans.length > elem.length) ans = elem
+            }
+        }
+        ans
+    }
+
+    private def countChars(word: String): Array[Int] = {
+        val chs = Array.ofDim[Int](26)
+        word.foreach(ch => {
+            if (ch.isLetter) {
+                chs(ch.toLower - 'a') += 1
+            }
+        })
+        chs
+    }
+
+    private def isGreaterOrEquals(chs1: Array[Int], chs2: Array[Int]): Boolean = {
+        for (i <- 0 until 26) {
+            if (chs1(i) < chs2(i)) {
+                return false
+            }
+        }
+        true
+    }
 }
