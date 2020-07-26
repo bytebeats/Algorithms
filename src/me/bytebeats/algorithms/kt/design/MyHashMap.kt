@@ -7,9 +7,11 @@ class MyHashMap() {//706
 
     private val buckets = Array<MutableList<Pair>>(mod) { mutableListOf() }
 
+    private fun hash(key: Int): Int = (key % mod + mod) % mod
+
     /** value will always be non-negative. */
     fun put(key: Int, value: Int) {
-        val hashKey = key.rem(mod)
+        val hashKey = hash(key)
         val bucket = buckets[hashKey]
         var found = false
         for (pair in bucket) {
@@ -25,7 +27,7 @@ class MyHashMap() {//706
 
     /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
     fun get(key: Int): Int {
-        val hashKey = key.rem(mod)
+        val hashKey = hash(key)
         val bucket = buckets[hashKey]
         for (pair in bucket) {
             if (pair.first == key) {
@@ -37,7 +39,7 @@ class MyHashMap() {//706
 
     /** Removes the mapping of the specified value key if this map contains a mapping for the key */
     fun remove(key: Int) {
-        val hashKey = key.rem(mod)
+        val hashKey = hash(key)
         val bucket = buckets[hashKey]
         for (pair in bucket) {
             if (pair.first == key) {

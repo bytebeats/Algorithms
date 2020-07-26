@@ -723,4 +723,44 @@ class Solution9 {
         }
         return ans
     }
+
+    fun allPathsSourceTarget(graph: Array<IntArray>): List<List<Int>> {//797
+        return solve(graph, 0)
+    }
+
+    private fun solve(graph: Array<IntArray>, node: Int): MutableList<MutableList<Int>> {
+        val n = graph.size
+        val ans = mutableListOf<MutableList<Int>>()
+        if (node == n - 1) {
+            val path = mutableListOf<Int>()
+            path.add(node)
+            ans.add(path)
+            return ans
+        }
+        for (nb in graph[node]) {
+            for (path in solve(graph, nb)) {
+                path.add(0, node)
+                ans.add(path)
+            }
+        }
+        return ans
+    }
+
+    fun splitArray(nums: IntArray, m: Int): Int {//410
+        val n = nums.size
+        val dp = Array(n + 1) { IntArray(m + 1) { Int.MAX_VALUE } }
+        val sub = IntArray(n + 1)
+        for (i in 0 until n) {
+            sub[i + 1] = sub[i] + nums[i]
+        }
+        dp[0][0] = 0
+        for (i in 1..n) {
+            for (j in 1..m.coerceAtMost(i)) {
+                for (k in 0 until i) {
+                    dp[i][j] = dp[i][j].coerceAtMost(dp[k][j - 1].coerceAtLeast(sub[i] - sub[k]))
+                }
+            }
+        }
+        return dp[n][m]
+    }
 }
