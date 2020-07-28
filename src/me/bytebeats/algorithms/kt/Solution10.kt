@@ -313,4 +313,26 @@ class Solution10 {
         return ans
     }
 
+    fun leastInterval(tasks: CharArray, n: Int): Int {//621
+        val map = IntArray(26)
+        for (task in tasks) {
+            map[task-'A']+=1
+        }
+        map.sort()
+        var time = 0
+        while (map[25] > 0) {
+            var i = 0
+            while (i <= n) {
+                if (map[25] == 0) break
+                if (i < 26 && map[25 - i] > 0) {
+                    map[25-i]--
+                }
+                time++
+                i++
+            }
+            map.sort()
+        }
+        return time
+    }
+
 }
