@@ -420,7 +420,7 @@ public class TreesQuiz {
         return res;
     }
 
-    public int maxDepth(TreeNode root) {
+    public int maxDepth(TreeNode root) {//104
         if (root == null) {
             return 0;
         } else {

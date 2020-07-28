@@ -132,4 +132,8 @@ object ScalaSolution2 {
         }
         true
     }
+
+    def addDigits(num: Int): Int = {//258
+        (num - 1) % 9 + 1
+    }
 }

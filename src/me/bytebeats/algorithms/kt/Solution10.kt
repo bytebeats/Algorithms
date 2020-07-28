@@ -1,7 +1,6 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.TreeNode
-import kotlin.math.absoluteValue
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -311,6 +310,57 @@ class Solution10 {
             }
         }
         return ans
+    }
+
+    private val dirs = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
+
+    fun longestIncreasingPath(matrix: Array<IntArray>): Int {//329
+        if (matrix.isEmpty() || matrix[0].isEmpty()) return 0
+        val row = matrix.size
+        val column = matrix[0].size
+        val dp = Array(row) { IntArray(column) }
+        var ans = 0
+        for (i in 0 until row) {
+            for (j in 0 until column) {
+                ans = ans.coerceAtLeast(dfs(matrix, i, j, dp, row, column))
+            }
+        }
+        return ans
+    }
+
+    private fun dfs(matrix: Array<IntArray>, r: Int, c: Int, dp: Array<IntArray>, m: Int, n: Int): Int {
+        if (dp[r][c] != 0) return dp[r][c]
+        dp[r][c] += 1
+        for (dir in dirs) {
+            val newR = r + dir[0]
+            val newC = c + dir[1]
+            if (newR in 0 until m && newC in 0 until n && matrix[newR][newC] > matrix[r][c]) {
+                dp[r][c] = dp[r][c].coerceAtLeast(dfs(matrix, newR, newC, dp, m, n) + 1)
+            }
+        }
+        return dp[r][c]
+    }
+
+    fun leastInterval(tasks: CharArray, n: Int): Int {//621
+        val map = IntArray(26)
+        for (task in tasks) {
+            map[task-'A']+=1
+        }
+        map.sort()
+        var time = 0
+        while (map[25] > 0) {
+            var i = 0
+            while (i <= n) {
+                if (map[25] == 0) break
+                if (i < 26 && map[25 - i] > 0) {
+                    map[25-i]--
+                }
+                time++
+                i++
+            }
+            map.sort()
+        }
+        return time
     }
 
 }
