@@ -143,7 +143,20 @@ class Solution10 {
     }
 
     fun reformatDate(date: String): String {//1507
-        val months = mapOf("Jan" to 1, "Feb" to 2, "Mar" to 3, "Apr" to 4, "May" to 5, "Jun" to 6, "Jul" to 7, "Aug" to 8, "Sep" to 9, "Oct" to 10, "Nov" to 11, "Dec" to 12)
+        val months = mapOf(
+            "Jan" to 1,
+            "Feb" to 2,
+            "Mar" to 3,
+            "Apr" to 4,
+            "May" to 5,
+            "Jun" to 6,
+            "Jul" to 7,
+            "Aug" to 8,
+            "Sep" to 9,
+            "Oct" to 10,
+            "Nov" to 11,
+            "Dec" to 12
+        )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
         if (d.length < 2) {
@@ -344,7 +357,7 @@ class Solution10 {
     fun leastInterval(tasks: CharArray, n: Int): Int {//621
         val map = IntArray(26)
         for (task in tasks) {
-            map[task-'A']+=1
+            map[task - 'A'] += 1
         }
         map.sort()
         var time = 0
@@ -353,7 +366,7 @@ class Solution10 {
             while (i <= n) {
                 if (map[25] == 0) break
                 if (i < 26 && map[25 - i] > 0) {
-                    map[25-i]--
+                    map[25 - i]--
                 }
                 time++
                 i++
@@ -361,6 +374,64 @@ class Solution10 {
             map.sort()
         }
         return time
+    }
+
+    fun wordBreak(s: String, wordDict: List<String>): List<String> {//140
+        val size = s.length
+        val dp = BooleanArray(size) { false }
+        val set = mutableSetOf<String>()
+        set.addAll(wordDict)
+
+        for (i in 0 until size) {
+            if (set.contains(s.substring(0, i + 1))) {
+                dp[i] = true
+                continue
+            }
+            for (j in 0 until i) {
+                if (dp[j] && set.contains(s.substring(j + 1, i + 1))) {
+                    dp[i] = true
+                    break
+                }
+            }
+        }
+        val ans = mutableListOf<String>()
+        if (dp.last()) {
+            val q = mutableListOf<String>()
+            dfs(s, size - 1, set, ans, q, dp)
+            return ans
+        }
+        return ans
+    }
+
+    private fun dfs(
+        s: String,
+        end: Int,
+        wordSet: Set<String>,
+        ans: MutableList<String>,
+        q: MutableList<String>,
+        dp: BooleanArray
+    ) {
+        if (wordSet.contains(s.substring(0, end + 1))) {
+            q.add(0, s.substring(0, end + 1))
+            val sb = StringBuilder()
+            for (word in q) {
+                sb.append(word)
+                sb.append(" ")
+            }
+            sb.deleteCharAt(sb.lastIndex)
+            ans.add(sb.toString())
+            q.removeAt(0)
+        }
+        for (i in 0 until end) {
+            if (dp[i]) {
+                val suffix = s.substring(i + 1, end + 1)
+                if (wordSet.contains(suffix)) {
+                    q.add(0, suffix)
+                    dfs(s, i, wordSet, ans, q, dp)
+                    q.removeAt(0)
+                }
+            }
+        }
     }
 
 }

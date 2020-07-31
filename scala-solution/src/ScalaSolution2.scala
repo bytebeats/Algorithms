@@ -103,7 +103,8 @@ object ScalaSolution2 {
             if (ch.isLetter) {
                 chs(ch.toLower - 'a') += 1
             }
-        })
+        }
+        )
         var ans = ""
         for (elem <- words) {
             if (isGreaterOrEquals(countChars(elem), chs)) {
@@ -120,7 +121,8 @@ object ScalaSolution2 {
             if (ch.isLetter) {
                 chs(ch.toLower - 'a') += 1
             }
-        })
+        }
+        )
         chs
     }
 
@@ -135,5 +137,14 @@ object ScalaSolution2 {
 
     def addDigits(num: Int): Int = {//258
         (num - 1) % 9 + 1
+    }
+
+    def findMagicIndex(nums: Array[Int]): Int = { //08.03
+        for (i <- nums.indices) {
+            if (i == nums(i)) {
+                return i
+            }
+        }
+        -1
     }
 }
