@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.TreeNode
+import kotlin.math.sign
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -432,6 +433,55 @@ class Solution10 {
                 }
             }
         }
+    }
+
+    fun smallestRange(nums: List<List<Int>>): IntArray {//632
+        val s = nums.size
+        val indices = mutableMapOf<Int, MutableList<Int>>()
+        var xMin = Int.MAX_VALUE
+        var xMax = Int.MIN_VALUE
+        for (i in 0 until s) {
+            for (x in nums[i]) {
+                val list = indices.getOrDefault(x, mutableListOf())
+                list.add(i)
+                indices[x] = list
+                xMin = xMin.coerceAtMost(x)
+                xMax = xMax.coerceAtLeast(x)
+            }
+        }
+        val freq = IntArray(s)
+        var inside = 0
+        var left = xMin
+        var right = xMin - 1
+        var bestLeft = xMin
+        var bestRight = xMax
+        while (right < xMax) {
+            right += 1
+            if (indices.containsKey(right)) {
+                indices[right]?.forEach {
+                    freq[it] += 1
+                    if (freq[it] == 1) {
+                        inside += 1
+                    }
+                }
+                while (inside == s) {
+                    if (right - left < bestRight - bestLeft) {
+                        bestLeft = left
+                        bestRight = right
+                    }
+                    if (indices.containsKey(left)) {
+                        indices[left]?.forEach {
+                            freq[it] -= 1
+                            if (freq[it] == 0) {
+                                inside -= 1
+                            }
+                        }
+                    }
+                    left += 1
+                }
+            }
+        }
+        return intArrayOf(bestLeft, bestRight)
     }
 
 }
