@@ -484,4 +484,33 @@ class Solution10 {
         return intArrayOf(bestLeft, bestRight)
     }
 
+    fun buddyStrings(A: String, B: String): Boolean {//859
+        if (A.length != B.length) return false
+        if (A == B) {
+            val count = IntArray(26)
+            for (i in A.indices) {
+                count[A[i] - 'a'] += 1
+            }
+            for (c in count) {
+                if (c > 1) return true
+            }
+            return false
+        } else {
+            var first = -1
+            var second = -1
+            for (i in A.indices) {
+                if (A[i] != B[i]) {
+                    if (first == -1) {
+                        first = i
+                    } else if (second == -1) {
+                        second = i
+                    } else {
+                        return false
+                    }
+                }
+            }
+            return second != -1 && A[first] == B[second] && A[second] == B[first]
+        }
+    }
+
 }
