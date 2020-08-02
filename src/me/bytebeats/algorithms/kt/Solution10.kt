@@ -1,6 +1,7 @@
 package me.bytebeats.algorithms.kt
 
 import me.bytebeats.algorithms.meta.TreeNode
+import kotlin.math.sign
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -143,7 +144,20 @@ class Solution10 {
     }
 
     fun reformatDate(date: String): String {//1507
-        val months = mapOf("Jan" to 1, "Feb" to 2, "Mar" to 3, "Apr" to 4, "May" to 5, "Jun" to 6, "Jul" to 7, "Aug" to 8, "Sep" to 9, "Oct" to 10, "Nov" to 11, "Dec" to 12)
+        val months = mapOf(
+            "Jan" to 1,
+            "Feb" to 2,
+            "Mar" to 3,
+            "Apr" to 4,
+            "May" to 5,
+            "Jun" to 6,
+            "Jul" to 7,
+            "Aug" to 8,
+            "Sep" to 9,
+            "Oct" to 10,
+            "Nov" to 11,
+            "Dec" to 12
+        )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
         if (d.length < 2) {
@@ -339,6 +353,164 @@ class Solution10 {
             }
         }
         return dp[r][c]
+    }
+
+    fun leastInterval(tasks: CharArray, n: Int): Int {//621
+        val map = IntArray(26)
+        for (task in tasks) {
+            map[task - 'A'] += 1
+        }
+        map.sort()
+        var time = 0
+        while (map[25] > 0) {
+            var i = 0
+            while (i <= n) {
+                if (map[25] == 0) break
+                if (i < 26 && map[25 - i] > 0) {
+                    map[25 - i]--
+                }
+                time++
+                i++
+            }
+            map.sort()
+        }
+        return time
+    }
+
+    fun wordBreak(s: String, wordDict: List<String>): List<String> {//140
+        val size = s.length
+        val dp = BooleanArray(size) { false }
+        val set = mutableSetOf<String>()
+        set.addAll(wordDict)
+
+        for (i in 0 until size) {
+            if (set.contains(s.substring(0, i + 1))) {
+                dp[i] = true
+                continue
+            }
+            for (j in 0 until i) {
+                if (dp[j] && set.contains(s.substring(j + 1, i + 1))) {
+                    dp[i] = true
+                    break
+                }
+            }
+        }
+        val ans = mutableListOf<String>()
+        if (dp.last()) {
+            val q = mutableListOf<String>()
+            dfs(s, size - 1, set, ans, q, dp)
+            return ans
+        }
+        return ans
+    }
+
+    private fun dfs(
+        s: String,
+        end: Int,
+        wordSet: Set<String>,
+        ans: MutableList<String>,
+        q: MutableList<String>,
+        dp: BooleanArray
+    ) {
+        if (wordSet.contains(s.substring(0, end + 1))) {
+            q.add(0, s.substring(0, end + 1))
+            val sb = StringBuilder()
+            for (word in q) {
+                sb.append(word)
+                sb.append(" ")
+            }
+            sb.deleteCharAt(sb.lastIndex)
+            ans.add(sb.toString())
+            q.removeAt(0)
+        }
+        for (i in 0 until end) {
+            if (dp[i]) {
+                val suffix = s.substring(i + 1, end + 1)
+                if (wordSet.contains(suffix)) {
+                    q.add(0, suffix)
+                    dfs(s, i, wordSet, ans, q, dp)
+                    q.removeAt(0)
+                }
+            }
+        }
+    }
+
+    fun smallestRange(nums: List<List<Int>>): IntArray {//632
+        val s = nums.size
+        val indices = mutableMapOf<Int, MutableList<Int>>()
+        var xMin = Int.MAX_VALUE
+        var xMax = Int.MIN_VALUE
+        for (i in 0 until s) {
+            for (x in nums[i]) {
+                val list = indices.getOrDefault(x, mutableListOf())
+                list.add(i)
+                indices[x] = list
+                xMin = xMin.coerceAtMost(x)
+                xMax = xMax.coerceAtLeast(x)
+            }
+        }
+        val freq = IntArray(s)
+        var inside = 0
+        var left = xMin
+        var right = xMin - 1
+        var bestLeft = xMin
+        var bestRight = xMax
+        while (right < xMax) {
+            right += 1
+            if (indices.containsKey(right)) {
+                indices[right]?.forEach {
+                    freq[it] += 1
+                    if (freq[it] == 1) {
+                        inside += 1
+                    }
+                }
+                while (inside == s) {
+                    if (right - left < bestRight - bestLeft) {
+                        bestLeft = left
+                        bestRight = right
+                    }
+                    if (indices.containsKey(left)) {
+                        indices[left]?.forEach {
+                            freq[it] -= 1
+                            if (freq[it] == 0) {
+                                inside -= 1
+                            }
+                        }
+                    }
+                    left += 1
+                }
+            }
+        }
+        return intArrayOf(bestLeft, bestRight)
+    }
+
+    fun buddyStrings(A: String, B: String): Boolean {//859
+        if (A.length != B.length) return false
+        if (A == B) {
+            val count = IntArray(26)
+            for (i in A.indices) {
+                count[A[i] - 'a'] += 1
+            }
+            for (c in count) {
+                if (c > 1) return true
+            }
+            return false
+        } else {
+            var first = -1
+            var second = -1
+            for (i in A.indices) {
+                if (A[i] != B[i]) {
+                    if (first == -1) {
+                        first = i
+                    } else if (second == -1) {
+                        second = i
+                    } else {
+                        return false
+                    }
+                }
+            }
+            return second != -1 && A[first] == B[second] && A[second] == B[first]
+        }
     }
 
     fun countGoodTriplets(arr: IntArray, a: Int, b: Int, c: Int): Int {//5475
