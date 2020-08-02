@@ -513,4 +513,89 @@ class Solution10 {
         }
     }
 
+    fun countGoodTriplets(arr: IntArray, a: Int, b: Int, c: Int): Int {//5475
+        var count = 0
+        val s = arr.size
+        for (i in 0 until s - 2) {
+            for (j in i + 1 until s - 1) {
+                for (k in j + 1 until s) {
+                    if (Math.abs(arr[i] - arr[j]) <= a && Math.abs(arr[j] - arr[k]) <= b && Math.abs(arr[i] - arr[k]) <= c) {
+                        count += 1
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    fun surfaceArea(grid: Array<IntArray>): Int {//892
+        val dr = intArrayOf(0, 1, 0, -1)
+        val dc = intArrayOf(1, 0, -1, 0)
+        val N = grid.size
+        var ans = 0
+        for (r in 0 until N) for (c in 0 until N) if (grid[r][c] > 0) {
+            ans += 2
+            for (k in 0..3) {
+                val nr = r + dr[k]
+                val nc = c + dc[k]
+                var nv = 0
+                if (nr in 0 until N && nc in 0 until N) nv = grid[nr][nc]
+                ans += Math.max(grid[r][c] - nv, 0)
+            }
+        }
+        return ans
+    }
+
+    fun allCellsDistOrder(R: Int, C: Int, r0: Int, c0: Int): Array<IntArray> {//1030
+        val ans = Array(R * C) { r -> intArrayOf(r / C, r % C) }
+        ans.sortBy { arr -> Math.abs(arr[0] - r0) + Math.abs(arr[1] - c0) }
+        return ans
+    }
+
+    fun numRookCaptures(board: Array<CharArray>): Int {//999
+        var ans = 0
+        var start = 0
+        var end = 0
+        val dx = intArrayOf(0, 1, 0, -1)
+        val dy = intArrayOf(1, 0, -1, 0)
+        for (i in 0 until 8) for (j in 0 until 8) {
+            if (board[i][j] == 'R') {
+                start = i
+                end = j
+                break
+            }
+        }
+        for (i in 0 until 4) {
+            var step = 0
+            while (true) {
+                val tx = start + step * dx[i]
+                val ty = end + step * dy[i]
+                if (tx < 0 || tx >= 8 || ty < 0 || ty >= 8 || board[tx][ty] == 'B') break
+                if (board[tx][ty] == 'p') {
+                    ans += 1
+                    break
+                }
+                step += 1
+            }
+        }
+        return ans
+    }
+
+    fun reorderLogFiles(logs: Array<String>): Array<String> {//937
+        logs.sortWith(Comparator { o1, o2 ->
+            val regex = Regex(" ")
+            val split1 = o1.split(regex, 2)
+            val split2 = o2.split(regex, 2)
+            val isDigit1 = split1[1][0].isDigit()
+            val isDigit2 = split2[1][0].isDigit()
+            if (!isDigit1 && !isDigit2) {
+                val cmp = split1[1].compareTo(split2[1])
+                if (cmp != 0) return@Comparator cmp
+                else return@Comparator split1[0].compareTo(split2[0])
+            }
+            return@Comparator if (isDigit1) if (isDigit2) 0 else 1 else -1
+        })
+        return logs
+    }
+
 }
