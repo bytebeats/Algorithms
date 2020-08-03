@@ -145,18 +145,18 @@ class Solution10 {
 
     fun reformatDate(date: String): String {//1507
         val months = mapOf(
-            "Jan" to 1,
-            "Feb" to 2,
-            "Mar" to 3,
-            "Apr" to 4,
-            "May" to 5,
-            "Jun" to 6,
-            "Jul" to 7,
-            "Aug" to 8,
-            "Sep" to 9,
-            "Oct" to 10,
-            "Nov" to 11,
-            "Dec" to 12
+                "Jan" to 1,
+                "Feb" to 2,
+                "Mar" to 3,
+                "Apr" to 4,
+                "May" to 5,
+                "Jun" to 6,
+                "Jul" to 7,
+                "Aug" to 8,
+                "Sep" to 9,
+                "Oct" to 10,
+                "Nov" to 11,
+                "Dec" to 12
         )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
@@ -405,12 +405,12 @@ class Solution10 {
     }
 
     private fun dfs(
-        s: String,
-        end: Int,
-        wordSet: Set<String>,
-        ans: MutableList<String>,
-        q: MutableList<String>,
-        dp: BooleanArray
+            s: String,
+            end: Int,
+            wordSet: Set<String>,
+            ans: MutableList<String>,
+            q: MutableList<String>,
+            dp: BooleanArray
     ) {
         if (wordSet.contains(s.substring(0, end + 1))) {
             q.add(0, s.substring(0, end + 1))
@@ -598,4 +598,71 @@ class Solution10 {
         return logs
     }
 
+    fun numMagicSquaresInside(grid: Array<IntArray>): Int {//840
+        var count = 0
+        val row = grid.size
+        val col = grid[0].size
+        for (i in 0 until row - 2) for (j in 0 until col - 2) {
+            val set = mutableSetOf<Int>()
+            var min = Int.MAX_VALUE
+            var max = Int.MIN_VALUE
+            for (ii in i..i + 2) for (jj in j..j + 2) {
+                set.add(grid[ii][jj])
+                min = min.coerceAtMost(grid[ii][jj])
+                max = max.coerceAtLeast(grid[ii][jj])
+            }
+            if (set.size != 9 || min != 1 || max != 9) {
+                continue
+            }
+            val sum = grid[i][j] + grid[i][j + 1] + grid[i][j + 2]
+            if (sum != grid[i + 1][j] + grid[i + 1][j + 1] + grid[i + 1][j + 2]) continue
+            if (sum != grid[i + 2][j] + grid[i + 2][j + 1] + grid[i + 2][j + 2]) continue
+            if (sum != grid[i][j] + grid[i + 1][j] + grid[i + 2][j]) continue
+            if (sum != grid[i][j + 1] + grid[i + 1][j + 1] + grid[i + 2][j + 1]) continue
+            if (sum != grid[i][j + 2] + grid[i + 1][j + 2] + grid[i + 2][j + 2]) continue
+            if (sum != grid[i][j] + grid[i + 1][j + 1] + grid[i + 2][j + 2]) continue
+            if (sum != grid[i + 2][j] + grid[i + 1][j + 1] + grid[i][j + 2]) continue
+            count += 1
+        }
+        return count
+    }
+
+    fun countPrimeSetBits(L: Int, R: Int): Int {//762
+        var count = 0
+        for (num in L..R) {
+            if (isSmallPrime(compute(num))) {
+                count += 1
+            }
+        }
+        return count
+    }
+
+    private fun compute(num: Int): Int {
+        var count = 0
+        var n = num
+        while (n != 0) {
+            count += n and 1
+            n = n shr 1
+        }
+        return count
+    }
+
+    private fun isSmallPrime(n: Int): Boolean = (n == 2 || n == 3 || n == 5 || n == 7 ||
+            n == 11 || n == 13 || n == 17 || n == 19)
+
+    fun maxDistToClosest(seats: IntArray): Int {//849
+        val idx = mutableListOf<Int>()
+        for (i in seats.indices) {
+            if (seats[i] == 1) {
+                idx.add(i)
+            }
+        }
+        var ans = idx.first().coerceAtLeast(seats.size - 1 - idx.last())
+        for (i in 1..idx.lastIndex) {
+            if (idx[i] - idx[i - 1] > 1) {
+                ans = ans.coerceAtLeast((idx[i] - idx[i - 1]) / 2)
+            }
+        }
+        return ans
+    }
 }
