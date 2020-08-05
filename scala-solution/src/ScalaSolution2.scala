@@ -1,3 +1,5 @@
+import me.bytebeats.algs.ds.TreeNode
+
 object ScalaSolution2 {
 
     def twoSum(numbers: Array[Int], target: Int): Array[Int] = { //167
@@ -146,5 +148,9 @@ object ScalaSolution2 {
             }
         }
         -1
+    }
+
+    def tree(root: TreeNode): TreeNode = {//test
+        null
     }
 }
