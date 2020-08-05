@@ -664,4 +664,14 @@ class Solution10 {
         }
         return ans
     }
+
+    fun transpose(A: Array<IntArray>): Array<IntArray> {//867
+        val row = A.size
+        val col = A[0].size
+        val ans = Array(col) { IntArray(row) }
+        for (i in 0 until row) for (j in 0 until col) {
+            ans[j][i] = A[i][j]
+        }
+        return ans
+    }
 }
