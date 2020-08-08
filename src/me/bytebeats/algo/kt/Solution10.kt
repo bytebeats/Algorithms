@@ -144,18 +144,18 @@ class Solution10 {
 
     fun reformatDate(date: String): String {//1507
         val months = mapOf(
-                "Jan" to 1,
-                "Feb" to 2,
-                "Mar" to 3,
-                "Apr" to 4,
-                "May" to 5,
-                "Jun" to 6,
-                "Jul" to 7,
-                "Aug" to 8,
-                "Sep" to 9,
-                "Oct" to 10,
-                "Nov" to 11,
-                "Dec" to 12
+            "Jan" to 1,
+            "Feb" to 2,
+            "Mar" to 3,
+            "Apr" to 4,
+            "May" to 5,
+            "Jun" to 6,
+            "Jul" to 7,
+            "Aug" to 8,
+            "Sep" to 9,
+            "Oct" to 10,
+            "Nov" to 11,
+            "Dec" to 12
         )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
@@ -404,12 +404,12 @@ class Solution10 {
     }
 
     private fun dfs(
-            s: String,
-            end: Int,
-            wordSet: Set<String>,
-            ans: MutableList<String>,
-            q: MutableList<String>,
-            dp: BooleanArray
+        s: String,
+        end: Int,
+        wordSet: Set<String>,
+        ans: MutableList<String>,
+        q: MutableList<String>,
+        dp: BooleanArray
     ) {
         if (wordSet.contains(s.substring(0, end + 1))) {
             q.add(0, s.substring(0, end + 1))
@@ -673,5 +673,50 @@ class Solution10 {
             ans[j][i] = A[i][j]
         }
         return ans
+    }
+
+    fun isLongPressedName(name: String, typed: String): Boolean {//925
+        var j = 0
+        for (c in name) {
+            if (j == typed.length) return false
+            if (c != typed[j]) {
+                if (j == 0 || typed[j - 1] != typed[j]) return false
+                val ch = typed[j]
+                while (j < typed.length && typed[j] == ch) j += 1
+                if (j == typed.length || c != typed[j]) return false
+            }
+            j += 1
+        }
+        while (j < typed.length && typed[j - 1] == typed[j]) j += 1
+        return j == typed.length
+    }
+
+    fun diStringMatch(S: String): IntArray {//942
+        val n = S.length
+        var low = 0
+        var high = n
+        val ans = IntArray(n + 1)
+        for (i in S.indices) {
+            if (S[i] == 'I') {
+                ans[i] = low++
+            } else {
+                ans[i] = high--
+            }
+        }
+        ans[n] = low
+        return ans
+    }
+
+    fun minDeletionSize(A: Array<String>): Int {//944
+        var count = 0
+        val r = A.size
+        val c = A[0].length
+        for (j in 0 until c) for (i in 1 until r) {
+            if (A[i][j] < A[i - 1][j]) {
+                count += 1
+                break
+            }
+        }
+        return count
     }
 }
