@@ -719,4 +719,113 @@ class Solution10 {
         }
         return count
     }
+
+    fun orangesRotting(grid: Array<IntArray>): Int {//994
+        val r = grid.size
+        val c = grid[0].size
+        val rottens = mutableListOf<IntArray>()
+        var fresh = 0
+        for (i in 0 until r) for (j in 0 until c) {
+            if (grid[i][j] == 2) rottens.add(intArrayOf(i, j))
+            else if (grid[i][j] == 1) fresh += 1
+        }
+        if (rottens.isEmpty()) {
+            if (fresh == 0) return 0
+            else return -1
+        }
+        var seconds = -1
+        val adjacent = mutableListOf<IntArray>()
+        while (rottens.isNotEmpty()) {
+            while (rottens.isNotEmpty()) {
+                val rotten = rottens.removeAt(0)
+                val x = rotten[0]
+                val y = rotten[1]
+                if (x > 0 && grid[x - 1][y] == 1) {
+                    grid[x - 1][y] = 2
+                    adjacent.add(intArrayOf(x - 1, y))
+                }
+                if (x < r - 1 && grid[x + 1][y] == 1) {
+                    grid[x + 1][y] = 2
+                    adjacent.add(intArrayOf(x + 1, y))
+                }
+                if (y > 0 && grid[x][y - 1] == 1) {
+                    grid[x][y - 1] = 2
+                    adjacent.add(intArrayOf(x, y - 1))
+                }
+                if (y < c - 1 && grid[x][y + 1] == 1) {
+                    grid[x][y + 1] = 2
+                    adjacent.add(intArrayOf(x, y + 1))
+                }
+            }
+            rottens.addAll(adjacent)
+            adjacent.clear()
+            seconds += 1
+        }
+        for (i in 0 until r) for (j in 0 until c) {
+            if (grid[i][j] == 1) return -1
+        }
+        return seconds
+    }
+
+    fun restoreIpAddresses(s: String): List<String> {//93
+        val n = s.length
+        val ans = mutableListOf<String>()
+        if (n in 4..12) {
+            for (i in 0..2) {
+                if (n - i - 1 !in 3..9) continue
+                for (j in i + 1..i + 3) {
+                    if (n - j - 1 !in 2..6) continue
+                    for (k in j + 1..j + 3) {
+                        if (n - k - 1 !in 1..3) continue
+                        val first = s.substring(0, i + 1)
+                        if (first.toInt() !in 0..255 || first.toInt().toString() != first) continue
+                        val second = s.substring(i + 1, j + 1)
+                        if (second.toInt() !in 0..255 || second.toInt().toString() != second) continue
+                        val third = s.substring(j + 1, k + 1)
+                        if (third.toInt() !in 0..255 || third.toInt().toString() != third) continue
+                        val forth = s.substring(k + 1, n)
+                        if (forth.toInt() !in 0..255 || forth.toInt().toString() != forth) continue
+                        ans.add("$first.$second.$third.$forth")
+                    }
+                }
+            }
+        }
+        return ans
+    }
+
+    fun findKthPositive(arr: IntArray, k: Int): Int {//5648
+        val set = mutableSetOf<Int>()
+        for (i in arr) {
+            set.add(i)
+        }
+        val max = arr.last()
+        for (i in 1..max) {
+            if (set.contains(i)) set.remove(i)
+            else set.add(i)
+        }
+        if (k <= set.size) {
+            return set.toList()[k - 1]
+        } else {
+            return max + (k - set.size)
+        }
+    }
+
+    fun makeGood(s: String): String {//5483, 1544
+        var ss = s
+        var idx = idx(ss)
+        while (idx > -1) {
+            ss = "${ss.substring(0, idx)}${ss.substring(idx + 2, ss.length)}"
+            idx = idx(ss)
+        }
+        return ss
+    }
+
+    private fun idx(s: String): Int {
+        for (i in 0 until s.length - 1) {
+            if (s[i] != s[i + 1] && s[i].toLowerCase() == s[i + 1].toLowerCase()) {
+                return i
+            }
+        }
+        return -1
+    }
 }
