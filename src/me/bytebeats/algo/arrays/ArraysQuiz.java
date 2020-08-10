@@ -1300,4 +1300,17 @@ public class ArraysQuiz {
         }
         return Math.max(f[n - 1][1], f[n - 1][2]);
     }
+
+    public int[] fraction(int[] cont) {//LCP 02
+        int n = cont.length;
+        int[] cp = new int[n + 1];
+        System.arraycopy(cont, 0, cp, 0, n);
+        cp[n] = 1;
+        int i = cp.length - 3;
+        while (i != -1) {
+            cp[i] = cp[i] * cp[i + 1] + cp[i + 2];
+            i--;
+        }
+        return new int[]{cp[0], cp[1]};
+    }
 }
