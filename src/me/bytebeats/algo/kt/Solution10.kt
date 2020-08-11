@@ -144,18 +144,18 @@ class Solution10 {
 
     fun reformatDate(date: String): String {//1507
         val months = mapOf(
-            "Jan" to 1,
-            "Feb" to 2,
-            "Mar" to 3,
-            "Apr" to 4,
-            "May" to 5,
-            "Jun" to 6,
-            "Jul" to 7,
-            "Aug" to 8,
-            "Sep" to 9,
-            "Oct" to 10,
-            "Nov" to 11,
-            "Dec" to 12
+                "Jan" to 1,
+                "Feb" to 2,
+                "Mar" to 3,
+                "Apr" to 4,
+                "May" to 5,
+                "Jun" to 6,
+                "Jul" to 7,
+                "Aug" to 8,
+                "Sep" to 9,
+                "Oct" to 10,
+                "Nov" to 11,
+                "Dec" to 12
         )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
@@ -404,12 +404,12 @@ class Solution10 {
     }
 
     private fun dfs(
-        s: String,
-        end: Int,
-        wordSet: Set<String>,
-        ans: MutableList<String>,
-        q: MutableList<String>,
-        dp: BooleanArray
+            s: String,
+            end: Int,
+            wordSet: Set<String>,
+            ans: MutableList<String>,
+            q: MutableList<String>,
+            dp: BooleanArray
     ) {
         if (wordSet.contains(s.substring(0, end + 1))) {
             q.add(0, s.substring(0, end + 1))
@@ -827,5 +827,54 @@ class Solution10 {
             }
         }
         return -1
+    }
+
+    fun maxArea(height: IntArray): Int {//11
+        var max = 0
+        var tmp = 0
+        var i = 0
+        var j = height.size - 1
+        while (i < j) {
+            if (height[i] > height[j]) {
+                tmp = height[j] * (j - i)
+                j--
+            } else {
+                tmp = height[i] * (j - i)
+                i++
+            }
+            max = max.coerceAtLeast(tmp)
+        }
+        return max
+    }
+
+    fun letterCombinations(digits: String): List<String> {//17
+        val map = mapOf('2' to charArrayOf('a', 'b', 'c'),
+                '3' to charArrayOf('d', 'e', 'f'),
+                '4' to charArrayOf('g', 'h', 'i'),
+                '5' to charArrayOf('j', 'k', 'l'),
+                '6' to charArrayOf('m', 'n', 'o'),
+                '7' to charArrayOf('p', 'q', 'r', 's'),
+                '8' to charArrayOf('t', 'u', 'v'),
+                '9' to charArrayOf('w', 'x', 'y', 'z')
+        )
+        val ans = mutableListOf<String>()
+        for (d in digits) {
+            val chs = map[d]!!
+            val tmp = mutableListOf<String>()
+            tmp.addAll(ans)
+            ans.clear()
+            if (tmp.isEmpty()) {
+                for (ch in chs) {
+                    ans.add(ch.toString())
+                }
+            } else {
+                for (ch in chs) {
+                    for (str in tmp) {
+                        ans.add("$str$ch")
+                    }
+                }
+            }
+        }
+        return ans
     }
 }
