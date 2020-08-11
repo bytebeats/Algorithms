@@ -20,5 +20,6 @@
     <orderEntry type="library" exported="" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="scala-sdk-2.13" level="application" />
     <orderEntry type="module" module-name="meta" />
+    <orderEntry type="library" name="scala-sdk-2.13.2" level="application" />
   </component>
 </module>
