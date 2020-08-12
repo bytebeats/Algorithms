@@ -877,4 +877,13 @@ class Solution10 {
         }
         return ans
     }
+
+    fun titleToNumber(s: String): Int {
+        var num = 0
+        for (c in s) {
+            num *= 26
+            num += c - 'A' + 1
+        }
+        return num
+    }
 }
