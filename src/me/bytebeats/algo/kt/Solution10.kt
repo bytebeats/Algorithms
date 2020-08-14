@@ -144,18 +144,18 @@ class Solution10 {
 
     fun reformatDate(date: String): String {//1507
         val months = mapOf(
-                "Jan" to 1,
-                "Feb" to 2,
-                "Mar" to 3,
-                "Apr" to 4,
-                "May" to 5,
-                "Jun" to 6,
-                "Jul" to 7,
-                "Aug" to 8,
-                "Sep" to 9,
-                "Oct" to 10,
-                "Nov" to 11,
-                "Dec" to 12
+            "Jan" to 1,
+            "Feb" to 2,
+            "Mar" to 3,
+            "Apr" to 4,
+            "May" to 5,
+            "Jun" to 6,
+            "Jul" to 7,
+            "Aug" to 8,
+            "Sep" to 9,
+            "Oct" to 10,
+            "Nov" to 11,
+            "Dec" to 12
         )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
@@ -404,12 +404,12 @@ class Solution10 {
     }
 
     private fun dfs(
-            s: String,
-            end: Int,
-            wordSet: Set<String>,
-            ans: MutableList<String>,
-            q: MutableList<String>,
-            dp: BooleanArray
+        s: String,
+        end: Int,
+        wordSet: Set<String>,
+        ans: MutableList<String>,
+        q: MutableList<String>,
+        dp: BooleanArray
     ) {
         if (wordSet.contains(s.substring(0, end + 1))) {
             q.add(0, s.substring(0, end + 1))
@@ -848,14 +848,15 @@ class Solution10 {
     }
 
     fun letterCombinations(digits: String): List<String> {//17
-        val map = mapOf('2' to charArrayOf('a', 'b', 'c'),
-                '3' to charArrayOf('d', 'e', 'f'),
-                '4' to charArrayOf('g', 'h', 'i'),
-                '5' to charArrayOf('j', 'k', 'l'),
-                '6' to charArrayOf('m', 'n', 'o'),
-                '7' to charArrayOf('p', 'q', 'r', 's'),
-                '8' to charArrayOf('t', 'u', 'v'),
-                '9' to charArrayOf('w', 'x', 'y', 'z')
+        val map = mapOf(
+            '2' to charArrayOf('a', 'b', 'c'),
+            '3' to charArrayOf('d', 'e', 'f'),
+            '4' to charArrayOf('g', 'h', 'i'),
+            '5' to charArrayOf('j', 'k', 'l'),
+            '6' to charArrayOf('m', 'n', 'o'),
+            '7' to charArrayOf('p', 'q', 'r', 's'),
+            '8' to charArrayOf('t', 'u', 'v'),
+            '9' to charArrayOf('w', 'x', 'y', 'z')
         )
         val ans = mutableListOf<String>()
         for (d in digits) {
@@ -885,5 +886,40 @@ class Solution10 {
             num += c - 'A' + 1
         }
         return num
+    }
+
+    fun getRow(rowIndex: Int): List<Int> {
+        val triangle = mutableListOf<Int>()
+        for (i in 1..rowIndex + 1) {
+            for (j in i - 1 downTo 0) {
+                if (j == i - 1) {
+                    triangle.add(1)
+                } else if (j == 0) {
+                    break
+                } else {
+                    triangle[j] = triangle[j] + triangle[j - 1]
+                }
+            }
+        }
+        return triangle
+    }
+
+    fun isValid(s: String): Boolean {//20
+        val stack = mutableListOf<Char>()
+        for (c in s) {
+            if (c == '(' || c == '[' || c == '{') {
+                stack.add(c)
+            } else if (c == ')') {
+                if (stack.isEmpty() || stack.last() != '(') return false
+                stack.removeAt(stack.lastIndex)
+            } else if (c == ']') {
+                if (stack.isEmpty() || stack.last() != '[') return false
+                stack.removeAt(stack.lastIndex)
+            } else if (c == '}') {
+                if (stack.isEmpty() || stack.last() != '{') return false
+                stack.removeAt(stack.lastIndex)
+            }
+        }
+        return stack.isEmpty()
     }
 }
