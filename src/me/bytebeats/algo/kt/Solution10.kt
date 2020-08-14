@@ -1,6 +1,7 @@
 package me.bytebeats.algo.kt
 
 import me.bytebeats.algs.ds.TreeNode
+import kotlin.math.max
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -921,5 +922,31 @@ class Solution10 {
             }
         }
         return stack.isEmpty()
+    }
+
+    fun longestPalindrome(s: String): Int {//409
+        val counts = IntArray(52)
+        for (c in s) {
+            if (c >= 'a') {
+                counts[c - 'a' + 26] += 1
+            } else {
+                counts[c - 'A'] += 1
+            }
+        }
+        var evenSum = 0
+        var oddSum = 0
+        var oddCount = 0
+        for (count in counts) {
+            if (count and 1 == 0) {
+                evenSum += count
+            } else {
+                oddCount += 1
+                oddSum += count
+            }
+        }
+        if (oddCount > 0) {
+            oddSum -= oddCount - 1
+        }
+        return evenSum + oddSum
     }
 }
