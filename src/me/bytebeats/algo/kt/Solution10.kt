@@ -949,4 +949,32 @@ class Solution10 {
         }
         return evenSum + oddSum
     }
+
+    fun eraseOverlapIntervals(intervals: Array<IntArray>): Int {//435
+        if (intervals.isEmpty()) return 0
+        intervals.sortWith(Comparator { o1, o2 -> o1[0] - o2[0] })
+        var prev = 0
+        var count = 0
+        for (i in 1 until intervals.size) {
+            if (intervals[prev][1] > intervals[i][0]) {
+                if (intervals[prev][1] > intervals[i][1]) {
+                    prev = i
+                }
+                count += 1
+            } else {
+                prev = i
+            }
+        }
+        return count
+    }
+
+    fun threeConsecutiveOdds(arr: IntArray): Boolean {//5185, 1550
+        if (arr.size < 3) return false
+        for (i in 0 until arr.size - 2) {
+            if (arr[i] and 1 == 1 && arr[i + 1] and 1 == 1 && arr[i + 2] and 1 == 1) {
+                return true
+            }
+        }
+        return false
+    }
 }

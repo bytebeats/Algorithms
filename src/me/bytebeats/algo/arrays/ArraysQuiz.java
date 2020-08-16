@@ -1313,4 +1313,37 @@ public class ArraysQuiz {
         }
         return new int[]{cp[0], cp[1]};
     }
+
+    public int maxProfit1(int[] prices) {//123
+        // 特判
+        int len = prices.length;
+        if (len < 2) {
+            return 0;
+        }
+
+        // [0, left] 包括 left 这个区间完成一次交易能够获得的最大利润
+        int[] left = new int[len];
+        int minVal = prices[0];
+        for (int i = 1; i < len; i++) {
+            left[i] = Math.max(left[i - 1], prices[i] - minVal);
+            minVal = Math.min(minVal, prices[i]);
+        }
+
+        // [right, len - 1] 包括 left 这个区间完成一次交易能够获得的最大利润
+        int[] right = new int[len];
+        int maxVal = prices[len - 1];
+        for (int i = len - 2; i >= 0; i--) {
+            right[i] = Math.max(right[i + 1], maxVal - prices[i]);
+            maxVal = Math.max(maxVal, prices[i]);
+        }
+
+        // 枚举间隙
+        // [0, 1[, 2, 3,] 4, 5]
+        // 这里有一个坑，有可能是只交易一次的场景
+        int res = Math.max(left[len - 1], right[0]);
+        for (int i = 1; i < len - 2; i++) {
+            res = Math.max(res, left[i] + right[i + 1]);
+        }
+        return res;
+    }
 }
