@@ -756,7 +756,7 @@ class Solution {
         A.sort(0, m + n)
     }
 
-    fun isBalanced(root: TreeNode?): Boolean {
+    fun isBalanced(root: TreeNode?): Boolean {//110
         if (root == null) {
             return true
         } else if (root.left == null && root.right == null) {
@@ -1453,7 +1453,7 @@ class Solution {
         }
     }
 
-    fun isBalanced2(root: TreeNode?): Boolean {
+    fun isBalanced2(root: TreeNode?): Boolean {//110
         if (root == null) {
             return true
         } else if (root.left == null && root.right == null) {
