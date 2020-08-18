@@ -1,5 +1,8 @@
 package me.bytebeats.algo.dp;
 
+import java.util.Set;
+import java.util.HashSet;
+
 public class DPQuiz {
     public int findPeakElement(int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -118,7 +121,7 @@ public class DPQuiz {
                     j = mid - 1;
                 }
             } else {
-                if (mid < nums.length -1 && nums[mid + 1] > target) {
+                if (mid < nums.length - 1 && nums[mid + 1] > target) {
                     return mid + 1;
                 } else {
                     i = mid + 1;
@@ -126,5 +129,33 @@ public class DPQuiz {
             }
         }
         return 0;
+    }
+
+    public int[] numsSameConsecDiff(int N, int K) {//967
+        Set<Integer> cur = new HashSet();
+        for (int i = 1; i <= 9; ++i)
+            cur.add(i);
+
+        for (int steps = 1; steps <= N - 1; ++steps) {
+            Set<Integer> cur2 = new HashSet();
+            for (int x : cur) {
+                int d = x % 10;
+                if (d - K >= 0)
+                    cur2.add(10 * x + (d - K));
+                if (d + K <= 9)
+                    cur2.add(10 * x + (d + K));
+            }
+
+            cur = cur2;
+        }
+
+        if (N == 1)
+            cur.add(0);
+
+        int[] ans = new int[cur.size()];
+        int t = 0;
+        for (int x : cur)
+            ans[t++] = x;
+        return ans;
     }
 }

@@ -863,7 +863,7 @@ class Solution {
         return ans
     }
 
-    fun distributeCandies(candies: Int, num_people: Int): IntArray {
+    fun distributeCandies(candies: Int, num_people: Int): IntArray {//1103
         val arr = IntArray(num_people)
         var left = candies
         var index = 0
