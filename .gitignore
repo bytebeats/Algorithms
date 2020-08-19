@@ -54,3 +54,18 @@ hs_err_pid*
 hs_err_pid*
 
 .idea/shelf/
+.idea
+.idea/$PRODUCT_WORKSPACE_FILE$
+.idea/.gitignore
+.idea/Algorithms.iml
+.idea/androidDexCompiler.xml
+.idea/codeStyles/
+.idea/compiler.xml
+.idea/kotlinc.xml
+.idea/libraries/
+.idea/misc.xml
+.idea/modules.xml
+.idea/sbt.xml
+.idea/scala_settings.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
