@@ -775,7 +775,7 @@ class Solution2 {
         return ans
     }
 
-    fun toGoatLatin(S: String): String {
+    fun toGoatLatin(S: String): String {//824
         val ans = StringBuilder()
         val words = S.split(" ")
         words.forEachIndexed { index, s ->
@@ -802,7 +802,7 @@ class Solution2 {
 
     private fun startWithVowel(s: String): Boolean {
         val ch = s.first()
-        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U'
     }
 
     fun largeGroupPositions(S: String): List<List<Int>> {
