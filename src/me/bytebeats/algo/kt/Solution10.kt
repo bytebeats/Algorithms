@@ -977,4 +977,72 @@ class Solution10 {
         }
         return false
     }
+
+    fun minDepth(root: TreeNode?): Int {//111
+        var minDepth = 0
+        if (root != null) {
+            val q = mutableListOf<TreeNode>()
+            q.add(root)
+            var cur = 0
+            var countDown = 1
+            var p = root
+            minDepth += 1
+            while (q.isNotEmpty()) {
+                p = q.removeAt(0)
+                if (p.left == null && p.right == null) {
+                    return minDepth
+                }
+                countDown -= 1
+                if (p.left != null) {
+                    q.add(p.left)
+                    cur += 1
+                }
+                if (p.right != null) {
+                    q.add(p.right)
+                    cur += 1
+                }
+                if (countDown == 0) {
+                    minDepth += 1
+                    countDown = cur
+                    cur = 0
+                }
+            }
+        }
+        return minDepth
+    }
+
+    fun rangeBitwiseAnd(m: Int, n: Int): Int {//201
+        var ans = n
+        while (ans > m) {
+            ans = ans and (ans - 1)
+        }
+        return ans
+    }
+
+    fun hammingDistance(x: Int, y: Int): Int {//461
+        var xx = x
+        var yy = y
+        var ans = 0
+        while (xx != 0 || yy != 0) {
+            ans += (xx and 1) xor (yy and 1)
+            xx = xx shr 1
+            yy = yy shr 1
+        }
+        return ans
+    }
+
+    fun thousandSeparator(n: Int): String {//5479, 1556
+        val ans = StringBuilder()
+        val src = n.toString().reversed()
+        var three = 3
+        for (i in src.indices) {
+            three -= 1
+            ans.append(src[i])
+            if (three == 0 && src[i].isDigit() && i != src.lastIndex) {
+                ans.append(".")
+                three = 3
+            }
+        }
+        return ans.reverse().toString()
+    }
 }
