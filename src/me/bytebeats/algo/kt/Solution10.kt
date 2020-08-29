@@ -145,18 +145,18 @@ class Solution10 {
 
     fun reformatDate(date: String): String {//1507
         val months = mapOf(
-                "Jan" to 1,
-                "Feb" to 2,
-                "Mar" to 3,
-                "Apr" to 4,
-                "May" to 5,
-                "Jun" to 6,
-                "Jul" to 7,
-                "Aug" to 8,
-                "Sep" to 9,
-                "Oct" to 10,
-                "Nov" to 11,
-                "Dec" to 12
+            "Jan" to 1,
+            "Feb" to 2,
+            "Mar" to 3,
+            "Apr" to 4,
+            "May" to 5,
+            "Jun" to 6,
+            "Jul" to 7,
+            "Aug" to 8,
+            "Sep" to 9,
+            "Oct" to 10,
+            "Nov" to 11,
+            "Dec" to 12
         )
         val strs = date.split(" ")
         var d = strs[0].substring(0, strs[0].length - 2)
@@ -405,12 +405,12 @@ class Solution10 {
     }
 
     private fun dfs(
-            s: String,
-            end: Int,
-            wordSet: Set<String>,
-            ans: MutableList<String>,
-            q: MutableList<String>,
-            dp: BooleanArray
+        s: String,
+        end: Int,
+        wordSet: Set<String>,
+        ans: MutableList<String>,
+        q: MutableList<String>,
+        dp: BooleanArray
     ) {
         if (wordSet.contains(s.substring(0, end + 1))) {
             q.add(0, s.substring(0, end + 1))
@@ -850,14 +850,14 @@ class Solution10 {
 
     fun letterCombinations(digits: String): List<String> {//17
         val map = mapOf(
-                '2' to charArrayOf('a', 'b', 'c'),
-                '3' to charArrayOf('d', 'e', 'f'),
-                '4' to charArrayOf('g', 'h', 'i'),
-                '5' to charArrayOf('j', 'k', 'l'),
-                '6' to charArrayOf('m', 'n', 'o'),
-                '7' to charArrayOf('p', 'q', 'r', 's'),
-                '8' to charArrayOf('t', 'u', 'v'),
-                '9' to charArrayOf('w', 'x', 'y', 'z')
+            '2' to charArrayOf('a', 'b', 'c'),
+            '3' to charArrayOf('d', 'e', 'f'),
+            '4' to charArrayOf('g', 'h', 'i'),
+            '5' to charArrayOf('j', 'k', 'l'),
+            '6' to charArrayOf('m', 'n', 'o'),
+            '7' to charArrayOf('p', 'q', 'r', 's'),
+            '8' to charArrayOf('t', 'u', 'v'),
+            '9' to charArrayOf('w', 'x', 'y', 'z')
         )
         val ans = mutableListOf<String>()
         for (d in digits) {
@@ -1063,5 +1063,74 @@ class Solution10 {
             ans.add(list)
         }
         return ans.distinctBy { it.joinToString() }.filter { it.size > 1 }
+    }
+
+    fun shortestPalindrome(s: String): String {//214
+        var maxIdx = 0
+        for (i in s.lastIndex downTo 0) {
+            if (isPalindrome(s, i)) {
+                maxIdx = i
+                break
+            }
+        }
+        val ans = StringBuilder()
+        for (j in maxIdx + 1 until s.length) {
+            ans.append(s[j])
+        }
+        ans.reverse()
+        ans.append(s)
+        return ans.toString()
+    }
+
+    private fun isPalindrome(s: String, end: Int): Boolean {
+        var i = 0
+        var j = end
+        while (i < j) {
+            if (s[i] != s[j]) {
+                return false
+            }
+            i += 1
+            j -= 1
+        }
+        return true
+    }
+
+    fun pancakeSort(A: IntArray): List<Int> {//969
+        val ans = mutableListOf<Int>()
+        var idx = A.lastIndex
+        while (idx >= 0) {
+            val idxOfMax = findIdxOfMax(A, idx)
+            if (idxOfMax != idx) {
+                ans.add(idxOfMax + 1)
+                ans.add(idx + 1)
+                pancake(A, idxOfMax)
+                pancake(A, idx)
+            }
+            idx -= 1
+        }
+        return ans
+    }
+
+    private fun pancake(A: IntArray, end: Int) {
+        var i = 0
+        var j = end
+        var tmp = 0
+        while (i < j) {
+            tmp = A[i]
+            A[i] = A[j]
+            A[j] = tmp
+            i += 1
+            j -= 1
+        }
+    }
+
+    private fun findIdxOfMax(A: IntArray, end: Int): Int {
+        var idxOfMax = end
+        for (i in 0 until end) {
+            if (A[i] > A[idxOfMax]) {
+                idxOfMax = i
+            }
+        }
+        return idxOfMax
     }
 }

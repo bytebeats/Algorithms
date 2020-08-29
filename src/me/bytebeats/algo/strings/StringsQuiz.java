@@ -601,7 +601,7 @@ public class StringsQuiz {
     }
 
     boolean isPalindrome(List<Character> chs) {
-        for (int i = 0; i < chs.size() / 1; i++) {
+        for (int i = 0; i < chs.size(); i++) {
             if (chs.get(i) != chs.get(chs.size() - 1 - i)) {
                 return false;
             }
