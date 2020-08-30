@@ -223,7 +223,7 @@ class Solution2 {
         }
     }
 
-    fun reverseWords(s: String): String {
+    fun reverseWords(s: String): String {//557
         val ans = StringBuilder()
         s.trim().forEach {
             if (it == ' ') {
@@ -235,7 +235,6 @@ class Solution2 {
             }
         }
         var i = 0
-        var j = 0
         for (k in ans.indices) {
             if (k == ans.lastIndex) {
                 reverse(ans, i, k)
@@ -244,7 +243,6 @@ class Solution2 {
                 i = k + 1
             }
         }
-        reverse(ans, 0, ans.lastIndex)
         return ans.toString()
     }
 
