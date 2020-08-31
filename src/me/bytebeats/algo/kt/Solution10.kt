@@ -1149,4 +1149,38 @@ class Solution10 {
         }
         return visited.size == rooms.size
     }
+
+    fun deleteNode(root: TreeNode?, key: Int): TreeNode? {//450
+        if (root == null) return null
+        if (root.`val` > key) {
+            root.left = deleteNode(root.left, key)
+            return root
+        } else if (root.`val` < key) {
+            root.right = deleteNode(root.right, key)
+            return root
+        } else {
+            var p = root.left ?: return root.right
+            while (p.right != null) {
+                p = p.right
+            }
+            p.right = root.right
+            return root.left
+        }
+    }
+
+    fun containsPattern(arr: IntArray, m: Int, k: Int): Boolean {//1566
+        if (m * k <= arr.size) {
+            for (i in 0..arr.size - m * k) {
+                val sub = arr.copyOfRange(i, i + m).joinToString()
+                var cnt = 0
+                while (arr.copyOfRange(i + m * cnt, i + m * cnt + m).joinToString() == sub) {
+                    cnt += 1
+                    if (cnt >= k) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
 }
