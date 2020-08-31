@@ -1,7 +1,6 @@
 package me.bytebeats.algo.kt
 
 import me.bytebeats.algs.ds.TreeNode
-import kotlin.math.max
 
 class Solution10 {
     class Node(val `val`: Int) {
@@ -1132,5 +1131,22 @@ class Solution10 {
             }
         }
         return idxOfMax
+    }
+
+    fun canVisitAllRooms(rooms: List<List<Int>>): Boolean {//841
+        val visited = mutableSetOf<Int>()
+        val inRooms = mutableListOf<Int>()
+        inRooms.add(0)
+        visited.add(0)
+        while (inRooms.isNotEmpty()) {
+            val curKeys = rooms[inRooms.removeAt(0)]
+            for (key in curKeys) {
+                if (!visited.contains(key)) {
+                    inRooms.add(key)
+                    visited.add(key)
+                }
+            }
+        }
+        return visited.size == rooms.size
     }
 }
