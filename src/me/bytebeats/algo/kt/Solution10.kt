@@ -1183,4 +1183,29 @@ class Solution10 {
         }
         return false
     }
+
+    fun PredictTheWinner(nums: IntArray): Boolean {//486
+        return total(nums, 0, nums.lastIndex, 1) >= 0
+    }
+
+    private fun total(nums: IntArray, start: Int, end: Int, turn: Int): Int {
+        if (start == end) return nums[start] * turn
+        val scoreStart = nums[start] * turn + total(nums, start + 1, end, -turn)
+        val scoreEnd = nums[end] * turn + total(nums, start, end - 1, -turn)
+        return (scoreStart * turn).coerceAtLeast(scoreEnd * turn) * turn
+    }
+
+    fun largestTimeFromDigits(A: IntArray): String {//949
+        var ans = -1
+        //choose i, j, k, l as a permutation of 0, 1, 2, 3
+        for (i in 0 until 4) for (j in 0 until 4) if (i != j) for (k in 0 until 4) if (k != i && k != j) {
+            val l = 6 - i - j - k
+            val hours = 10 * A[i] + A[j]
+            val mins = 10 * A[k] + A[l]
+            if (hours < 24 && mins < 60) {
+                ans = ans.coerceAtLeast(hours * 60 + mins)
+            }
+        }
+        return if (ans >= 0) "%02d:%02d".format(ans / 60, ans % 60) else ""
+    }
 }
