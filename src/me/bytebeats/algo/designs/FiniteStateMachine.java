@@ -1,8 +1,12 @@
-package me.bytebeats.alog.designs;
+package me.bytebeats.algo.designs;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FiniteStateMachine {//剑指 offer 20
+
     public boolean isNumber(String s) {
-        Map<State, Map<CharType, State>> transfer = new HashMap<State, Map<CharType, State>>();
+        Map<State, Map<CharType, State>> transfer = new HashMap<>();
         Map<CharType, State> initialMap = new HashMap<CharType, State>() {{
             put(CharType.CHAR_SPACE, State.STATE_INITIAL);
             put(CharType.CHAR_NUMBER, State.STATE_INTEGER);
