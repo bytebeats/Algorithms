@@ -112,23 +112,7 @@ class Solution3 {
         return ans.toString()
     }
 
-    fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {
-        if (nums.size == 0 || k < 1) {
-            return false
-        }
-        var count = k
-        while (count > 0) {
-            for (i in count until nums.size) {
-                if (Math.abs(nums[i] - nums[i - count]) <= t) {
-                    return true
-                }
-            }
-            count--
-        }
-        return false
-    }
-
-    fun containsNearbyAlmostDuplicate1(nums: IntArray, k: Int, t: Int): Boolean {
+    fun containsNearbyAlmostDuplicate(nums: IntArray, k: Int, t: Int): Boolean {//220
         val set = sortedSetOf<Int>()
         for (i in nums.indices) {
             val s = set.ceiling(nums[i])

@@ -26,7 +26,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 486, 949." />
+    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Readded project config files">
+      <change afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/designs/DeterministicFiniteStateMachine.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/me/bytebeats/algo/designs/FiniteStateMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/designs/FiniteStateMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/me/bytebeats/algo/kt/Solution3.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/kt/Solution3.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,8 +50,8 @@
         <option value="Kotlin File" />
         <option value="Interface" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
         <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -164,13 +169,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574048365003</updated>
-    </task>
-    <task id="LOCAL-00096" summary="Problems: 976, 504, 129, 812.">
-      <created>1593161910954</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1593161910954</updated>
     </task>
     <task id="LOCAL-00097" summary="Problems: 41.">
       <created>1593324939814</created>
@@ -508,7 +506,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598947128103</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="Readded project config files">
+      <created>1599016203192</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1599016203192</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -536,7 +541,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Problems: 309." />
     <MESSAGE value="Problems: 08.03, 140." />
     <MESSAGE value="Problems: 632." />
     <MESSAGE value="Problems: 859." />
@@ -561,7 +565,8 @@
     <MESSAGE value="Problems: 841." />
     <MESSAGE value="Problems: 450, 1566." />
     <MESSAGE value="Problems: 486, 949." />
-    <option name="LAST_COMMIT_MESSAGE" value="Problems: 486, 949." />
+    <MESSAGE value="Readded project config files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Readded project config files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="-580" y="-873" width="811" height="669" key="#Project_Structure" timestamp="1596621433782">
@@ -588,6 +593,10 @@
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
     <state x="-330" y="-693" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1596621345695" />
+    <state x="-983" y="-957" width="1720" height="857" key="DiffContextDialog" timestamp="1599034291365">
+      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    </state>
+    <state x="-983" y="-957" width="1720" height="857" key="DiffContextDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599034291365" />
     <state width="939" height="281" key="GridCell.Tab.0.bottom" timestamp="1597404331376">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
@@ -627,13 +636,13 @@
     <state x="-584" y="-943" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598587927677" />
     <state x="-584" y="-964" width="1081" height="722" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595562492851" />
     <state x="-609" y="-927" width="1012" height="792" key="SettingsEditor/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595562323962" />
-    <state x="-523" y="-788" key="Vcs.Push.Dialog.v2" timestamp="1598947133239">
+    <state x="-523" y="-788" key="Vcs.Push.Dialog.v2" timestamp="1599016206629">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
     <state x="320" y="-806" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-240.-1080.1920.1080@-240.-1080.1920.1080" timestamp="1590833113045" />
     <state x="490" y="266" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1595605586133" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1598778495140" />
-    <state x="-523" y="-788" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598947133239" />
+    <state x="-523" y="-788" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599016206629" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1597200417927" />
     <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595509500723" />
     <state x="-365" y="-610" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598413517382">
@@ -644,12 +653,16 @@
     <state x="628" y="457" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1597200100726" />
     <state x="-365" y="-624" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595214098425" />
     <state x="-365" y="-624" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595558840625" />
-    <state x="-443" y="-772" width="652" height="505" key="find.popup" timestamp="1598946596926">
+    <state x="-1083" y="-1057" width="764" height="1057" key="dock-window-1" timestamp="1599040217574">
+      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    </state>
+    <state x="-1083" y="-1057" width="764" height="1057" key="dock-window-1/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040217574" />
+    <state x="-443" y="-772" width="652" height="505" key="find.popup" timestamp="1599037741747">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
     <state x="560" y="283" width="571" height="498" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1595419667668" />
     <state x="560" y="300" width="576" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1598772956935" />
-    <state x="-443" y="-772" width="652" height="505" key="find.popup/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598946596926" />
+    <state x="-443" y="-772" width="652" height="505" key="find.popup/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599037741747" />
     <state x="-443" y="-789" width="652" height="512" key="find.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595491144403" />
     <state x="-700" y="-837" key="new project wizard" timestamp="1596620271662">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
