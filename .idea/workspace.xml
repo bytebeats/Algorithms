@@ -26,11 +26,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: offer 20.">
-      <change afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/kt/Solution11.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Algorithms.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Algorithms.iml" afterDir="false" />
-    </list>
+    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 50." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,13 +164,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574048365003</updated>
-    </task>
-    <task id="LOCAL-00098" summary="Problems: 332.">
-      <created>1593343244266</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1593343244267</updated>
     </task>
     <task id="LOCAL-00099" summary="Problems: 1496, 1497.">
       <created>1593344688322</created>
@@ -512,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599040949150</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="Problems: 50.">
+      <created>1599103943459</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1599103943459</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -540,7 +536,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Problems: 632." />
     <MESSAGE value="Problems: 859." />
     <MESSAGE value="update project structure." />
     <MESSAGE value="Problems: 925, 942, 944." />
@@ -565,7 +560,8 @@
     <MESSAGE value="Problems: 486, 949." />
     <MESSAGE value="Readded project config files" />
     <MESSAGE value="Problems: offer 20." />
-    <option name="LAST_COMMIT_MESSAGE" value="Problems: offer 20." />
+    <MESSAGE value="Problems: 50." />
+    <option name="LAST_COMMIT_MESSAGE" value="Problems: 50." />
   </component>
   <component name="WindowStateProjectService">
     <state x="-580" y="-873" width="811" height="669" key="#Project_Structure" timestamp="1596621433782">
@@ -635,15 +631,15 @@
     <state x="-584" y="-943" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598587927677" />
     <state x="-584" y="-964" width="1081" height="722" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599102423351" />
     <state x="-609" y="-927" width="1012" height="792" key="SettingsEditor/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595562323962" />
-    <state x="-523" y="-788" key="Vcs.Push.Dialog.v2" timestamp="1599040952768">
-      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2" timestamp="1599103945952">
+      <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="320" y="-806" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-240.-1080.1920.1080@-240.-1080.1920.1080" timestamp="1590833113045" />
     <state x="490" y="266" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1595605586133" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1598778495140" />
     <state x="-523" y="-788" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040952768" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1597200417927" />
-    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595509500723" />
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599103945952" />
     <state x="-365" y="-610" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598413517382">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
