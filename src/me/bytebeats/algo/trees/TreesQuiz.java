@@ -60,7 +60,7 @@ public class TreesQuiz {
         return root;
     }
 
-    public List<String> binaryTreePaths(TreeNode root) {
+    public List<String> binaryTreePaths(TreeNode root) {//257
         List<String> list = new ArrayList<>();
         bfs(list, "", root);
         return list;

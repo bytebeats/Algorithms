@@ -26,7 +26,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 50." />
+    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 50.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/me/bytebeats/algo/trees/TreesQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/trees/TreesQuiz.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -164,13 +167,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574048365003</updated>
-    </task>
-    <task id="LOCAL-00099" summary="Problems: 1496, 1497.">
-      <created>1593344688322</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1593344688322</updated>
     </task>
     <task id="LOCAL-00100" summary="Problems: 718.">
       <created>1593574716455</created>
@@ -508,7 +504,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599103943459</updated>
     </task>
-    <option name="localTasksCounter" value="148" />
+    <task id="LOCAL-00148" summary="Problems: 50.">
+      <created>1599103996076</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1599103996076</updated>
+    </task>
+    <option name="localTasksCounter" value="149" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -618,12 +621,12 @@
     <state x="-700" y="-950" key="MergeDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1595944286277" />
     <state x="335" y="127" key="MergeDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1593324966139" />
     <state x="-700" y="-971" key="MergeDialog/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1594816504040" />
-    <state x="-232" y="-652" width="443" height="252" key="MultipleFileMergeDialog" timestamp="1595944286328">
-      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    <state x="-232" y="-666" width="443" height="252" key="MultipleFileMergeDialog" timestamp="1599104014835">
+      <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="-232" y="-652" width="443" height="252" key="MultipleFileMergeDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1595944286328" />
     <state x="745" y="417" width="443" height="252" key="MultipleFileMergeDialog/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1593324966194" />
-    <state x="-232" y="-666" width="407" height="252" key="MultipleFileMergeDialog/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1594816504080" />
+    <state x="-232" y="-666" width="407" height="252" key="MultipleFileMergeDialog/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599104014835" />
     <state x="-584" y="-964" width="1012" height="792" key="SettingsEditor" timestamp="1599102423351">
       <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
@@ -631,7 +634,7 @@
     <state x="-584" y="-943" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598587927677" />
     <state x="-584" y="-964" width="1081" height="722" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599102423351" />
     <state x="-609" y="-927" width="1012" height="792" key="SettingsEditor/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595562323962" />
-    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2" timestamp="1599103945952">
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2" timestamp="1599104023753">
       <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="320" y="-806" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-240.-1080.1920.1080@-240.-1080.1920.1080" timestamp="1590833113045" />
@@ -639,7 +642,7 @@
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1598778495140" />
     <state x="-523" y="-788" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040952768" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1597200417927" />
-    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599103945952" />
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599104023753" />
     <state x="-365" y="-610" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598413517382">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
@@ -652,13 +655,13 @@
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
     <state x="-1083" y="-1057" width="764" height="1057" key="dock-window-1/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040217574" />
-    <state x="-443" y="-772" width="652" height="505" key="find.popup" timestamp="1599037741747">
-      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    <state x="-443" y="-789" width="652" height="512" key="find.popup" timestamp="1599191173152">
+      <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="560" y="283" width="571" height="498" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1595419667668" />
     <state x="560" y="300" width="576" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1598772956935" />
     <state x="-443" y="-772" width="652" height="505" key="find.popup/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599037741747" />
-    <state x="-443" y="-789" width="652" height="512" key="find.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595491144403" />
+    <state x="-443" y="-789" width="652" height="512" key="find.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599191173152" />
     <state x="-700" y="-837" key="new project wizard" timestamp="1596620271662">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
