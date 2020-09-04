@@ -61,4 +61,22 @@ class Solution11 {
         }
         return board
     }
+
+    fun partitionLabels(S: String): List<Int> {//763
+        val last = IntArray(26)
+        for (i in S.indices) {
+            last[S[i] - 'a'] = i
+        }
+        val ans = mutableListOf<Int>()
+        var j = 0
+        var anchor = 0
+        for (i in S.indices) {
+            j = j.coerceAtLeast(last[S[i] - 'a'])
+            if (i == j) {
+                ans.add(i - anchor + 1)
+                anchor = i + 1
+            }
+        }
+        return ans
+    }
 }
