@@ -26,9 +26,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 50.">
+    <list default="true" id="a5cdfe35-f0dd-4991-ae18-3d73a85586a3" name="Default Changelist" comment="Problems: 257.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/me/bytebeats/algo/trees/TreesQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/trees/TreesQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/me/bytebeats/algo/kt/Solution11.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/me/bytebeats/algo/kt/Solution11.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,13 +167,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574048365003</updated>
-    </task>
-    <task id="LOCAL-00100" summary="Problems: 718.">
-      <created>1593574716455</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1593574716456</updated>
     </task>
     <task id="LOCAL-00101" summary="Problems: 120, 1395, 661, 280.">
       <created>1593604171320</created>
@@ -511,7 +504,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599103996076</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="Problems: 257.">
+      <created>1599206663619</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1599206663620</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -539,7 +539,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Problems: 859." />
     <MESSAGE value="update project structure." />
     <MESSAGE value="Problems: 925, 942, 944." />
     <MESSAGE value="Added gitignore file." />
@@ -564,7 +563,8 @@
     <MESSAGE value="Readded project config files" />
     <MESSAGE value="Problems: offer 20." />
     <MESSAGE value="Problems: 50." />
-    <option name="LAST_COMMIT_MESSAGE" value="Problems: 50." />
+    <MESSAGE value="Problems: 257." />
+    <option name="LAST_COMMIT_MESSAGE" value="Problems: 257." />
   </component>
   <component name="WindowStateProjectService">
     <state x="-580" y="-873" width="811" height="669" key="#Project_Structure" timestamp="1596621433782">
@@ -634,7 +634,7 @@
     <state x="-584" y="-943" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598587927677" />
     <state x="-584" y="-964" width="1081" height="722" key="SettingsEditor/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599102423351" />
     <state x="-609" y="-927" width="1012" height="792" key="SettingsEditor/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1595562323962" />
-    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2" timestamp="1599104023753">
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2" timestamp="1599206666165">
       <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="320" y="-806" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-240.-1080.1920.1080@-240.-1080.1920.1080" timestamp="1590833113045" />
@@ -642,6 +642,7 @@
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1598778495140" />
     <state x="-523" y="-788" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040952768" />
     <state x="490" y="284" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@0.23.1680.1027" timestamp="1597200417927" />
+    <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1057.1920.1057/0.23.1680.1027/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599206666165" />
     <state x="-523" y="-806" key="Vcs.Push.Dialog.v2/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599104023753" />
     <state x="-365" y="-610" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1598413517382">
       <screen x="-1083" y="-1057" width="1920" height="1057" />
@@ -655,11 +656,11 @@
       <screen x="-1083" y="-1057" width="1920" height="1057" />
     </state>
     <state x="-1083" y="-1057" width="764" height="1057" key="dock-window-1/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599040217574" />
-    <state x="-443" y="-789" width="652" height="512" key="find.popup" timestamp="1599191173152">
-      <screen x="-1083" y="-1080" width="1920" height="1080" />
+    <state x="560" y="300" width="576" height="490" key="find.popup" timestamp="1599235403390">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="560" y="283" width="571" height="498" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1595419667668" />
-    <state x="560" y="300" width="576" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1598772956935" />
+    <state x="560" y="300" width="576" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599235403390" />
     <state x="-443" y="-772" width="652" height="505" key="find.popup/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1599037741747" />
     <state x="-443" y="-789" width="652" height="512" key="find.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1599191173152" />
     <state x="-700" y="-837" key="new project wizard" timestamp="1596620271662">
@@ -671,11 +672,11 @@
       <screen x="-1083" y="-1080" width="1920" height="1080" />
     </state>
     <state x="-458" y="-284" key="run.anything.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1590660776545" />
-    <state x="-458" y="-821" width="766" height="662" key="search.everywhere.popup" timestamp="1598847389501">
-      <screen x="-1083" y="-1057" width="1920" height="1057" />
+    <state x="547" y="252" width="670" height="643" key="search.everywhere.popup" timestamp="1599235570006">
+      <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="385" y="-839" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050/-240.-1080.1920.1080@-240.-1080.1920.1080" timestamp="1590821298494" />
-    <state x="547" y="252" width="670" height="643" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1596882149883" />
+    <state x="547" y="252" width="670" height="643" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599235570006" />
     <state x="-458" y="-821" width="766" height="662" key="search.everywhere.popup/837.-1057.1920.1057/0.23.1680.1027/-1083.-1057.1920.1057@-1083.-1057.1920.1057" timestamp="1598847389501" />
     <state x="-458" y="-839" width="670" height="676" key="search.everywhere.popup/837.-1080.1920.1080/0.0.1680.1050/-1083.-1080.1920.1080@-1083.-1080.1920.1080" timestamp="1594966589493" />
   </component>
