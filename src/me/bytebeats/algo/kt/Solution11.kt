@@ -1,5 +1,7 @@
 package me.bytebeats.algo.kt
 
+import me.bytebeats.algs.ds.TreeNode
+
 /**
  * @author bytebeats
  * @email <happychinapc@gmail.com>
@@ -78,5 +80,25 @@ class Solution11 {
             }
         }
         return ans
+    }
+
+    fun getAllElements(root1: TreeNode?, root2: TreeNode?): List<Int> {//1305
+        val list1 = mutableListOf<Int>()
+        convertTree2List(root1, list1)
+        val list2 = mutableListOf<Int>()
+        convertTree2List(root2, list2)
+        list1.addAll(list2)
+        return list1.sorted()
+    }
+
+    private fun convertTree2List(root: TreeNode?, list: MutableList<Int>) {
+        if (root == null) return
+        if (root.left != null) {
+            convertTree2List(root.left, list)
+        }
+        list.add(root.`val`)
+        if (root.right != null) {
+            convertTree2List(root.right, list)
+        }
     }
 }

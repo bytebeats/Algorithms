@@ -914,7 +914,7 @@ public class TreesQuiz {
         return 0;
     }
 
-    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {//1305
         List<Integer> ans1 = new ArrayList<>();
         Stack<TreeNode> s = new Stack<>();
         TreeNode p = root1;
