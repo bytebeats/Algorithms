@@ -101,4 +101,85 @@ class Solution11 {
             convertTree2List(root.right, list)
         }
     }
+
+    fun diagonalSum(mat: Array<IntArray>): Int {//5491, 1561
+        var sum = 0
+        val n = mat.size
+        for (i in 0 until n) {
+            sum += mat[i][i]
+            sum += mat[i][n - i - 1]
+        }
+        if (n and 1 == 1) {
+            val idx = n shr 1
+            sum -= mat[idx][idx]
+        }
+        return sum
+    }
+
+    fun mostVisited(n: Int, rounds: IntArray): List<Int> {//1560
+        val ans = mutableListOf<Int>()
+        var start = rounds.first()
+        var end = rounds.last()
+        if (start <= end) {
+            for (i in start..end) {
+                ans.add(i)
+            }
+        } else {
+            for (i in 1..end) {
+                ans.add(i)
+            }
+            for (i in start..n) {
+                ans.add(i)
+            }
+        }
+        return ans
+    }
+
+    fun modifyString(s: String): String {//1576
+        val ans = StringBuilder(s)
+        for (i in s.indices) {
+            if (s[i] == '?') {
+                if (i == 0 && i == s.length - 1) {
+                    ans[i] = 'a'
+                } else if (i == 0) {
+                    if (s[i + 1] == '?') {
+                        ans[i] = 'a'
+                    } else {
+                        for (j in 'a'..'z') {
+                            if (j != s[i + 1]) {
+                                ans[i] = j
+                                break
+                            }
+                        }
+                    }
+                } else if (i == s.length - 1) {
+                    for (j in 'a'..'z') {
+                        if (j != ans[i - 1]) {
+                            ans[i] = j
+                            break
+                        }
+                    }
+                } else {
+                    if (s[i + 1] == '?') {
+                        for (j in 'a'..'z') {
+                            if (j != ans[i - 1]) {
+                                ans[i] = j
+                                break
+                            }
+                        }
+                    } else {
+                        for (j in 'a'..'z') {
+                            if (j != s[i + 1] && j != ans[i - 1]) {
+                                ans[i] = j
+                                break
+                            }
+                        }
+                    }
+                }
+            } else {
+                continue
+            }
+        }
+        return ans.toString()
+    }
 }
