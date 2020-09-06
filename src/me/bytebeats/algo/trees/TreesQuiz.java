@@ -319,7 +319,7 @@ public class TreesQuiz {
         return res;
     }
 
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {//107
         List<List<Integer>> res = new ArrayList<>();
         if (root != null) {
             Queue<TreeNode> queue = new LinkedList<>();
@@ -914,7 +914,7 @@ public class TreesQuiz {
         return 0;
     }
 
-    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {//1305
         List<Integer> ans1 = new ArrayList<>();
         Stack<TreeNode> s = new Stack<>();
         TreeNode p = root1;
