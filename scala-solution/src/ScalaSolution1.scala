@@ -1030,7 +1030,7 @@ object ScalaSolution1 {
         }
     }
 
-    def topKFrequent(nums: Array[Int], k: Int): Array[Int] = { //
+    def topKFrequent(nums: Array[Int], k: Int): Array[Int] = { //347
         val map = scala.collection.mutable.Map[Int, Int]()
         for (elem <- nums) {
             map(elem) = map.getOrElse(elem, 0) + 1
