@@ -182,4 +182,26 @@ class Solution11 {
         }
         return ans.toString()
     }
+
+    private val tmp = mutableListOf<Int>()
+    private val ans = mutableListOf<MutableList<Int>>()
+    fun combine(n: Int, k: Int): List<List<Int>> {//77
+        dfs(1, n, k)
+        return ans
+    }
+
+    private fun dfs(cur: Int, n: Int, k: Int) {
+        if (tmp.size + n - cur + 1 < k) return
+        if (tmp.size == k) {
+            val list = mutableListOf<Int>()
+            list.addAll(tmp)
+            ans.add(list)
+            return
+        }
+        tmp.add(cur)
+        dfs(cur + 1, n, k)
+        tmp.removeAt(tmp.lastIndex)
+        dfs(cur + 1, n, k)
+    }
+
 }
