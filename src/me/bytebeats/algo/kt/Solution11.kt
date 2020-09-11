@@ -204,4 +204,27 @@ class Solution11 {
         dfs(cur + 1, n, k)
     }
 
+    private val tmp1 = mutableListOf<Int>()
+    private val ans1 = mutableListOf<MutableList<Int>>()
+    fun combinationSum3(k: Int, n: Int): List<List<Int>> {//216
+        dfs(1, 9, k, n)
+        return ans1
+    }
+
+    private fun dfs(cur: Int, n: Int, k: Int, sum: Int) {
+        if (tmp1.size + n - cur + 1 < k || tmp1.size > k) return
+        if (tmp1.size == k) {
+            var tmpSum = tmp1.sum()
+            if (tmpSum == sum) {
+                val list = mutableListOf<Int>()
+                list.addAll(tmp1)
+                ans1.add(list)
+                return
+            }
+        }
+        tmp1.add(cur)
+        dfs(cur + 1, n, k, sum)
+        tmp1.removeAt(tmp1.lastIndex)
+        dfs(cur + 1, n, k, sum)
+    }
 }
