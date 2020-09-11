@@ -83,6 +83,70 @@ public class ArrayQuiz2 {
                 ans = Math.max(ans, v);
         return ans;
     }
+
+    List<int[]> freq = new ArrayList<>();
+    List<List<Integer>> ans = new ArrayList<>();
+    List<Integer> sequence = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {//40
+        Arrays.sort(candidates);
+        for (int num : candidates) {
+            int size = freq.size();
+            if (freq.isEmpty() || num != freq.get(size - 1)[0]) {
+                freq.add(new int[]{num, 1});
+            } else {
+                ++freq.get(size - 1)[1];
+            }
+        }
+        dfs(0, target);
+        return ans;
+    }
+
+    public void dfs(int pos, int rest) {
+        if (rest == 0) {
+            ans.add(new ArrayList<>(sequence));
+            return;
+        }
+        if (pos == freq.size() || rest < freq.get(pos)[0]) {
+            return;
+        }
+
+        dfs(pos + 1, rest);
+
+        int most = Math.min(rest / freq.get(pos)[0], freq.get(pos)[1]);
+        for (int i = 1; i <= most; ++i) {
+            sequence.add(freq.get(pos)[0]);
+            dfs(pos + 1, rest - i * freq.get(pos)[0]);
+        }
+        for (int i = 1; i <= most; ++i) {
+            sequence.remove(sequence.size() - 1);
+        }
+    }
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {//39
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> combine = new ArrayList<>();
+        dfs(candidates, target, ans, combine, 0);
+        return ans;
+    }
+
+    public void dfs(int[] candidates, int target, List<List<Integer>> ans, List<Integer> combine, int idx) {
+        if (idx == candidates.length) {
+            return;
+        }
+        if (target == 0) {
+            ans.add(new ArrayList<>(combine));
+            return;
+        }
+        // 直接跳过
+        dfs(candidates, target, ans, combine, idx + 1);
+        // 选择当前数
+        if (target - candidates[idx] >= 0) {
+            combine.add(candidates[idx]);
+            dfs(candidates, target - candidates[idx], ans, combine, idx);
+            combine.remove(combine.size() - 1);
+        }
+    }
 }
 
 class DSU {
