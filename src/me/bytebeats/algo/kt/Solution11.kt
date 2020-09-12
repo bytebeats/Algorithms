@@ -227,4 +227,134 @@ class Solution11 {
         tmp1.removeAt(tmp1.lastIndex)
         dfs(cur + 1, n, k, sum)
     }
+
+    fun calculate(s: String): Int {//lccd 1
+        var x = 1
+        var y = 0
+        for (c in s) {
+            if (c == 'A') {
+                x = 2 * x + y
+            } else {
+                y = 2 * y + x
+            }
+        }
+        return x + y
+
+    }
+
+    fun breakfastNumber(staple: IntArray, drinks: IntArray, x: Int): Int {//lccd 2
+        val mode = 1000000007
+        staple.sort()
+        drinks.sort()
+        var ans = 0
+        for (i in staple.indices) {
+            if (staple[i] + drinks.first() > x) {
+                break
+            } else if (staple[i] + drinks.last() <= x) {
+                ans = (ans + drinks.size) % mode
+            } else {
+                var s = 0
+                var e = drinks.lastIndex
+                var mid = 0
+                while (s < e) {
+                    mid = s + (e - s) / 2
+                    if (staple[i] + drinks[mid] > x) {
+                        while (mid > 0 && drinks[mid] == drinks[mid - 1]) {
+                            mid -= 1
+                        }
+                        e = mid
+                    } else {
+                        while (mid < drinks.lastIndex && drinks[mid] == drinks[mid + 1]) {
+                            mid += 1
+                        }
+                        s = mid + 1
+                    }
+                }
+                ans = (ans + s) % mode
+            }
+        }
+        return ans
+    }
+
+    fun minimumOperations(leaves: String): Int {//lccd 3
+        var ans = 0
+        val rys = mutableListOf<Char>()
+        val ryCounts = mutableListOf<Int>()
+        var ry = leaves.first()
+        var ryCount = 0
+        for (c in leaves) {
+            if (c == ry) {
+                ryCount += 1
+            } else {
+                rys.add(ry)
+                ryCounts.add(ryCount)
+                ry = c
+                ryCount = 1
+            }
+        }
+        if (rys.isEmpty() || rys.last() != ry) {
+            rys.add(ry)
+            ryCounts.add(ryCount)
+        }
+        if (rys.size == 1) return -1
+        if (rys.first() != rys.last()) {
+            if (rys.size == 2) return 1
+            if (rys.first() == 'r') {
+//                ans += ryCounts.last()
+                for (i in 1 until rys.size - 2) {
+                    if (rys[i] == 'r') {
+                        ans += ryCounts[i]
+                    }
+                }
+            } else {
+//                ans += ryCounts.first()
+                for (i in 2 until rys.size - 1) {
+                    if (rys[i] == 'r') {
+                        ans += ryCounts[i]
+                    }
+                }
+            }
+        } else {
+            for (i in 1 until rys.size - 1) {
+                if (rys[i] == 'r') {
+                    ans += ryCounts[i]
+                }
+            }
+        }
+        return ans
+    }
+
+    fun averageOfLevels(root: TreeNode?): DoubleArray {//637
+        val ans = mutableListOf<Double>()
+        if (root != null) {
+            val q = mutableListOf<TreeNode>()
+            q.add(root)
+            var countDown = 1
+            var preCount = countDown
+            var count = 0
+            var n: TreeNode? = null
+            var sum = 0.0
+            while (q.isNotEmpty()) {
+                n = q.removeAt(0)
+                countDown -= 1
+                sum += n.`val`
+                if (n.left != null) {
+                    count += 1
+                    q.add(n.left)
+                }
+                if (n.right != null) {
+                    count += 1
+                    q.add(n.right)
+                }
+                if (countDown == 0) {
+                    ans.add(sum / preCount)
+                    countDown = count
+                    count = 0
+                    sum = 0.0
+                    preCount = countDown
+                }
+            }
+        }
+        return ans.toDoubleArray()
+    }
 }
