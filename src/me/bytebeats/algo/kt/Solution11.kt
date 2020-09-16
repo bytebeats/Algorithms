@@ -23,13 +23,13 @@ class Solution11 {
     }
 
     private fun backtrack(
-        ans: MutableList<MutableList<String>>,
-        queens: IntArray,
-        n: Int,
-        row: Int,
-        columns: MutableSet<Int>,
-        diagonals1: MutableSet<Int>,
-        diagonals2: MutableSet<Int>
+            ans: MutableList<MutableList<String>>,
+            queens: IntArray,
+            n: Int,
+            row: Int,
+            columns: MutableSet<Int>,
+            diagonals1: MutableSet<Int>,
+            diagonals2: MutableSet<Int>
     ) {
         if (row == n) {
             val board = generateBoard(queens, n)
@@ -356,5 +356,26 @@ class Solution11 {
             }
         }
         return ans.toDoubleArray()
+    }
+
+    fun findMaximumXOR(nums: IntArray): Int {//421
+        val max = nums.max()
+        val l = max?.toString(2)?.length ?: 0
+        var maxXor = 0
+        var curXor = 0
+        val prefixes = mutableSetOf<Int>()
+        for (i in l - 1 downTo 0) {
+            maxXor = maxXor shl 1
+            curXor = maxXor or 1
+            prefixes.clear()
+            prefixes.addAll(nums.map { it shr i })
+            for (prefix in prefixes) {
+                if (prefixes.contains(curXor xor prefix)) {
+                    maxXor = curXor
+                    break
+                }
+            }
+        }
+        return maxXor
     }
 }
