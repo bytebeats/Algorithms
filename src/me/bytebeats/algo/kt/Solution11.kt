@@ -357,4 +357,18 @@ class Solution11 {
         }
         return ans.toDoubleArray()
     }
+
+    fun sequentialDigits(low: Int, high: Int): List<Int> {//1291
+        val ans = mutableListOf<Int>()
+        for (i in 1..9) {
+            var num = i
+            for (j in i + 1..9) {
+                num = num * 10 + j
+                if (num in low..high) {
+                    ans.add(num)
+                }
+            }
+        }
+        return ans.sorted()
+    }
 }
