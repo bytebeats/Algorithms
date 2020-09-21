@@ -23,13 +23,13 @@ class Solution11 {
     }
 
     private fun backtrack(
-            ans: MutableList<MutableList<String>>,
-            queens: IntArray,
-            n: Int,
-            row: Int,
-            columns: MutableSet<Int>,
-            diagonals1: MutableSet<Int>,
-            diagonals2: MutableSet<Int>
+        ans: MutableList<MutableList<String>>,
+        queens: IntArray,
+        n: Int,
+        row: Int,
+        columns: MutableSet<Int>,
+        diagonals1: MutableSet<Int>,
+        diagonals2: MutableSet<Int>
     ) {
         if (row == n) {
             val board = generateBoard(queens, n)
@@ -391,5 +391,77 @@ class Solution11 {
             }
         }
         return ans.sorted()
+    }
+
+    fun reorderSpaces(text: String): String {//1592
+        var space = text.count { it == ' ' }
+        val words = text.split("\\s+".toRegex()).filter { it.isNotEmpty() }
+        val ans = StringBuilder()
+        var span = 0
+        var suffix = 0
+        if (words.size == 1) {
+            span = 0
+            suffix = space
+        } else {
+            span = space / (words.size - 1)
+            suffix = space % (words.size - 1)
+        }
+        var tmp = 0
+        for (word in words) {
+            if (ans.isNotEmpty()) {
+                tmp = span
+                while (tmp > 0) {
+                    ans.append(' ')
+                    tmp -= 1
+                }
+            }
+            ans.append(word)
+        }
+        tmp = suffix
+        while (tmp > 0) {
+            ans.append(' ')
+            tmp -= 1
+        }
+        return ans.toString()
+    }
+
+    fun sumOddLengthSubarrays(arr: IntArray): Int {//1588
+        val n = arr.size
+        val odd = if (n and 1 == 0) n - 1 else n
+        var ans = 0
+        for (l in 1..odd step 2) {
+            for (i in 0..n - l) {
+                for (j in i until i + l) {
+                    ans += arr[j]
+                }
+            }
+        }
+        return ans
+    }
+
+    fun numSpecial(mat: Array<IntArray>): Int {//1582
+        val r = mat.size
+        val c = mat[0].size
+        var ans = 0
+        for (i in 0 until r) for (j in 0 until c) if (mat[i][j] == 1) {
+            var hS = true
+            for (k in 0 until r) {
+                if (k == i) continue
+                if (mat[k][j] == 1) {
+                    hS = false
+                    break
+                }
+            }
+            var vS = true
+            for (k in 0 until c) {
+                if (k == j) continue
+                if (mat[i][k] == 1) {
+                    vS = false
+                    break
+                }
+            }
+            if (hS && vS) ans += 1
+        }
+        return ans
     }
 }
