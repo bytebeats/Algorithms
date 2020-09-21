@@ -464,4 +464,30 @@ class Solution11 {
         }
         return ans
     }
+
+    fun convertBST(root: TreeNode?): TreeNode? {//538
+        if (root != null) {
+            val vals = mutableListOf<Int>()
+            vals(root, vals)
+            dfs(root, vals)
+        }
+        return root
+    }
+
+    private fun dfs(root: TreeNode?, vals: MutableList<Int>) {
+        if (root != null) {
+            root.`val` += vals.filter { it > root.`val` }.sum()
+            dfs(root.left, vals)
+            dfs(root.right, vals)
+        }
+    }
+
+    private fun vals(root: TreeNode?, vals: MutableList<Int>) {
+        if (root != null) {
+            vals.add(root.`val`)
+            vals(root.left, vals)
+            vals(root.right, vals)
+        }
+    }
+
 }
