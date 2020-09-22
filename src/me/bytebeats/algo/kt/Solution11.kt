@@ -490,4 +490,20 @@ class Solution11 {
         }
     }
 
+    fun minCameraCover(root: TreeNode?): Int {//968
+        val ans = dfs(root)
+        return ans[1]
+    }
+
+    private fun dfs(root: TreeNode?): IntArray {
+        if (root == null) return intArrayOf(Int.MAX_VALUE / 2, 0, 0)
+        val leftArray = dfs(root.left)
+        val rightArray = dfs(root.right)
+        val arr = IntArray(3)
+        arr[0] = leftArray[2] + rightArray[2] + 1
+        arr[1] = Math.min(arr[0], Math.min(leftArray[0] + rightArray[1], rightArray[0] + leftArray[1]))
+        arr[2] = Math.min(arr[0], leftArray[1] + rightArray[1])
+        return arr
+    }
+
 }
