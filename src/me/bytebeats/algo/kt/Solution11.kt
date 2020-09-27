@@ -506,4 +506,29 @@ class Solution11 {
         return arr
     }
 
+    fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {//399, this is wrong answer.
+        val map = mutableMapOf<String, Double>()
+        for (i in equations.indices) {
+            if (!map.containsKey(equations[i][0]) && !map.containsKey(equations[i][1])) {
+                map[equations[i][1]] = 1.0
+                map[equations[i][0]] = values[i]
+            } else if (map.containsKey(equations[i][0])) {
+                map[equations[i][1]] = map[equations[i][0]]!! / values[i]
+            } else if (map.containsKey(equations[i][1])) {
+                map[equations[i][0]] = map[equations[i][1]]!! * values[i]
+            } else {
+
+            }
+        }
+        val ans = DoubleArray(queries.size)
+        for (i in queries.indices) {
+            if (map.containsKey(queries[i][0]) && map.containsKey(queries[i][1])) {
+                ans[i] = map[queries[i][0]]!! / map[queries[i][i]]!!
+            } else {
+                ans[i] = -1.0
+            }
+        }
+        return ans
+    }
+
 }
