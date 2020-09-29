@@ -342,7 +342,7 @@ class Solution2 {
         return root
     }
 
-    fun buildTree2(inorder: IntArray, postorder: IntArray): TreeNode? {
+    fun buildTree2(inorder: IntArray, postorder: IntArray): TreeNode? {//106
         if (inorder == null || postorder == null || inorder.size != postorder.size) {
             return null
         }

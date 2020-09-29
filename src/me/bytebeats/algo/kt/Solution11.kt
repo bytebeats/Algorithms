@@ -23,13 +23,13 @@ class Solution11 {
     }
 
     private fun backtrack(
-            ans: MutableList<MutableList<String>>,
-            queens: IntArray,
-            n: Int,
-            row: Int,
-            columns: MutableSet<Int>,
-            diagonals1: MutableSet<Int>,
-            diagonals2: MutableSet<Int>
+        ans: MutableList<MutableList<String>>,
+        queens: IntArray,
+        n: Int,
+        row: Int,
+        columns: MutableSet<Int>,
+        diagonals1: MutableSet<Int>,
+        diagonals2: MutableSet<Int>
     ) {
         if (row == n) {
             val board = generateBoard(queens, n)
@@ -378,6 +378,159 @@ class Solution11 {
         }
         return maxXor
     }
+
+    fun sequentialDigits(low: Int, high: Int): List<Int> {//1291
+        val ans = mutableListOf<Int>()
+        for (i in 1..9) {
+            var num = i
+            for (j in i + 1..9) {
+                num = num * 10 + j
+                if (num in low..high) {
+                    ans.add(num)
+                }
+            }
+        }
+        return ans.sorted()
+    }
+
+    fun reorderSpaces(text: String): String {//1592
+        var space = text.count { it == ' ' }
+        val words = text.split("\\s+".toRegex()).filter { it.isNotEmpty() }
+        val ans = StringBuilder()
+        var span = 0
+        var suffix = 0
+        if (words.size == 1) {
+            span = 0
+            suffix = space
+        } else {
+            span = space / (words.size - 1)
+            suffix = space % (words.size - 1)
+        }
+        var tmp = 0
+        for (word in words) {
+            if (ans.isNotEmpty()) {
+                tmp = span
+                while (tmp > 0) {
+                    ans.append(' ')
+                    tmp -= 1
+                }
+            }
+            ans.append(word)
+        }
+        tmp = suffix
+        while (tmp > 0) {
+            ans.append(' ')
+            tmp -= 1
+        }
+        return ans.toString()
+    }
+
+    fun sumOddLengthSubarrays(arr: IntArray): Int {//1588
+        val n = arr.size
+        val odd = if (n and 1 == 0) n - 1 else n
+        var ans = 0
+        for (l in 1..odd step 2) {
+            for (i in 0..n - l) {
+                for (j in i until i + l) {
+                    ans += arr[j]
+                }
+            }
+        }
+        return ans
+    }
+
+    fun numSpecial(mat: Array<IntArray>): Int {//1582
+        val r = mat.size
+        val c = mat[0].size
+        var ans = 0
+        for (i in 0 until r) for (j in 0 until c) if (mat[i][j] == 1) {
+            var hS = true
+            for (k in 0 until r) {
+                if (k == i) continue
+                if (mat[k][j] == 1) {
+                    hS = false
+                    break
+                }
+            }
+            var vS = true
+            for (k in 0 until c) {
+                if (k == j) continue
+                if (mat[i][k] == 1) {
+                    vS = false
+                    break
+                }
+            }
+            if (hS && vS) ans += 1
+        }
+        return ans
+    }
+
+    fun convertBST(root: TreeNode?): TreeNode? {//538
+        if (root != null) {
+            val vals = mutableListOf<Int>()
+            vals(root, vals)
+            dfs(root, vals)
+        }
+        return root
+    }
+
+    private fun dfs(root: TreeNode?, vals: MutableList<Int>) {
+        if (root != null) {
+            root.`val` += vals.filter { it > root.`val` }.sum()
+            dfs(root.left, vals)
+            dfs(root.right, vals)
+        }
+    }
+
+    private fun vals(root: TreeNode?, vals: MutableList<Int>) {
+        if (root != null) {
+            vals.add(root.`val`)
+            vals(root.left, vals)
+            vals(root.right, vals)
+        }
+    }
+
+    fun minCameraCover(root: TreeNode?): Int {//968
+        val ans = dfs(root)
+        return ans[1]
+    }
+
+    private fun dfs(root: TreeNode?): IntArray {
+        if (root == null) return intArrayOf(Int.MAX_VALUE / 2, 0, 0)
+        val leftArray = dfs(root.left)
+        val rightArray = dfs(root.right)
+        val arr = IntArray(3)
+        arr[0] = leftArray[2] + rightArray[2] + 1
+        arr[1] = Math.min(arr[0], Math.min(leftArray[0] + rightArray[1], rightArray[0] + leftArray[1]))
+        arr[2] = Math.min(arr[0], leftArray[1] + rightArray[1])
+        return arr
+    }
+
+    fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {//399, this is wrong answer.
+        val map = mutableMapOf<String, Double>()
+        for (i in equations.indices) {
+            if (!map.containsKey(equations[i][0]) && !map.containsKey(equations[i][1])) {
+                map[equations[i][1]] = 1.0
+                map[equations[i][0]] = values[i]
+            } else if (map.containsKey(equations[i][0])) {
+                map[equations[i][1]] = map[equations[i][0]]!! / values[i]
+            } else if (map.containsKey(equations[i][1])) {
+                map[equations[i][0]] = map[equations[i][1]]!! * values[i]
+            } else {
+
+            }
+        }
+        val ans = DoubleArray(queries.size)
+        for (i in queries.indices) {
+            if (map.containsKey(queries[i][0]) && map.containsKey(queries[i][1])) {
+                ans[i] = map[queries[i][0]]!! / map[queries[i][i]]!!
+            } else {
+                ans[i] = -1.0
+            }
+        }
+        return ans
+    }
+
 
     fun postorderTraversal(root: TreeNode?): List<Int> {//145
         val ans = mutableListOf<Int>()
