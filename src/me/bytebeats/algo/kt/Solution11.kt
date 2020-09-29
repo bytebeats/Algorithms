@@ -531,4 +531,17 @@ class Solution11 {
         return ans
     }
 
+
+    fun postorderTraversal(root: TreeNode?): List<Int> {//145
+        val ans = mutableListOf<Int>()
+        post(root, ans)
+        return ans
+    }
+
+    private fun post(root: TreeNode?, list: MutableList<Int>) {
+        if (root == null) return
+        post(root.left, list)
+        post(root.right, list)
+        list.add(root.`val`)
+    }
 }
