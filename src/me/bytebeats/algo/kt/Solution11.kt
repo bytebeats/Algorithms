@@ -23,13 +23,13 @@ class Solution11 {
     }
 
     private fun backtrack(
-        ans: MutableList<MutableList<String>>,
-        queens: IntArray,
-        n: Int,
-        row: Int,
-        columns: MutableSet<Int>,
-        diagonals1: MutableSet<Int>,
-        diagonals2: MutableSet<Int>
+            ans: MutableList<MutableList<String>>,
+            queens: IntArray,
+            n: Int,
+            row: Int,
+            columns: MutableSet<Int>,
+            diagonals1: MutableSet<Int>,
+            diagonals2: MutableSet<Int>
     ) {
         if (row == n) {
             val board = generateBoard(queens, n)
@@ -543,5 +543,26 @@ class Solution11 {
         post(root.left, list)
         post(root.right, list)
         list.add(root.`val`)
+    }
+
+    fun removeCoveredIntervals(intervals: Array<IntArray>): Int {//1288
+        intervals.sortWith(Comparator { o1, o2 ->
+            if (o1[0] != o2[0]) {
+                return@Comparator o1[0] - o2[0]
+            } else {
+                return@Comparator -o1[1] + o2[1]
+            }
+        })
+        var count = 0
+        var end = 0
+        var preEnd = 0
+        for (ints in intervals) {
+            end = ints[1]
+            if (preEnd < end) {
+                count += 1
+                preEnd = end
+            }
+        }
+        return count
     }
 }
