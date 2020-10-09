@@ -1373,9 +1373,9 @@ class Solution {
     }
 
     fun maxProfit(prices: IntArray): Int {
-        var maxProfit = Int.MIN_VALUE
+        var maxProfit = 0
         if (prices.isNotEmpty()) {
-            var minPrice = Int.MAX_VALUE
+            var minPrice = prices[0]
             for (i in prices.indices) {
                 if (prices[i] - minPrice > maxProfit) {
                     maxProfit = prices[i] - minPrice
