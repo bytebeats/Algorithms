@@ -506,7 +506,11 @@ class Solution11 {
         return arr
     }
 
-    fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {//399, this is wrong answer.
+    fun calcEquation(
+        equations: List<List<String>>,
+        values: DoubleArray,
+        queries: List<List<String>>
+    ): DoubleArray {//399, this is wrong answer.
         val map = mutableMapOf<String, Double>()
         for (i in equations.indices) {
             if (!map.containsKey(equations[i][0]) && !map.containsKey(equations[i][1])) {
@@ -564,5 +568,21 @@ class Solution11 {
             }
         }
         return count
+    }
+
+    fun findMinArrowShots(points: Array<IntArray>): Int {//452
+        var arrows = 0
+        if (points.isNotEmpty()) {
+            points.sortBy { it[1] }
+            arrows = 1
+            var firstEnd = points.first()[1]
+            for (p in points) {
+                if (firstEnd < p[0]) {
+                    arrows += 1
+                    firstEnd = p[1]
+                }
+            }
+        }
+        return arrows
     }
 }
