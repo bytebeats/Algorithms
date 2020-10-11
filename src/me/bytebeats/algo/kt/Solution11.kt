@@ -585,4 +585,49 @@ class Solution11 {
         }
         return arrows
     }
+
+    fun canPartition(nums: IntArray): Boolean {//416
+        if (nums.size < 2) return false
+        var sum = 0
+        var maxNum = 0
+        for (num in nums) {
+            sum += num
+            maxNum = maxNum.coerceAtLeast(num)
+        }
+        if (sum and 1 == 1) return false
+        val target = sum / 2
+        if (maxNum > target) return false
+        val dp = BooleanArray(target + 1) { false }
+        dp[0] = true
+        for (num in nums) {
+            for (j in target downTo num) {
+                dp[j] = dp[j] or dp[j - num]
+            }
+        }
+        return dp[target]
+    }
+
+    fun removeDuplicateLetters(s: String): String {//316, 1081
+        val stack = mutableListOf<Char>()
+        val seen = mutableSetOf<Char>()
+        val lastIdx = mutableMapOf<Char, Int>()
+        for (i in s.indices) {
+            lastIdx[s[i]] = i
+        }
+        for (i in s.indices) {
+            if (!seen.contains(s[i])) {
+                while (stack.isNotEmpty() && s[i] < stack.last() && lastIdx[stack.last()]!! > i) {
+                    seen.remove(stack.last())
+                    stack.removeAt(stack.lastIndex)
+                }
+                seen.add(s[i])
+                stack.add(s[i])
+            }
+        }
+        val ans = StringBuilder()
+        for (c in stack) {
+            ans.append(c)
+        }
+        return ans.toString()
+    }
 }
