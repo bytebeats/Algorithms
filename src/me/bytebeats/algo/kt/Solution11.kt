@@ -1,5 +1,6 @@
 package me.bytebeats.algo.kt
 
+import me.bytebeats.algs.ds.ListNode
 import me.bytebeats.algs.ds.TreeNode
 
 /**
@@ -629,5 +630,92 @@ class Solution11 {
             ans.append(c)
         }
         return ans.toString()
+    }
+
+    fun swapPairs(head: ListNode?): ListNode? {//24
+        if (head?.next == null) return head
+        val next = head.next
+        head.next = swapPairs(next.next)
+        next.next = head
+        return next
+    }
+
+    fun sortList(head: ListNode?): ListNode? {//148
+        if (head != null) {
+            var s: ListNode? = null
+            var e: ListNode? = null
+            s = head
+            while (s?.next != null) {
+                s = s.next
+            }
+            e = s
+            s = head
+            quickSort(s, e)
+        }
+        return head
+    }
+
+    private fun quickSort(s: ListNode?, e: ListNode?) {
+        if (s == null || e == null || s == e) return
+        var p = s
+        var q = s.next
+        val v = s.`val`
+        var tmp = 0
+        while (q != e.next) {
+            if (q.`val` < v) {
+                p = p!!.next
+                tmp = p!!.`val`
+                p!!.`val` = q.`val`
+                q.`val` = tmp
+            }
+            q = q.next
+        }
+        tmp = v
+        s.`val` = p!!.`val`
+        p.`val` = tmp
+        quickSort(s, p)
+        quickSort(p.next, e)
+    }
+
+    fun insertionSortList(head: ListNode?): ListNode? {//147
+        val dummy = ListNode(-1)
+        dummy.next = head
+        if (head?.next != null) {
+            var p: ListNode? = head
+            while (p?.next != null) {
+                if (p.`val` <= p.next.`val`) {
+                    p = p.next
+                } else {
+                    val next = p.next
+                    p.next = next.next
+                    next.next = null
+                    var q = dummy
+                    while (q.next != p && q.next.`val` < next.`val`) {
+                        q = q.next
+                    }
+                    next.next = q.next
+                    q.next = next
+                }
+            }
+        }
+        return dummy.next
+    }
+
+    fun insert(head: ListNode?, insertVal: Int): ListNode? {//708
+        if (head == null) return ListNode(insertVal).apply { next = this }
+        var cur = head
+        while (cur!!.next != head) {
+            if (cur.`val` <= insertVal) {
+                if (cur.next!!.`val` > insertVal) break
+                else if (cur.next!!.`val` < cur.`val`) break
+            } else {
+                if (cur.next!!.`val` < cur.`val` && insertVal < cur.next!!.`val`) break
+            }
+            cur = cur.next
+        }
+        val node = ListNode(insertVal)
+        node.next = cur.next
+        cur.next = node
+        return head
     }
 }
