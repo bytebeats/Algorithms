@@ -521,7 +521,7 @@ class Solution {
         return grade
     }
 
-    fun rotate(nums: IntArray, k: Int): Unit {
+    fun rotate(nums: IntArray, k: Int): Unit {//189
         if (nums.isEmpty() || nums.size == 1 || k < 1) {
             return
         }
@@ -539,7 +539,7 @@ class Solution {
         }
     }
 
-    fun rotate2(nums: IntArray, k: Int): Unit {
+    fun rotate2(nums: IntArray, k: Int): Unit {//189
         if (nums.isEmpty() || nums.size == 1 || k < 1) {
             return
         }
