@@ -718,4 +718,73 @@ class Solution11 {
         cur.next = node
         return head
     }
+
+    fun totalNQueens(n: Int): Int {//52
+        val columns = mutableSetOf<Int>()
+        val diagonals1 = mutableSetOf<Int>()
+        val diagonals2 = mutableSetOf<Int>()
+        return backtrack(n, 0, columns, diagonals1, diagonals2)
+    }
+
+    private fun backtrack(
+        n: Int,
+        row: Int,
+        columns: MutableSet<Int>,
+        diagonals1: MutableSet<Int>,
+        diagonals2: MutableSet<Int>
+    ): Int {
+        if (row == n) return 1
+        else {
+            var count = 0
+            for (i in 0 until n) {
+                if (columns.contains(i)) continue
+                val diagonal1 = row - i
+                if (diagonals1.contains(diagonal1)) continue
+                val diagonal2 = row + i
+                if (diagonals2.contains(diagonal2)) continue
+                columns.add(i)
+                diagonals1.add(diagonal1)
+                diagonals2.add(diagonal2)
+                count += backtrack(n, row + 1, columns, diagonals1, diagonals2)
+                columns.remove(i)
+                diagonals1.remove(diagonal1)
+                diagonals2.remove(diagonal2)
+            }
+            return count
+        }
+    }
+
+    fun findRepeatedDnaSequences(s: String): List<String> {//187
+        val L = 10
+        val n = s.length
+        if (n <= L) return emptyList()
+        val a = 4
+        val aL = Math.pow(a.toDouble(), L.toDouble()).toInt()
+
+        val toInt = mutableMapOf<Char, Int>()
+        toInt['A'] = 0
+        toInt['C'] = 1
+        toInt['G'] = 2
+        toInt['T'] = 3
+        val nums = IntArray(n)
+        for (i in 0 until n) {
+            nums[i] = toInt[s[i]]!!
+        }
+
+        var h = 0
+        val seen = mutableSetOf<Int>()
+        val output = mutableSetOf<String>()
+        for (i in 0..(n - L)) {
+            if (i == 0) {
+                for (j in 0 until L) {
+                    h = h * a + nums[j]
+                }
+            } else {
+                h = h * a - nums[i - 1] * aL + nums[i + L - 1]
+            }
+            if (seen.contains(h)) output.add(s.substring(i, i + L))
+            seen.add(h)
+        }
+        return output.toList()
+    }
 }
