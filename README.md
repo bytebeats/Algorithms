@@ -7,3 +7,9 @@ When the programmer says "We make the world go around!", the mathematician smile
 * Accounts:
   * 国内账号: https://leetcode-cn.com/u/bytebeats/<br>
   * 国际账号: https://leetcode.com/bytebeats/<br>
+
+# My Plugins
+* [mns](https://github.com/bytebeats/mns) Money Never Sleeps!
+* [Polyglot](https://github.com/bytebeats/polyglot) Translators
+* [JsonMaster](https://github.com/bytebeats/JsonMaster)
+* [kfiglet](https://github.com/bytebeats/kfiglet) Ascii Arts
