@@ -24,13 +24,13 @@ class Solution11 {
     }
 
     private fun backtrack(
-            ans: MutableList<MutableList<String>>,
-            queens: IntArray,
-            n: Int,
-            row: Int,
-            columns: MutableSet<Int>,
-            diagonals1: MutableSet<Int>,
-            diagonals2: MutableSet<Int>
+        ans: MutableList<MutableList<String>>,
+        queens: IntArray,
+        n: Int,
+        row: Int,
+        columns: MutableSet<Int>,
+        diagonals1: MutableSet<Int>,
+        diagonals2: MutableSet<Int>
     ) {
         if (row == n) {
             val board = generateBoard(queens, n)
@@ -786,5 +786,34 @@ class Solution11 {
             seen.add(h)
         }
         return output.toList()
+    }
+
+    fun maxProfit(k: Int, prices: IntArray): Int {//188
+        if (prices.isEmpty()) return 0
+        val n = prices.size
+        if (k >= n / 2) {
+            var dp0 = 0
+            var dp1 = -prices[0]
+            for (i in 1 until n) {
+                val tmp = dp0
+                dp0 = dp0.coerceAtLeast(dp1 + prices[i])
+                dp1 = dp1.coerceAtLeast(tmp - prices[i])
+            }
+            return dp0.coerceAtLeast(dp1)
+        } else {
+            val dp = Array(k + 1) { IntArray(2) }
+            var res = 0
+            for (i in 0..k) {
+                dp[i][0] = 0
+                dp[i][1] = -prices[0]
+            }
+            for (i in 1 until n) {
+                for (j in k downTo 1) {
+                    dp[j - 1][1] = dp[j - 1][1].coerceAtLeast(dp[j - 1][0] - prices[i])
+                    dp[j][0] = dp[j][0].coerceAtLeast(dp[j - 1][1] + prices[i])
+                }
+            }
+            return dp[k][0]
+        }
     }
 }
