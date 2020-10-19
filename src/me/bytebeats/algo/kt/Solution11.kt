@@ -816,4 +816,22 @@ class Solution11 {
             return dp[k][0]
         }
     }
+
+    fun minDominoRotations(A: IntArray, B: IntArray): Int {//1007
+        val n = A.size
+        val rotations = check(A[0], B, A, n)
+        return if (rotations != -1 || A[0] == B[0]) rotations
+        else check(B[0], B, A, n)
+    }
+
+    private fun check(x: Int, A: IntArray, B: IntArray, n: Int): Int {
+        var rotationA = 0
+        var rotationB = 0
+        for (i in 0 until n) {
+            if (A[i] != x && B[i] != x) return -1
+            else if (A[i] != x) rotationA += 1
+            else if (B[i] != x) rotationB += 1
+        }
+        return rotationA.coerceAtMost(rotationB)
+    }
 }
