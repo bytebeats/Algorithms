@@ -834,4 +834,36 @@ class Solution11 {
         }
         return rotationA.coerceAtMost(rotationB)
     }
+
+    fun asteroidCollision(asteroids: IntArray): IntArray {//735
+        val stack = mutableListOf<Int>()
+        for (a in asteroids) {
+            var aa = a
+            if (aa > 0) {
+                stack.add(a)
+            } else {
+                aa = -a
+                var i = stack.lastIndex
+                while (i > -1) {
+                    if (stack[i] < 0) {
+                        stack.add(a)
+                        break
+                    }
+                    if (aa < stack[i]) {
+                        break
+                    } else if (aa == stack[i]) {
+                        stack.removeAt(stack.lastIndex)
+                        break
+                    } else {
+                        stack.removeAt(stack.lastIndex)
+                        --i
+                    }
+                }
+                if (i == -1) {
+                    stack.add(a)
+                }
+            }
+        }
+        return stack.toIntArray()
+    }
 }
