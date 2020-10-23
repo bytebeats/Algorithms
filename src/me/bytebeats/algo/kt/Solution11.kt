@@ -866,4 +866,28 @@ class Solution11 {
         }
         return stack.toIntArray()
     }
+
+    fun find132pattern(nums: IntArray): Boolean {//456
+        if (nums.size > 2) {
+            val n = nums.size
+            val stack = mutableListOf<Int>()
+            val min = IntArray(n)
+            min[0] = nums[0]
+            for (i in 1 until n) {
+                min[i] = min[i - 1].coerceAtMost(nums[i])
+            }
+            for (i in n - 1 downTo 0) {
+                if (nums[i] > min[i]) {
+                    while (stack.isNotEmpty() && stack.last() <= min[i]) {
+                        stack.removeAt(stack.lastIndex)
+                    }
+                    if (stack.isNotEmpty() && stack.last() < nums[i]) {
+                        return true
+                    }
+                    stack.add(nums[i])
+                }
+            }
+        }
+        return false
+    }
 }
