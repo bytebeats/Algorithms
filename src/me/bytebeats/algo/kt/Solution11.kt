@@ -890,4 +890,38 @@ class Solution11 {
         }
         return false
     }
+
+    fun videoStitching(clips: Array<IntArray>, T: Int): Int {//1024
+        val dp = IntArray(T + 1) { Int.MAX_VALUE - 1 }
+        dp[0] = 0
+        for (i in 1..T) {
+            for (clip in clips) {
+                if (clip[0] < i && i <= clip[1]) {
+                    dp[i] = dp[i].coerceAtMost(dp[clip[0]] + 1)
+                }
+            }
+        }
+        return if (dp[T] == Int.MAX_VALUE - 1) -1 else dp[T]
+    }
+
+    fun bagOfTokensScore(tokens: IntArray, P: Int): Int {//948
+        tokens.sort()
+        var low = 0
+        var high = tokens.size - 1
+        var points = 0
+        var ans = 0
+        var p = P
+        while (low <= high && (p >= tokens[low] || points > 0)) {
+            while (low <= high && p >= tokens[low]) {
+                p -= tokens[low++]
+                points += 1
+            }
+            ans = ans.coerceAtLeast(points)
+            if (low <= high && points > 0) {
+                p += tokens[high--]
+                points--
+            }
+        }
+        return ans
+    }
 }
