@@ -924,4 +924,29 @@ class Solution11 {
         }
         return ans
     }
+
+    fun summaryRanges(nums: IntArray): List<String> {//228
+        val ans = mutableListOf<String>()
+        if (nums.isNotEmpty()) {
+            var i = 0
+            var j = 1
+            while (j < nums.size) {
+                if (nums[j - 1] + 1 != nums[j]) {
+                    if (i == j - 1) {
+                        ans.add("${nums[i]}")
+                    } else {
+                        ans.add("${nums[i]}->${nums[j - 1]}")
+                    }
+                    i = j
+                }
+                j += 1
+            }
+            if (i == j - 1) {
+                ans.add("${nums[i]}")
+            } else {
+                ans.add("${nums[i]}->${nums[j - 1]}")
+            }
+        }
+        return ans
+    }
 }
