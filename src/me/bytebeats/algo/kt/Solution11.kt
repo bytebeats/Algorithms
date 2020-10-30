@@ -949,4 +949,30 @@ class Solution11 {
         }
         return ans
     }
+
+    fun findNumberOfLIS(nums: IntArray): Int {//673
+        val n = nums.size
+        if (n <= 1) return n
+        val lengths = IntArray(n) { 0 }
+        val counts = IntArray(n) { 1 }
+        for (j in 0 until n) for (i in 0 until j) if (nums[i] < nums[j]) {
+            if (lengths[i] >= lengths[j]) {
+                lengths[j] = lengths[i] + 1
+                counts[j] = counts[i]
+            } else if (lengths[i] + 1 == lengths[j]) {
+                counts[j] += counts[i]
+            }
+        }
+        var longest = 0
+        for (i in 0 until n) {
+            longest = longest.coerceAtLeast(lengths[i])
+        }
+        var ans = 0
+        for (i in 0 until n) {
+            if (lengths[i] == longest) {
+                ans += counts[i]
+            }
+        }
+        return ans
+    }
 }
