@@ -975,4 +975,60 @@ class Solution11 {
         }
         return ans
     }
+
+    val wordId = mutableMapOf<String, Int>()
+    val edge = mutableListOf<MutableList<Int>>()
+    var nodeNum = 0
+    fun ladderLength(beginWord: String, endWord: String, wordList: List<String>): Int {//127
+        for (word in wordList) {
+            addEdge(word)
+        }
+        addEdge(beginWord)
+        if (!wordId.containsKey(endWord)) {
+            return 0
+        }
+        val dis = IntArray(nodeNum) { Int.MAX_VALUE }
+        val beginId = wordId[beginWord]!!
+        val endId = wordId[endWord]!!
+        dis[beginId] = 0
+        val q = mutableListOf<Int>()
+        q.add(beginId)
+        while (q.isNotEmpty()) {
+            val x = q.last()
+            if (x == endId) {
+                return dis[endId] / 2 + 1
+            }
+            for (i in edge[x]) {
+                if (dis[i] == Int.MAX_VALUE) {
+                    dis[i] = dis[x] + 1
+                    q.add(i)
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun addEdge(word: String) {
+        addWord(word)
+        val id1 = wordId[word]!!
+        val chars = word.toCharArray()
+        val size = word.length
+        for (i in 0 until size) {
+            val tmp = chars[i]
+            chars[i] = '*'
+            val newWord = String(chars)
+            addWord(newWord)
+            val id2 = wordId[newWord]!!
+            edge[id1].add(id2)
+            edge[id2].add(id1)
+            chars[i] = tmp
+        }
+    }
+
+    private fun addWord(word: String) {
+        if (!wordId.containsKey(word)) {
+            wordId[word] = nodeNum++
+            edge.add(mutableListOf())
+        }
+    }
 }
