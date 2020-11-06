@@ -1031,4 +1031,24 @@ class Solution11 {
             edge.add(mutableListOf())
         }
     }
+
+    fun smallestDivisor(nums: IntArray, threshold: Int): Int {//1283
+        var low = 1
+        var high = nums.max()!!
+        var ans = -1
+        while (low <= high) {
+            val mid = low + (high - low) / 2
+            var total = 0
+            for (num in nums) {
+                total += (num - 1) / mid + 1
+            }
+            if (total <= threshold) {
+                ans = mid
+                high = mid - 1
+            } else {
+                low = mid + 1
+            }
+        }
+        return ans
+    }
 }
