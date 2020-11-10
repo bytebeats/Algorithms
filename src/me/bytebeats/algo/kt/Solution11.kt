@@ -1051,4 +1051,35 @@ class Solution11 {
         }
         return ans
     }
+
+    fun nextPermutation(nums: IntArray): Unit {//31
+        var i = nums.size - 2
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--
+        }
+        if (i >= 0) {
+            var j = nums.size - 1
+            while (j >= 0 && nums[i] >= nums[j]) {
+                j--
+            }
+            swap(nums, i, j)
+        }
+        reverse(nums, i + 1)
+    }
+
+    private fun swap(nums: IntArray, i: Int, j: Int) {
+        val tmp = nums[i]
+        nums[i] = nums[j]
+        nums[j] = tmp
+    }
+
+    private fun reverse(nums: IntArray, start: Int) {
+        var left = start
+        var right = nums.size - 1
+        while (left < right) {
+            swap(nums, left, right)
+            left += 1
+            right -= 1
+        }
+    }
 }
