@@ -1082,4 +1082,44 @@ class Solution11 {
             right -= 1
         }
     }
+
+    fun validSquare(p1: IntArray, p2: IntArray, p3: IntArray, p4: IntArray): Boolean {//593
+        val points = listOf(
+            p1,
+            p2,
+            p3,
+            p4
+        ).sortedWith(Comparator { o1, o2 -> if (o1[0] == o2[0]) o1[1] - o2[1] else o2[0] - o1[0] })
+        return distance(points[0], points[1]) != 0
+                && distance(points[0], points[1]) == distance(points[1], points[3])
+                && distance(points[1], points[3]) == distance(points[3], points[2])
+                && distance(points[3], points[2]) == distance(points[2], points[0])
+                && distance(points[0], points[3]) == distance(points[1], points[2])
+    }
+
+    private fun distance(p1: IntArray, p2: IntArray): Int {
+        return (p1[0] - p2[0]) * (p1[0] - p2[0]) + (p1[1] - p2[1]) * (p1[1] - p2[1])
+    }
+
+    fun findRotateSteps(ring: String, key: String): Int {//514
+        val m = key.length
+        val n = ring.length
+        val pos = Array(26) { mutableListOf<Int>() }
+        for (i in 0 until n) {
+            pos[ring[i] - 'a'].add(i)
+        }
+        val dp = Array(m) { IntArray(n) { 0x3f3f3f } }
+        for (i in pos[key[0] - 'a']) {
+            dp[0][i] = i.coerceAtMost(n - i) + 1
+        }
+        for (i in 1 until m) {
+            for (j in pos[key[i] - 'a']) {
+                for (k in pos[key[i - 1] - 'a']) {
+                    dp[i][j] =
+                        dp[i][j].coerceAtMost(dp[i - 1][k] + Math.abs(j - k).coerceAtMost(n - Math.abs(j - k)) + 1)
+                }
+            }
+        }
+        return dp[m-1].min()!!
+    }
 }
