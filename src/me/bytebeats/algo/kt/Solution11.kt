@@ -1122,4 +1122,9 @@ class Solution11 {
         }
         return dp[m-1].min()!!
     }
+
+    fun poorPigs(buckets: Int, minutesToDie: Int, minutesToTest: Int): Int {//458
+        val states = minutesToTest / minutesToDie + 1
+        return Math.ceil(Math.log(buckets.toDouble())/Math.log(states.toDouble())).toInt()
+    }
 }
