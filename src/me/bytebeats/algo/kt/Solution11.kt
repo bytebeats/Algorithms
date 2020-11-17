@@ -1120,11 +1120,26 @@ class Solution11 {
                 }
             }
         }
-        return dp[m-1].min()!!
+        return dp[m - 1].min()!!
     }
 
     fun poorPigs(buckets: Int, minutesToDie: Int, minutesToTest: Int): Int {//458
         val states = minutesToTest / minutesToDie + 1
-        return Math.ceil(Math.log(buckets.toDouble())/Math.log(states.toDouble())).toInt()
+        return Math.ceil(Math.log(buckets.toDouble()) / Math.log(states.toDouble())).toInt()
+    }
+
+    fun mirrorReflection(p: Int, q: Int): Int {//858
+        val gcd = gcd(p, q)
+        var pp = p / gcd
+        pp %= 2
+        var qq = q / gcd
+        qq %= 2
+        if (pp == 1 && qq == 1) return 1
+        return if (pp == 1) 0 else 2
+    }
+
+    private fun gcd(m: Int, n: Int): Int {
+        if (n == 0) return m
+        else return gcd(n, m % n)
     }
 }
