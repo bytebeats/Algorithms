@@ -1213,4 +1213,28 @@ public class TreesQuiz {
         }
         return lson || rson || root.val == p.val || root.val == q.val;
     }
+
+    public final TreeNode getTargetCopy(final TreeNode original, final TreeNode cloned, final TreeNode target) {//1379
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> cloneStack = new Stack<>();
+        TreeNode p = original;
+        TreeNode pp = cloned;
+        while (p != null || !stack.isEmpty()) {
+            if (p != null) {
+                if (p == target) {
+                    return pp;
+                }
+                stack.push(p);
+                cloneStack.push(pp);
+                p = p.left;
+                pp = pp.left;
+            } else {
+                p = stack.pop();
+                p = p.right;
+                pp = cloneStack.pop();
+                pp = pp.right;
+            }
+        }
+        return null;
+    }
 }
