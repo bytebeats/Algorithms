@@ -50,4 +50,21 @@ class Solution12 {
         }
         return minL
     }
+
+    fun lengthOfLongestSubstring(s: String): Int {//3
+        var max = 0
+        if (s.isNotEmpty()) {
+            val set = mutableSetOf<Char>()
+            for (c in s) {
+                if (set.contains(c)) {
+                    set.clear()
+                    set.add(c)
+                } else {
+                    set.add(c)
+                    max = max.coerceAtLeast(set.size)
+                }
+            }
+        }
+        return max
+    }
 }
