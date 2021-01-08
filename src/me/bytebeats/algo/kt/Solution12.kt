@@ -67,4 +67,8 @@ class Solution12 {
         }
         return max
     }
+
+    fun arrayStringsAreEqual(word1: Array<String>, word2: Array<String>): Boolean {//1662
+        return word1.joinToString(separator = "") == word2.joinToString(separator = "")
+    }
 }
