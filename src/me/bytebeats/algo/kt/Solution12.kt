@@ -71,4 +71,23 @@ class Solution12 {
     fun arrayStringsAreEqual(word1: Array<String>, word2: Array<String>): Boolean {//1662
         return word1.joinToString(separator = "") == word2.joinToString(separator = "")
     }
+
+    fun getMaximumGenerated(n: Int): Int {//1646
+        if (n < 2) {
+            return n
+        }
+        val arr = IntArray(n + 1)
+        arr[0] = 0
+        arr[1] = 1
+        var max = 1
+        for (i in 2 .. n) {
+            if (i and 1 == 0) {
+                arr[i] = arr[i / 2]
+            } else {
+                arr[i] = arr[i / 2] + arr[i / 2 + 1]
+            }
+            max = max.coerceAtLeast(arr[i])
+        }
+        return max
+    }
 }
