@@ -90,4 +90,8 @@ class Solution12 {
         }
         return max
     }
+
+    fun countVowelStrings(n: Int): Int {//1641
+        return (n + 4) * (n + 3) * (n + 2) * (n + 1) / 24
+    }
 }
