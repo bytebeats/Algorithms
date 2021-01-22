@@ -80,7 +80,7 @@ class Solution12 {
         arr[0] = 0
         arr[1] = 1
         var max = 1
-        for (i in 2 .. n) {
+        for (i in 2..n) {
             if (i and 1 == 0) {
                 arr[i] = arr[i / 2]
             } else {
@@ -93,5 +93,49 @@ class Solution12 {
 
     fun countVowelStrings(n: Int): Int {//1641
         return (n + 4) * (n + 3) * (n + 2) * (n + 1) / 24
+    }
+
+    fun halvesAreAlike(s: String): Boolean {//1704
+        val half = s.length / 2
+        var vowels1 = 0
+        var vowels2 = 0
+        for (i in 0 until half) {
+            if (isVowel(s[i].toLowerCase())) {
+                vowels1 += 1
+            }
+            if (isVowel(s[i + half])) {
+                vowels2 += 1
+            }
+        }
+        return vowels1 == vowels2
+    }
+
+    private fun isVowel(ch: Char): Boolean {
+        return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'
+                || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U'
+    }
+
+    fun closeStrings(word1: String, word2: String): Boolean {//1657
+        val length = word1.length
+        if (length != word2.length) return false
+        val arr1 = IntArray(26)
+        val arr2 = IntArray(26)
+        for (i in 0 until length) {
+            arr1[word1[i] - 'a'] += 1
+            arr2[word2[i] - 'a'] += 1
+        }
+        for (i in 0 until 26) {
+            if (arr1[i] != 0 && arr2[i] == 0 || arr1[i] == 0 && arr2[i] != 0) {
+                return false
+            }
+        }
+        arr1.sort()
+        arr2.sort()
+        for (i in 0 until 26) {
+            if (arr1[i] != arr2[i]) {
+                return false
+            }
+        }
+        return true
     }
 }
