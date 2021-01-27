@@ -1,5 +1,7 @@
 package me.bytebeats.algo.kt
 
+import kotlin.math.log2
+
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
@@ -137,5 +139,18 @@ class Solution12 {
             }
         }
         return true
+    }
+
+    fun concatenatedBinary(n: Int): Int {//1680
+        val mod = 1000000007
+        var res = 0
+        var shift = 0
+        for (i in 1..n) {
+            if (i and (i - 1) == 0) {
+                shift += 1
+            }
+            res = (((res.toLong() shl shift) + i) % mod).toInt()
+        }
+        return res
     }
 }
