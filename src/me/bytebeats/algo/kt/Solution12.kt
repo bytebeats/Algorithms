@@ -153,4 +153,15 @@ class Solution12 {
         }
         return res
     }
+
+    fun getSmallestString(n: Int, k: Int): String {//1663
+        val ans = CharArray(n) { 'a' }
+        val bound = (k - n) / 25
+        val rest = (k - n) % 25
+        if (n - bound - 1 >= 0) ans[n - bound - 1] = 'a' + rest
+        for (i in n - bound until n) {
+            ans[i] = 'z'
+        }
+        return String(ans)
+    }
 }
