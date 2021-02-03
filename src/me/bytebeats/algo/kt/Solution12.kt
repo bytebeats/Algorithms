@@ -164,4 +164,43 @@ class Solution12 {
         }
         return String(ans)
     }
+
+    fun medianSlidingWindow(nums: IntArray, k: Int): DoubleArray {//480
+        val size = nums.size
+        val window = mutableListOf<Int>()
+        val ans = DoubleArray(size - k + 1)
+        for (i in 0 until k - 1) {
+            window.add(nums[i])
+        }
+        window.sort()
+        for (i in 0..size - k) {
+            val e = nums[i + k - 1]
+            if (window.isEmpty()) {
+                window.add(e)
+            } else if (e <= window.first()) {
+                window.add(0, e)
+            } else if (e >= window.last()) {
+                window.add(e)
+            } else {
+                for (j in 0 until k - 1) {
+                    if (e <= window[j]) {
+                        window.add(j, e)
+                        break
+                    }
+                }
+            }
+            if (k and 1 == 0) {
+                ans[i] = (window[(k - 1) / 2].toDouble() + window[(k - 1) / 2 + 1].toDouble()) / 2.0
+            } else {
+                ans[i] = window[(k - 1) / 2].toDouble()
+            }
+            for (j in 0 until k) {
+                if (window[j] == nums[i]) {
+                    window.removeAt(j)
+                    break
+                }
+            }
+        }
+        return ans
+    }
 }
