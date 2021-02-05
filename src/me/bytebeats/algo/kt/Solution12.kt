@@ -203,4 +203,22 @@ class Solution12 {
         }
         return ans
     }
+
+    fun simplifyPath(path: String): String {//71
+        val stack = mutableListOf<String>()
+        for (p in path.split("/")) {
+            if (p.isEmpty()) {
+                continue
+            } else if (p == ".") {
+                continue
+            } else if (p == "..") {
+                if (stack.isNotEmpty()) {
+                    stack.removeAt(stack.lastIndex)
+                }
+            } else {
+                stack.add(p)
+            }
+        }
+        return stack.joinToString(separator = "/", prefix = "/")
+    }
 }
