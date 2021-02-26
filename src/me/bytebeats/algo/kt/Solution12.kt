@@ -57,13 +57,18 @@ class Solution12 {
         var max = 0
         if (s.isNotEmpty()) {
             val set = mutableSetOf<Char>()
-            for (c in s) {
-                if (set.contains(c)) {
-                    set.clear()
-                    set.add(c)
-                } else {
-                    set.add(c)
-                    max = max.coerceAtLeast(set.size)
+            var j = 0
+            val size = s.length
+            for (i in 0 until size) {
+                if (i != 0) {
+                    set.remove(s[i - 1])
+                }
+                while (j < size && !set.contains(s[j])) {
+                    set.add(s[j])
+                    j += 1
+                }
+                if (set.size > max) {
+                    max = set.size
                 }
             }
         }
@@ -220,5 +225,19 @@ class Solution12 {
             }
         }
         return stack.joinToString(separator = "/", prefix = "/")
+    }
+
+    fun validateStackSequences(pushed: IntArray, popped: IntArray): Boolean {//946
+        val stack = mutableListOf<Int>()
+        val size = pushed.size
+        var j = 0
+        for (i in 0 until size) {
+            stack.add(pushed[i])
+            while (stack.isNotEmpty() && j < size && stack.last() == popped[j]) {
+                stack.removeAt(stack.lastIndex)
+                j++
+            }
+        }
+        return j == size
     }
 }
