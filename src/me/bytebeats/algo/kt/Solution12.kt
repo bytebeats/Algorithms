@@ -240,4 +240,32 @@ class Solution12 {
         }
         return j == size
     }
+
+    fun evalRPN(tokens: Array<String>): Int {//150
+        val stack = mutableListOf<Int>()
+        var first = 0
+        var second = 0
+        for (token in tokens) {
+            if (token == "+") {
+                second = stack.removeAt(stack.lastIndex)
+                first = stack.removeAt(stack.lastIndex)
+                stack.add(first + second)
+            } else if (token == "-") {
+                second = stack.removeAt(stack.lastIndex)
+                first = stack.removeAt(stack.lastIndex)
+                stack.add(first - second)
+            } else if (token == "*") {
+                second = stack.removeAt(stack.lastIndex)
+                first = stack.removeAt(stack.lastIndex)
+                stack.add(first * second)
+            } else if (token == "/") {
+                second = stack.removeAt(stack.lastIndex)
+                first = stack.removeAt(stack.lastIndex)
+                stack.add(first / second)
+            } else {
+                stack.add(token.toInt())
+            }
+        }
+        return stack.last()
+    }
 }
