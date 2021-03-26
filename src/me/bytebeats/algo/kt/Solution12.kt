@@ -268,4 +268,37 @@ class Solution12 {
         }
         return stack.last()
     }
+
+    fun wordSubsets(A: Array<String>, B: Array<String>): List<String> {//916
+        val ans = mutableListOf<String>()
+        val bmax = count("")
+        for (s in B) {
+            val bCount = count(s)
+            for (i in 0 until 26) {
+                bmax[i] = bmax[i].coerceAtLeast(bCount[i])
+            }
+        }
+        for (s in A) {
+            val aCount = count(s)
+            var toAdd = true
+            for (i in 0 until 26) {
+                if (aCount[i] < bmax[i]) {
+                    toAdd = false
+                    break
+                }
+            }
+            if (toAdd) {
+                ans.add(s)
+            }
+        }
+        return ans
+    }
+
+    private fun count(s: String): IntArray {
+        val ans = IntArray(26)
+        for (c in s) {
+            ans[c - 'a'] += 1
+        }
+        return ans
+    }
 }
