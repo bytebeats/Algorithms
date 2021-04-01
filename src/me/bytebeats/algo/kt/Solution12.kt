@@ -301,4 +301,34 @@ class Solution12 {
         }
         return ans
     }
+
+    fun clumsy(N: Int): Int {//1006
+        var ans = 0
+        var n = N
+        var plus = true
+        while (n > 3) {
+            val tmp = n * (n - 1) / (n - 2)
+            if (plus) {
+                plus = !plus
+                ans += tmp
+            } else {
+                ans -= tmp
+            }
+            ans += n - 3
+            n -= 4
+        }
+        if (plus)
+            when (n) {
+                3 -> ans += 3 * 2 / 1
+                2 -> ans += 2 * 1
+                1 -> ans += 1
+            }
+        else
+            when (n) {
+                3 -> ans -= 3 * 2 / 1
+                2 -> ans -= 2 * 1
+                1 -> ans -= 1
+            }
+        return ans
+    }
 }
