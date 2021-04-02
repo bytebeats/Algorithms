@@ -331,4 +331,24 @@ class Solution12 {
             }
         return ans
     }
+
+    fun trap(height: IntArray): Int {//17.21
+        var ans = 0
+        var left = 0
+        var right = height.size - 1
+        var leftMax = 0
+        var rightMax = 0
+        while (left < right) {
+            leftMax = leftMax.coerceAtLeast(height[left])
+            rightMax = rightMax.coerceAtLeast(height[right])
+            if (height[left] < height[right]) {
+                ans += leftMax - height[left]
+                left += 1
+            } else {
+                ans += rightMax - height[right]
+                right -= 1
+            }
+        }
+        return ans
+    }
 }
