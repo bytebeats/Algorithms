@@ -351,4 +351,26 @@ class Solution12 {
         }
         return ans
     }
+
+    fun findMaxForm(strs: Array<String>, m: Int, n: Int): Int {//474
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (str in strs) {
+            val cs = countDigits(str)
+            for (zeros in m downTo cs[0]) {
+                for (ones in n downTo cs[1]) {
+                    dp[zeros][ones] = dp[zeros][ones].coerceAtLeast(1 + dp[zeros - cs[0]][ones - cs[1]])
+                }
+            }
+
+        }
+        return dp[m][n]
+    }
+
+    private fun countDigits(str: String): IntArray {
+        val cs = IntArray(2)
+        for (c in str) {
+            cs[c - '0']++
+        }
+        return cs
+    }
 }
