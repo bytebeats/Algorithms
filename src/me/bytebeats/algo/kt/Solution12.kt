@@ -373,4 +373,59 @@ class Solution12 {
         }
         return cs
     }
+
+    fun purchasePlans(nums: IntArray, target: Int): Int {
+        val mod = 1000000007
+        var ans = 0
+        nums.sort()
+        var i = 0
+        var j = nums.lastIndex
+        while (i < j) {
+            var icount = 1
+            while (i + 1 < j && nums[i + 1] == nums[i]) {
+                i += 1
+                icount += 1
+            }
+            var jcount = 1
+            while (i < j - 1 && nums[j - 1] == nums[j]) {
+                j -= 1
+                jcount += 1
+            }
+            if (nums[i] + nums[j] <= target) {
+                ans += icount * jcount
+                ans %= mod
+                ans = (ans + mod) % mod
+                i += 1
+                j -= 1
+            } else {
+                j -= 1
+            }
+        }
+        return ans
+    }
+
+    fun purchasePlans2(nums: IntArray, target: Int): Int {
+        val mod = 1000000007
+        var ans = 0
+        val size = nums.size
+        for (i in 0 until size - 1) {
+            for (j in i + 1 until size) {
+                if (nums[i] + nums[j] <= target) {
+                    ans += 1
+                } else break
+            }
+        }
+        return (ans % mod + mod) % mod
+    }
+
+    fun minOperations(n: Int): Int {//1551
+        var ans = 0
+        for (i in 0 until n) {
+            val x = 2 * i + 1
+            if (x > n) {
+                ans += x - n
+            }
+        }
+        return ans
+    }
 }
