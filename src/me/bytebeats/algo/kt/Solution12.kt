@@ -1,7 +1,5 @@
 package me.bytebeats.algo.kt
 
-import kotlin.math.log2
-
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
@@ -427,5 +425,34 @@ class Solution12 {
             }
         }
         return ans
+    }
+
+    fun checkIfPangram(sentence: String): Boolean {//1832
+        val counts = IntArray(26)
+        for (c in sentence) {
+            counts[c - 'a'] += 1
+        }
+        return counts.all { it > 0 }
+    }
+
+    fun countConsistentStrings(allowed: String, words: Array<String>): Int {//1684
+        val allowedCounts = count(allowed)
+        var count = 0
+        for (word in words) {
+            val wordCounts = count(word)
+            if (greaterOrEqual(allowedCounts, wordCounts)) {
+                count += 1
+            }
+        }
+        return count
+    }
+
+    private fun greaterOrEqual(allowed: IntArray, word: IntArray): Boolean {
+        for (i in 0 until 26) {
+            if (allowed[i] == 0 && word[i] != 0) {
+                return false
+            }
+        }
+        return true
     }
 }
