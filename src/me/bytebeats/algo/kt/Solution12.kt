@@ -455,4 +455,113 @@ class Solution12 {
         }
         return true
     }
+
+    fun minDistance(word1: String, word2: String): Int {//583
+        val m = word1.length
+        val n = word2.length
+        val dp = Array(m + 1) { IntArray(n + 1) }
+        for (i in 1..m) {
+            for (j in 1..n) {
+                dp[i][j] = if (word1[i - 1] == word2[j - 1]) {
+                    dp[i - 1][j - 1] + 1
+                } else {
+                    dp[i - 1][j].coerceAtLeast(dp[i][j - 1])
+                }
+            }
+        }
+        return m + n - 2 * dp[m][n]
+    }
+
+    fun xorOperation(n: Int, start: Int): Int {//1486
+        var ans = 0
+        for (i in 0 until n) {
+            ans = ans xor (start + i * 2)
+        }
+        return ans
+    }
+
+    fun sumOfUnique(nums: IntArray): Int {//1748
+        val counts = mutableMapOf<Int, Int>()
+        for (num in nums) {
+            counts.compute(num) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        return counts.entries.filter { it.value == 1 }.map { it.key }.sum()
+    }
+
+    fun truncateSentence(s: String, k: Int): String {//1816
+        var count = 0
+        var idx = -1
+        for (i in s.indices) {
+            if (s[i] == ' ') {
+                count += 1
+            }
+            if (count >= k) {
+                idx = i
+                break
+            }
+        }
+        if (idx == -1) {
+            return s
+        } else {
+            return s.substring(0, idx)
+        }
+    }
+
+    fun sumBase(n: Int, k: Int): Int {//1837
+        var nn = n
+        var sum = 0
+        while (nn != 0) {
+            sum += nn % k
+            nn /= k
+        }
+        return sum
+    }
+
+    fun specialArray(nums: IntArray): Int {//1608
+        for (i in 0..nums.size) {
+            var count = 0
+            for (j in 0 until nums.size) {
+                if (nums[j] >= i) {
+                    count++
+                }
+            }
+            if (count == i) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    fun frequencySort(nums: IntArray): IntArray {//1636
+        val freqs = mutableMapOf<Int, Int>()
+        for (num in nums) {
+            freqs.compute(num) { _, v -> if (v == null) 1 else v + 1 }
+        }
+        val comparator = Comparator<Int> { o1, o2 ->
+            val f1 = freqs[o1]!!
+            val f2 = freqs[o2]!!
+            if (f1 == f2) {
+                return@Comparator if (o1 > o2) -1 else if (o1 == o2) 0 else 1
+            } else {
+                return@Comparator if (f1 > f2) 1 else if (f1 == f2) 0 else -1
+            }
+        }
+        return nums.sortedWith(comparator).toIntArray()
+    }
+
+    fun slowestKey(releaseTimes: IntArray, keysPressed: String): Char {//1629
+        val n = releaseTimes.size
+        var max = 0
+        var code = ' '
+        for (i in 0 until n) {
+            val k = keysPressed[i]
+            val time = if (i == 0) releaseTimes[0] else releaseTimes[i] - releaseTimes[i - 1]
+            if (max < time || (max == time && code < k)) {
+                max = time
+                code = k
+            }
+        }
+        return code
+    }
+
 }
