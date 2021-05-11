@@ -564,4 +564,22 @@ class Solution12 {
         return code
     }
 
+    fun decode(encoded: IntArray): IntArray {//1734
+        val size = encoded.size
+        val perm = IntArray(size + 1)
+        var total = 0
+        for (i in 1..size + 1) {
+            total = total xor i
+        }
+        var odd = 0
+        for (i in 1 until size step 2) {
+            odd = odd xor encoded[i]
+        }
+        perm[0] = total xor odd
+        for (i in 0 until size) {
+            perm[i + 1] = perm[i] xor encoded[i]
+        }
+        return perm
+    }
+
 }
