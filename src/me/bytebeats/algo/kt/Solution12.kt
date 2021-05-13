@@ -564,4 +564,92 @@ class Solution12 {
         return code
     }
 
+    fun decode(encoded: IntArray): IntArray {//1734
+        val size = encoded.size
+        val perm = IntArray(size + 1)
+        var total = 0
+        for (i in 1..size + 1) {
+            total = total xor i
+        }
+        var odd = 0
+        for (i in 1 until size step 2) {
+            odd = odd xor encoded[i]
+        }
+        perm[0] = total xor odd
+        for (i in 0 until size) {
+            perm[i + 1] = perm[i] xor encoded[i]
+        }
+        return perm
+    }
+
+    fun xorQueries(arr: IntArray, queries: Array<IntArray>): IntArray {//1310
+        val ansSize = queries.size
+        val size = arr.size
+        for (i in 1 until size) {
+            arr[i] = arr[i] xor arr[i - 1]
+        }
+        val ans = IntArray(ansSize)
+        for (i in 0 until ansSize) {
+            val left = queries[i][0]
+            val right = queries[i][1]
+            if (left > 0) {
+                ans[i] = arr[left - 1] xor arr[right]
+            } else {
+                ans[i] = arr[right]
+            }
+        }
+        return ans
+    }
+
+    fun countGoodRectangles(rectangles: Array<IntArray>): Int {//1725
+        var maxLength = 0
+        var maxCount = 0
+        for (r in rectangles) {
+            val min = r[0].coerceAtMost(r[1])
+            if (min > maxLength) {
+                maxLength = min
+                maxCount = 1
+            } else if (min == maxLength) {
+                maxCount++
+            }
+        }
+        return maxCount
+    }
+
+    fun numDifferentIntegers(word: String): Int {//1805
+        val nums = mutableSetOf<String>()
+        var left = -1
+        var right = 0
+        while (right < word.length) {
+            if (word[right].isDigit()) {
+                if (left == -1) {
+                    left = right
+                }
+                right++
+            } else {
+                if (left == -1) {
+                    right++
+                } else {
+                    while (left < right && word[left] == '0') {
+                        left++
+                    }
+                    if (left <= right) {
+                        nums.add(word.substring(left, right))
+                    }
+                    left = -1
+                    right++
+                }
+            }
+        }
+        if (left != -1) {
+            while (left < right && word[left] == '0') {
+                left++
+            }
+            if (left <= right) {
+                nums.add(word.substring(left, right))
+            }
+        }
+        return nums.size
+    }
+
 }
