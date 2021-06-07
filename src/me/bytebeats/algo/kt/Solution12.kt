@@ -652,4 +652,22 @@ class Solution12 {
         return nums.size
     }
 
+    private var count = 0
+    fun findTargetSumWays(nums: IntArray, target: Int): Int {//494
+        count = 0
+        findTargetSumWays(nums, target, 0, 0)
+        return count
+    }
+
+    fun findTargetSumWays(nums: IntArray, target: Int, sum: Int, index: Int) {//494
+        if (index >= nums.size) return
+        if (index == nums.size - 1) {
+            if (sum + nums[index] == target) count++
+            if (sum - nums[index] == target) count++
+        } else {
+            findTargetSumWays(nums, target, sum + nums[index], index + 1)
+            findTargetSumWays(nums, target, sum - nums[index], index + 1)
+        }
+    }
+
 }
