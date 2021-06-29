@@ -670,4 +670,79 @@ class Solution12 {
         }
     }
 
+    fun minOperations(logs: Array<String>): Int {//1598
+        var count = 0
+        for (log in logs) {
+            if (log == "../") {
+                if (count > 0) {
+                    count--
+                } else {
+                    continue
+                }
+            } else if (log == "./") {
+                continue
+            } else {
+                count++
+            }
+        }
+        return count
+    }
+
+    fun maxDepth(s: String): Int {//1614
+        var max = 0
+        var depth = 0
+        for (c in s) {
+            if (c == '(') {
+                depth++
+                max = max.coerceAtLeast(depth)
+            } else if (c == ')') {
+                depth--
+            }
+        }
+        return max
+    }
+
+    fun trimMean(arr: IntArray): Double {//1619
+        val count2Remove = arr.size / 20
+        arr.sort()
+        return arr.drop(count2Remove).dropLast(count2Remove).average()
+    }
+
+    fun maxLengthBetweenEqualCharacters(s: String): Int {//1624
+        var max = -1
+        var width = -1
+        for (i in 0 until s.lastIndex) {
+            width = -1
+            for (j in i + 1 until s.length) {
+                if (s[i] == s[j]) {
+                    width = j - i - 1
+                    max = max.coerceAtLeast(width)
+                }
+            }
+        }
+        return max
+    }
+
+    fun decrypt(code: IntArray, k: Int): IntArray {//1652
+        val size = code.size
+        val ans = IntArray(size) { 0 }
+        if (k != 0) {
+            for (i in 0 until size) {
+                var s = 0
+                var e = 0
+                if (k > 0) {
+                    s = i + 1
+                    e = i + k
+                } else {
+                    s = i + k
+                    e = i - 1
+                }
+                for (j in s..e) {
+                    ans[i] += code[(j % size + size) % size]
+                }
+            }
+        }
+        return ans
+    }
+
 }
