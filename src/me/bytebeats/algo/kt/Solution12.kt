@@ -745,4 +745,44 @@ class Solution12 {
         return ans
     }
 
+    fun maxRepeating(sequence: String, word: String): Int {//1668
+        var count = 0
+        val container = StringBuilder(word)
+        while (sequence.contains(container)) {
+            count++
+            container.append(word)
+        }
+        return count
+    }
+
+    fun maximumWealth(accounts: Array<IntArray>): Int {//1672
+        var maxAssets = 0
+        for (account in accounts) {
+            val assets = account.sum()
+            if (assets > maxAssets) {
+                maxAssets = assets
+            }
+        }
+        return maxAssets
+    }
+
+    fun interpret(command: String): String {//1678
+        return command.replace("()", "").replace("(al)", "al")
+    }
+
+    fun numberOfMatches(n: Int): Int {//1688
+        var loop = 0
+        var nn = n
+        while (nn > 1) {
+            if (nn and 1 == 0) {
+                nn = nn shr 1
+                loop += nn
+            } else {
+                nn = (nn + 1) shr 1
+                loop += nn - 1
+            }
+        }
+        return loop
+    }
+
 }
