@@ -785,4 +785,17 @@ class Solution12 {
         return loop
     }
 
+    fun grayCode(n: Int): List<Int> {//89
+        val ans = mutableListOf<Int>()
+        ans.add(0)
+        var head = 1
+        for (i in 0 until n) {
+            for (j in ans.lastIndex downTo 0) {
+                ans.add(head + ans[j])
+            }
+            head = head shl 1
+        }
+        return ans
+    }
+
 }
