@@ -798,4 +798,19 @@ class Solution12 {
         return ans
     }
 
+    fun maxIceCream(costs: IntArray, coins: Int): Int {//1833
+        var ans = 0
+        costs.sort()
+        var left = coins
+        for (cost in costs) {
+            if (left >= cost) {
+                ans += 1
+                left -= cost
+            } else {
+                break
+            }
+        }
+        return ans
+    }
+
 }
