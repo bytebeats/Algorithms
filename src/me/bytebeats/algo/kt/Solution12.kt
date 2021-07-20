@@ -813,4 +813,13 @@ class Solution12 {
         return ans
     }
 
+    fun minPairSum(nums: IntArray): Int {//1877
+        nums.sort()
+        var max = nums.first() + nums.last()
+        for (i in 1 until nums.size / 2) {
+            max = max.coerceAtLeast(nums[i] + nums[nums.size - 1 - i])
+        }
+        return max
+    }
+
 }
