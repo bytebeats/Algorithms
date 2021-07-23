@@ -1,5 +1,7 @@
 package me.bytebeats.algo.kt
 
+import me.bytebeats.algs.ds.TreeNode
+
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
@@ -820,6 +822,35 @@ class Solution12 {
             max = max.coerceAtLeast(nums[i] + nums[nums.size - 1 - i])
         }
         return max
+    }
+
+    fun pruneTree(root: TreeNode?): TreeNode? {//814
+        return if (contains1(root)) root else null
+    }
+
+    private fun contains1(node: TreeNode?): Boolean {
+        if (node == null) return false
+        val hasLeft = contains1(node.left)
+        val hasRight = contains1(node.right)
+        if (!hasLeft) node.left = null
+        if (!hasRight) node.right = null
+        return node.`val` == 1 || hasLeft || hasRight
+    }
+
+    fun isCovered(ranges: Array<IntArray>, left: Int, right: Int): Boolean {//1893
+        val diff = IntArray(52)
+        for (range in ranges) {
+            diff[range[0]]++
+            diff[range[1]+1]--
+        }
+        var preSum =0
+        for (i in 1..50) {
+            preSum += diff[i]
+            if (i in left..right && preSum <= 0) {
+                return false
+            }
+        }
+        return true
     }
 
 }
