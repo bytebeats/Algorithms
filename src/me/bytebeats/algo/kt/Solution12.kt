@@ -1,5 +1,7 @@
 package me.bytebeats.algo.kt
 
+import me.bytebeats.algs.ds.TreeNode
+
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
@@ -820,6 +822,94 @@ class Solution12 {
             max = max.coerceAtLeast(nums[i] + nums[nums.size - 1 - i])
         }
         return max
+    }
+
+    fun pruneTree(root: TreeNode?): TreeNode? {//814
+        return if (contains1(root)) root else null
+    }
+
+    private fun contains1(node: TreeNode?): Boolean {
+        if (node == null) return false
+        val hasLeft = contains1(node.left)
+        val hasRight = contains1(node.right)
+        if (!hasLeft) node.left = null
+        if (!hasRight) node.right = null
+        return node.`val` == 1 || hasLeft || hasRight
+    }
+
+    fun isCovered(ranges: Array<IntArray>, left: Int, right: Int): Boolean {//1893
+        val diff = IntArray(52)
+        for (range in ranges) {
+            diff[range[0]]++
+            diff[range[1] + 1]--
+        }
+        var preSum = 0
+        for (i in 1..50) {
+            preSum += diff[i]
+            if (i in left..right && preSum <= 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun beautifulArray(n: Int): IntArray {//932
+        val map = mutableMapOf<Int, IntArray>()
+        return f(n, map)
+    }
+
+    private fun f(n: Int, map: MutableMap<Int, IntArray>): IntArray {
+        if (map.containsKey(n)) return map[n]!!
+        val ans = IntArray(n)
+        if (n == 1) {
+            ans[0] = 1
+        } else {
+            var t = 0
+            for (x in f((n + 1) / 2, map)) {
+                ans[t++] = x * 2 - 1
+            }
+            for (x in f(n / 2, map)) {
+                ans[t++] = x * 2
+            }
+        }
+        map[n] = ans
+        return ans
+    }
+
+    private val parents = mutableMapOf<Int, TreeNode>()
+    val ans = mutableListOf<Int>()
+    fun distanceK(root: TreeNode?, target: TreeNode?, k: Int): List<Int> {//863
+        findParents(root)
+        findAns(target, null, 0, k)
+        return ans
+    }
+
+    private fun findParents(node: TreeNode?) {
+        if (node?.left != null) {
+            parents[node.left.`val`] = node
+            findParents(node.left)
+        }
+        if (node?.right != null) {
+            parents[node.right.`val`] = node
+            findParents(node.right)
+        }
+    }
+
+    private fun findAns(node: TreeNode?, from: TreeNode?, depth: Int, k: Int) {
+        if (node == null) return
+        if (depth == k) {
+            ans.add(node.`val`)
+            return
+        }
+        if (node.left != from) {
+            findAns(node.left, node, depth + 1, k)
+        }
+        if (node.right != null) {
+            findAns(node.right, node, depth + 1, k)
+        }
+        if (parents[node.`val`] != from) {
+            findAns(parents[node.`val`], node, depth + 1, k)
+        }
     }
 
 }
