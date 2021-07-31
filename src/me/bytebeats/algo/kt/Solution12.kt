@@ -332,7 +332,7 @@ class Solution12 {
         return ans
     }
 
-    fun trap(height: IntArray): Int {//17.21
+    fun trap(height: IntArray): Int {//17.21, 48
         var ans = 0
         var left = 0
         var right = height.size - 1
@@ -911,5 +911,4 @@ class Solution12 {
             findAns(parents[node.`val`], node, depth + 1, k)
         }
     }
-
 }
