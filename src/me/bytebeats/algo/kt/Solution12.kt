@@ -911,4 +911,25 @@ class Solution12 {
             findAns(parents[node.`val`], node, depth + 1, k)
         }
     }
+
+    fun findUnsortedSubarray(nums: IntArray): Int {//581
+        val n = nums.size
+        var maxn = Int.MIN_VALUE
+        var right = -1
+        var minn = Int.MAX_VALUE
+        var left = -1
+        for (i in 0 until n) {
+            if (maxn > nums[i]) {
+                right = i
+            } else {
+                maxn = nums[i]
+            }
+            if (minn < nums[n - 1 - i]) {
+                left = n - i - 1
+            } else {
+                minn = nums[n - i - 1]
+            }
+        }
+        return if (right == -1) 0 else right - left + 1
+    }
 }
