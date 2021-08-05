@@ -932,4 +932,37 @@ class Solution12 {
         }
         return if (right == -1) 0 else right - left + 1
     }
+
+    fun eventualSafeNodes(graph: Array<IntArray>): List<Int> {//802
+        val n = graph.size
+        val rg = Array<MutableList<Int>>(n) { mutableListOf() }
+        val inDegrees = IntArray(n){ 0 }
+        for (i in graph.indices) {
+            for (j in graph[i]) {
+                rg[j].add(i)
+            }
+            inDegrees[i] = graph[i].size
+        }
+        val queue = mutableListOf<Int>()
+        for (i in inDegrees.indices) {
+            if (inDegrees[i] == 0) {
+                queue.add(i)
+            }
+        }
+        while (queue.isNotEmpty()) {
+            val p = queue.removeAt(0)
+            for (i in rg[p]) {
+                if (--inDegrees[i] == 0) {
+                 queue.add(i)
+                }
+            }
+        }
+        val ans = mutableListOf<Int>()
+        for (i in 0 until n) {
+            if (inDegrees[i] == 0) {
+                ans.add(i)
+            }
+        }
+        return ans
+    }
 }
