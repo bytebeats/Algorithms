@@ -1,5 +1,6 @@
 package me.bytebeats.algo.kt
 
+import me.bytebeats.algs.ds.TreeNode
 import kotlin.math.absoluteValue
 
 /**
@@ -80,5 +81,22 @@ class Solution13 {
             }
         }
         return sum
+    }
+
+    fun numColor(root: TreeNode?): Int {
+        val set = mutableSetOf<Int>()
+        traversal(root, set)
+        return set.size
+    }
+
+    private fun traversal(node: TreeNode?, colors: MutableSet<Int>) {
+        if (node == null) return
+        colors.add(node.`val`)
+        if (node.left != null) {
+            traversal(node.left, colors)
+        }
+        if (node.right != null) {
+            traversal(node.right, colors)
+        }
     }
 }
