@@ -99,4 +99,58 @@ class Solution13 {
             traversal(node.right, colors)
         }
     }
+
+    fun reformatNumber(number: String): String {//1694
+        val num = number.replace(" ", "").replace("-", "")
+        val count = num.length
+        val sb = StringBuilder()
+        val rem = num.length % 3
+        val firstN = if (rem == 0) count - 3 else if (rem == 1) count - 4 else count - 2
+        val lastM = count - firstN
+        for (i in 0 until firstN) {
+            sb.append(num[i])
+            if (i % 3 == 2) {
+                sb.append("-")
+            }
+        }
+        sb.append(num.takeLast(lastM))
+        if (lastM == 4) {
+            sb.insert(sb.length - 2, "-")
+        }
+        return sb.toString()
+    }
+
+    fun countStudents(students: IntArray, sandwiches: IntArray): Int {//1700
+        val counts = IntArray(2)
+        for (student in students) {
+            counts[student] += 1
+        }
+        val n = sandwiches.size
+        for (i in 0 until n) {
+            if (counts[sandwiches[i]] > 0) {
+                counts[sandwiches[i]] -= 1
+            } else {
+                return n - i
+            }
+        }
+        return 0
+    }
+
+    fun largestAltitude(gain: IntArray): Int {//1732
+        var max = 0
+        var h = 0
+        for (i in gain.indices) {
+            h += gain[i]
+            if (h > max) {
+                max = h
+            }
+        }
+        return max
+    }
+
+    fun totalMoney(n: Int): Int {//1716
+        val weeks = n / 7
+        val mod = n % 7
+        return 28 * weeks + 7 * weeks * (weeks - 1) / 2 + weeks * mod + mod * (mod + 1) / 2
+    }
 }
