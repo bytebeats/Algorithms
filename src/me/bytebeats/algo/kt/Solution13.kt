@@ -2,6 +2,7 @@ package me.bytebeats.algo.kt
 
 import me.bytebeats.algs.ds.TreeNode
 import kotlin.math.absoluteValue
+import kotlin.math.min
 
 /**
  * @Author bytebeats
@@ -152,5 +153,18 @@ class Solution13 {
         val weeks = n / 7
         val mod = n % 7
         return 28 * weeks + 7 * weeks * (weeks - 1) / 2 + weeks * mod + mod * (mod + 1) / 2
+    }
+
+    private val memo = mutableMapOf<Int, Int>()
+    fun integerReplacement(n: Int): Int {//397
+        if (n == 1) return 0
+        if (!memo.containsKey(n)) {
+            if (n and 1 == 0) {
+                memo[n] = 1 + integerReplacement(n / 2)
+            } else {
+                memo[n] = 2 + min(integerReplacement(n / 2), integerReplacement(n / 2 + 1))
+            }
+        }
+        return memo[n]!!
     }
 }
