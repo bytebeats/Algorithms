@@ -167,4 +167,59 @@ class Solution13 {
         }
         return memo[n]!!
     }
+
+    fun mergeAlternately(word1: String, word2: String): String {//1768
+        val result = StringBuilder()
+        val S1 = word1.length
+        val S2 = word2.length
+        var i = 0
+        var j = 0
+        while (i < S1 && j < S2) {
+            if (i > j) {
+                result.append(word2[j])
+                j++
+            } else {
+                result.append(word1[i])
+                i++
+            }
+        }
+        while (i < S1) {
+            result.append(word1[i])
+            i++
+        }
+        while (j < S2) {
+            result.append(word2[j])
+            j++
+        }
+        return result.toString()
+    }
+
+    fun maxAscendingSum(nums: IntArray): Int {//1800
+        var maxSum = Int.MIN_VALUE
+        val S = nums.size
+        var i = 0
+        while (i < S) {
+            var subSum = nums[i]
+            var j = i + 1
+            while (j < S && nums[j - 1] < nums[j]) {
+                subSum += nums[j]
+                j++
+            }
+
+            if (maxSum < subSum) {
+                maxSum = subSum
+            }
+            i = j
+        }
+        return maxSum
+    }
+
+    fun secondHighest(s: String): Int {//1796
+        val digitals = s.filter { it.isDigit() }.toSortedSet().toList()
+        return if (digitals.size > 1) {
+            digitals[digitals.size - 2] - '0'
+        } else {
+            -1
+        }
+    }
 }
