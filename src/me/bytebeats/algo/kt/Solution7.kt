@@ -765,7 +765,7 @@ class Solution7 {
 
     fun findRestaurant(list1: Array<String>, list2: Array<String>): Array<String> {//599
         val intersection = list1.intersect(list2.asIterable())
-        val min = intersection.map { list1.indexOf(it) + list2.indexOf(it) }.min()
+        val min = intersection.map { list1.indexOf(it) + list2.indexOf(it) }.minOfOrNull { it }
         return intersection.filter { list1.indexOf(it) + list2.indexOf(it) == min }.toTypedArray()
     }
 
@@ -1010,7 +1010,7 @@ class Solution7 {
     }
 
     fun kidsWithCandies(candies: IntArray, extraCandies: Int): BooleanArray {//1431
-        val max = candies.max() ?: 0
+        val max = candies.maxOfOrNull { it } ?: 0
         val ans = BooleanArray(candies.size) { false }
         for (i in candies.indices) {
             ans[i] = candies[i] >= max - extraCandies

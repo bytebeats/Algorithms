@@ -171,7 +171,7 @@ class Solution8 {
         var max = '0'
         var tmp = '0'
         for (i in 0 until ans.lastIndex) {
-            max = ans.drop(i + 1).max() ?: '0'
+            max = ans.drop(i + 1).maxOfOrNull { it } ?: '0'
             if (ans[i] < max) {
                 for (j in ans.lastIndex downTo i + 1) {
                     if (ans[j] == max) {
@@ -498,7 +498,7 @@ class Solution8 {
 
     fun longestCommonPrefix(strs: Array<String>): String {//14
         var prefix = ""
-        val min = strs.map { it.length }.min() ?: 0
+        val min = strs.map { it.length }.minOfOrNull { it } ?: 0
         for (i in 1..min) {
             var flag = true
             for (j in 1 until strs.size) {

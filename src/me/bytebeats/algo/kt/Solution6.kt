@@ -65,7 +65,7 @@ class Solution6 {
     fun validWordSquare(words: List<String>): Boolean {//422
         if (words.isNotEmpty()) {
             val row = words.size
-            val column = words.map { it.length }.max()
+            val column = words.map { it.length }.maxOfOrNull { it }
             if (row != column) {
                 return false
             }

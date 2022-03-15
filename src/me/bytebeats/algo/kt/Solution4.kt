@@ -55,7 +55,7 @@ class Solution4 {
             for (j in i - 1 until A.size) {
                 sub.add(A[j])
                 sub.forEach { print(", $it") }
-                count += sub.min() ?: 0
+                count += sub.minOfOrNull { it } ?: 0
                 count %= Int.MAX_VALUE
                 sub.removeAt(0)
             }
@@ -1191,7 +1191,7 @@ class Solution4 {
         if (unrepeated.isEmpty()) {
             return -1
         } else {
-            return unrepeated.max() ?: 0
+            return unrepeated.maxOfOrNull { it } ?: 0
         }
     }
 
@@ -1321,7 +1321,7 @@ class Solution4 {
     }
 
     fun sumOfDigits(A: IntArray): Int {//1085
-        var min = A.min() ?: 0
+        var min = A.minOfOrNull { it } ?: 0
         var sum = 0
         while (min != 0) {
             sum += min % 10

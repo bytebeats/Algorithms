@@ -121,7 +121,7 @@ class Solution2 {
 
     fun minMoves(nums: IntArray): Int {
         var count = 0
-        val minVal = nums.min() ?: 0
+        val minVal = nums.minOfOrNull { it } ?: 0
         nums.forEach { count += it - minVal }
         return count
     }
@@ -749,8 +749,8 @@ class Solution2 {
                 set.add(index)
             }
         }
-        val min = set.min() ?: 0
-        val max = set.max() ?: 0
+        val min = set.minOfOrNull { it } ?: 0
+        val max = set.maxOfOrNull { it } ?: 0
         S.forEachIndexed { index, c ->
             if (set.contains(index)) {
                 ans[index] = 0
@@ -1005,8 +1005,8 @@ class Solution2 {
         val map = HashMap<Int, Int>()
         deck.forEach { map.compute(it) { _, v -> if (v == null) 1 else v + 1 } }
         map.forEach { t, u -> println("$t = $u") }
-        val min = map.values.min() ?: 0
-        val max = map.values.max() ?: 0
+        val min = map.values.minOfOrNull { it } ?: 0
+        val max = map.values.maxOfOrNull { it } ?: 0
         val d = gcd(min, max)
         if (d < 2) {
             return false

@@ -192,7 +192,7 @@ class Solution {
         for (i in nums.indices) {
             count[nums[i]] = count.getOrDefault(nums[i], 0) + 1
         }
-        val degree = count.values.max() ?: 0
+        val degree = count.values.maxOfOrNull { it } ?: 0
         var slow = 0
         var minLength = nums.size
         val windowCount = HashMap<Int, Int>()
@@ -685,7 +685,7 @@ class Solution {
                 var j = i
                 while (j < count) {
                     val e = map[j]
-                    val maxCount = e!!.values.max()
+                    val maxCount = e!!.values.maxOfOrNull { it }
                     val keys = e.filter { it -> it.value == maxCount }.keys
                     if (keys.size == 1) {
                         ch = keys.first()
@@ -1325,7 +1325,7 @@ class Solution {
         k -= 1
         while (k > 0) {
             list.clear()
-            minVal = manager.min() ?: Int.MAX_VALUE
+            minVal = manager.minOfOrNull { it } ?: Int.MAX_VALUE
             if (minVal != Int.MAX_VALUE) {
                 for (i in manager.indices) {
                     if (minVal == manager[i]) {
@@ -2020,7 +2020,7 @@ class Solution {
             pre = nums[i - k + 1]
             window.removeAt(window.indexOf(pre))
             if (pre == maxVal) {
-                maxVal = window.max() ?: Int.MIN_VALUE
+                maxVal = window.maxOfOrNull { it } ?: Int.MIN_VALUE
             }
         }
         return ans

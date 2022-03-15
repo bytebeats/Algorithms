@@ -14,7 +14,7 @@ class MaxStack() {
 
     fun top(): Int = table.last()
 
-    fun peekMax(): Int = table.max() ?: 0
+    fun peekMax(): Int = table.maxOfOrNull { it } ?: 0
 
     fun popMax(): Int {
         val max = peekMax()
