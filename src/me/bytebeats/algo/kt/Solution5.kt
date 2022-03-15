@@ -722,7 +722,7 @@ class Solution5 {
     fun findMode(root: TreeNode?): IntArray {//501
         val map = mutableMapOf<Int, Int>()
         countMode(root, map)
-        val max = map.values.max()
+        val max = map.values.maxOfOrNull { it }
         return map.entries.filter { it.value == max }.map { it.key }.toIntArray()
     }
 

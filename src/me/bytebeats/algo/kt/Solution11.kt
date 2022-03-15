@@ -360,7 +360,7 @@ class Solution11 {
     }
 
     fun findMaximumXOR(nums: IntArray): Int {//421
-        val max = nums.max()
+        val max = nums.maxOfOrNull { it }
         val l = max?.toString(2)?.length ?: 0
         var maxXor = 0
         var curXor = 0
@@ -1034,7 +1034,7 @@ class Solution11 {
 
     fun smallestDivisor(nums: IntArray, threshold: Int): Int {//1283
         var low = 1
-        var high = nums.max()!!
+        var high = nums.maxOfOrNull { it }!!
         var ans = -1
         while (low <= high) {
             val mid = low + (high - low) / 2
@@ -1120,7 +1120,7 @@ class Solution11 {
                 }
             }
         }
-        return dp[m - 1].min()!!
+        return dp[m - 1].minOfOrNull { it }!!
     }
 
     fun poorPigs(buckets: Int, minutesToDie: Int, minutesToTest: Int): Int {//458

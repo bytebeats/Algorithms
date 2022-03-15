@@ -42,7 +42,7 @@ class Solution3 {
                 }
             }
         }
-        val max = map.values.map { it.size }.max()
+        val max = map.values.map { it.size }.maxOfOrNull { it }
         return map.values.filter { it.size == max }.count()
     }
 
