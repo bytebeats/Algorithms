@@ -129,7 +129,7 @@ public class PolishQuiz {
 
     public static void main(String[] args) {
         PolishQuiz quiz = new PolishQuiz();
-        String infix = "-4.6+3/6-1*3";
+        String infix = "1*(-4.6)+3/6-1*3";
         System.out.printf("infix: %s", infix);
         System.out.println();
         List<String> infixList = quiz.splitInfixIntoList(infix);
