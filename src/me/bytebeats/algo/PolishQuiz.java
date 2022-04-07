@@ -19,7 +19,7 @@ public class PolishQuiz {
      * @param infix notation like "-4.6+3/6-1*3"
      * @return like [-, 4.6, +, 3, /, 6, -, 1, *, 3]
      */
-    public List<String> splitInfixIntoList(String infix) {
+    public List<String> convertInfixIntoList(String infix) {
         List<String> infixList = new ArrayList<>();
         int i = 0;
         while (i < infix.length()) {
@@ -37,6 +37,9 @@ public class PolishQuiz {
                 }
                 infixList.add(number.toString());
             }
+        }
+        if (!infixList.isEmpty() && (infixList.get(0).equals("-") || infixList.get(0).equals("+"))) {
+            infixList.add(0, "0");
         }
         return infixList;
     }
@@ -113,32 +116,101 @@ public class PolishQuiz {
             if (isDouble(s)) {
                 stack.push(Double.parseDouble(s));
             } else if (isOperator(s)) {
-                double x = stack.pop();
-                double y;
+                double y = stack.pop();
+                double x;
                 if (!stack.isEmpty()) {
-                    y = stack.pop();
+                    x = stack.pop();
                 } else {
-                    y = 0;
+                    x = 0;
                 }
-                double temp = calculate(y, x, s);
+                double temp = calculate(x, y, s);
                 stack.push(temp);
             }
         }
         return stack.pop();
     }
 
+    public double calculatePrefix(List<String> prefix) {
+        Stack<Double> stack = new Stack<>();
+        for (int i = prefix.size() - 1; i >= 0; i--) {
+            String s = prefix.get(i);
+            if (isDouble(s)) {
+                stack.push(Double.parseDouble(s));
+            } else if (isOperator(s)) {
+                double y = stack.pop();
+                double x;
+                if (!stack.isEmpty()) {
+                    x = stack.pop();
+                } else {
+                    x = 0;
+                }
+                double temp = calculate(x, y, s);
+                stack.push(temp);
+            }
+        }
+        return stack.pop();
+    }
+
+    public List<String> infixToPrefix(List<String> infix) {
+        Stack<String> operators = new Stack<>();
+        Stack<String> prefixStack = new Stack<>();
+        for (int i = infix.size() - 1; i >= 0; i--) {
+            String item = infix.get(i);
+            if (isOperator(item)) {
+                if (operators.isEmpty() || ")".equals(operators.peek()) || priority(item) > priority(operators.peek())) {
+                    operators.push(item);
+                } else {
+                    while (!operators.isEmpty() && !")".equals(operators.peek())) {
+                        if (priority(item) <= priority(operators.peek())) {
+                            prefixStack.push(operators.pop());
+                        }
+                    }
+                    operators.push(item);
+                }
+            } else if (")".equals(item)) {
+                operators.push(item);
+            } else if (isDouble(item)) {
+                prefixStack.push(item);
+            } else if ("(".equals(item)) {
+                while (!operators.isEmpty()) {
+                    if (")".equals(operators.peek())) {
+                        operators.pop();
+                        break;
+                    } else {
+                        prefixStack.push(operators.pop());
+                    }
+                }
+            }
+        }
+        while (!operators.isEmpty()) {
+            prefixStack.push(operators.pop());
+        }
+        List<String> prefix = new ArrayList<>();
+        while (!prefixStack.isEmpty()) {
+            prefix.add(prefixStack.pop());
+        }
+        return prefix;
+    }
+
     public static void main(String[] args) {
         PolishQuiz quiz = new PolishQuiz();
-        String infix = "1*(-4.6)+3/6-1*3";
+        String infix = "1*(4.6)+3/6-1*3";
+//        String infix = "-4.6+3/6-1*3";
         System.out.printf("infix: %s", infix);
         System.out.println();
-        List<String> infixList = quiz.splitInfixIntoList(infix);
+        List<String> infixList = quiz.convertInfixIntoList(infix);
         System.out.printf("infixList: %s", infixList);
         System.out.println();
         List<String> suffixList = quiz.infixToSuffix(infixList);
         System.out.printf("suffixList: %s", suffixList);
         System.out.println();
-        double result = quiz.calculateSuffix(suffixList);
-        System.out.printf("result: %s", result);
+        List<String> prefixList = quiz.infixToPrefix(infixList);
+        System.out.printf("prefixList: %s", prefixList);
+        System.out.println();
+        double suffixResult = quiz.calculateSuffix(suffixList);
+        System.out.printf("suffixResult: %s", suffixResult);
+        System.out.println();
+        double prefixResult = quiz.calculatePrefix(prefixList);
+        System.out.printf("prefixResult: %s", prefixResult);
     }
 }

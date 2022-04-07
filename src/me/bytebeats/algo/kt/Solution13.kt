@@ -222,4 +222,41 @@ class Solution13 {
             -1
         }
     }
+
+    fun buildMaxHeap(tree: IntArray, p: Int, size: Int) {
+        var tmp = 0
+        var pp = p
+        var i = p * 2 + 1
+        while (i < size) {
+            if (i + 1 < size && tree[i] < tree[i + 1]) {
+                i += 1
+            }
+            if (tree[i] > tree[pp]) {
+                tmp = tree[i]
+                tree[i] = tree[pp]
+                tree[pp] = tmp
+                pp = i
+            }
+            i = i * 2 + 1
+        }
+    }
+
+    fun heapSort(tree: IntArray) {
+        val size = tree.size
+        var p = size / 2 - 1
+        while (p >= 0) {
+            buildMaxHeap(tree, p, size)
+            p--
+        }
+
+        var tmp = 0
+        var s = size
+        while (s > 1) {
+            tmp = tree[0]
+            tree[0] = tree[s - 1]
+            tree[s - 1] = tmp
+            s--
+            buildMaxHeap(tree, 0, s)
+        }
+    }
 }
