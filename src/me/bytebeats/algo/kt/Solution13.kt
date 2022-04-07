@@ -223,39 +223,53 @@ class Solution13 {
         }
     }
 
+    /**
+     * 构建大顶堆的过程
+     */
     fun buildMaxHeap(tree: IntArray, p: Int, size: Int) {
+        //只有发生交换时才会继续循环, 以被交换的子结点作为父节点继续向下重构
         var tmp = 0
-        var pp = p
-        var i = p * 2 + 1
+        var pp = p//完全二 X 树非叶节点的坐标,
+        var i = p * 2 + 1//非叶结点左子结点的坐标
         while (i < size) {
+            //找到左右子结点中值相对较大的子结点
             if (i + 1 < size && tree[i] < tree[i + 1]) {
-                i += 1
+                i += 1 //右子结点值更大
             }
+            //如果子结点中较大的结点值大于父结点, 则交换
             if (tree[i] > tree[pp]) {
                 tmp = tree[i]
                 tree[i] = tree[pp]
                 tree[pp] = tmp
-                pp = i
+                pp = i//被交换子结点作为父结点重复以上交换的过程
+            } else {//如果父结点比子节点值大, 直接退出即可, 因为是从底层调整到上层的
+                break
             }
-            i = i * 2 + 1
+            i = i * 2 + 1//处理被交换的子结点作为交结点之后的再交换
         }
     }
 
     fun heapSort(tree: IntArray) {
+        //Step a: 将无序数组作为完全二 X 树处理, 构建大顶堆
         val size = tree.size
-        var p = size / 2 - 1
+        //p指向父结点, 从最后一个非叶子结点, 调整到根结点
+        var p = size / 2 - 1//size / 2 -1 是完全二 X 树的最后一个非叶子结点
+        //将完全二 X 树的非叶节点从后往前进行调整交换, 构建最大堆
         while (p >= 0) {
             buildMaxHeap(tree, p, size)
             p--
         }
 
+        //大顶堆在构建完成后进行堆排序
+        //交换根和尾结点, 缩小堆尺寸, 重构大顶堆. 重复这个过程, 直到尺寸减少为1
         var tmp = 0
         var s = size
         while (s > 1) {
+            //将头结点和最后结点进行交换, 此时最后的结点值即为最大值.
             tmp = tree[0]
             tree[0] = tree[s - 1]
             tree[s - 1] = tmp
-            s--
+            s--//缩小尺寸
             buildMaxHeap(tree, 0, s)
         }
     }
