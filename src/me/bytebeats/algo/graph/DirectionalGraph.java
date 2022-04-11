@@ -41,4 +41,16 @@ public class DirectionalGraph {
         this.adj.get(v).add(w);
         this.edges++;
     }
+
+    public int getVertices() {
+        return vertices;
+    }
+
+    public int getEdges() {
+        return edges;
+    }
+
+    public LinkedList<LinkedList<Integer>> getAdj() {
+        return adj;
+    }
 }
