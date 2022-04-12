@@ -14,7 +14,7 @@ public class Topological {
 
     public Topological(DirectionalGraph dg) {
         DGCircleDetector detector = new DGCircleDetector(dg);
-        if (detector.hasCycle()) {
+        if (!detector.hasCycle()) {
             DepthFirstOrder dfs = new DepthFirstOrder(dg);
             order = dfs.reversePost();
         }
